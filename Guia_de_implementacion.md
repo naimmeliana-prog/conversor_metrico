@@ -5,12 +5,19 @@ text
 
 
 conversor_metrico/
+
 ├── .github/
+
 │   └── workflows/
+
 │       └── update.yml      ← Crea la carpeta y el archivo
+
 ├── scraper.py
+
 ├── requirements.txt
+
 ├── index.html
+
 └── README.md
 
 
