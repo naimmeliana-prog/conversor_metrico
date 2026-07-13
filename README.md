@@ -9,6 +9,82 @@ https://raw.githubusercontent.com/naimmeliana-prog/conversor_metrico/main/playli
 ## 🌐 Dashboard Web
 https://naimmeliana-prog.github.io/conversor_metrico/
 
+┌─────────────────────────────────────────────────────────┐
+│  📡 Mi IPTV Dashboard         [● Sin configurar] [⚙️]   │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│  📡  ¡Bienvenido!                                      │
+│      1. Abre ⚙️ Configuración                          │
+│      2. Introduce Portal URL + MAC                      │
+│      3. Pulsa 🔄 Actualizar                             │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
+
+Al pulsar ⚙️ Configuración se abre el modal con:
+text
+
+┌─────────────────────────────────────────────────────────┐
+│  ⚙️ Configuración del Portal                        [✕] │
+├─────────────────────────────────────────────────────────┤
+│  📡 CREDENCIALES DEL PORTAL MAC                         │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │ Portal URL: http://mag.greatott.me:80            │   │
+│  └──────────────────────────────────────────────────┘   │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │ MAC: 00:1A:79:74:B1:B9                          │   │
+│  └──────────────────────────────────────────────────┘   │
+│  [🔌 Probar conexión]                                    │
+│                                                         │
+│  🐱 CREDENCIALES DE GITHUB                              │
+│  ┌─────────────────┐ ┌──────────────────────────────┐   │
+│  │ Usuario GitHub  │ │ Nombre del repositorio        │   │
+│  └─────────────────┘ └──────────────────────────────┘   │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │ Token PAT: ghp_●●●●●●●●●●●●●●●       [👁️]     │   │
+│  └──────────────────────────────────────────────────┘   │
+│                                                         │
+│  🔗 URLS GENERADAS                                      │
+│  Dashboard: https://naimmeliana-prog.github.io/...      │
+│  M3U URL:   https://raw.githubusercontent.com/...       │
+├─────────────────────────────────────────────────────────┤
+│  [🗑️ Borrar]    [Cancelar]    [💾 Guardar configuración]│
+└─────────────────────────────────────────────────────────┘
+
+Al pulsar 🔄 Actualizar con token configurado:
+Llama directamente a la API de GitHub POST /repos/.../actions/workflows/update.yml/dispatches
+Pasa el portal_url y mac_address como inputs del workflow
+El workflow los usa como variables de entorno en el scraper Python
+Muestra barra de progreso y enlace directo a GitHub Actions
+Flujo completo de datos:
+text
+
+Dashboard (navegador)
+    │  Guarda en localStorage
+    │  Portal URL + MAC + GitHub Token
+    │
+    ▼
+GitHub API (workflow_dispatch)
+    │  Pasa portal_url y mac_address como inputs
+    │
+    ▼
+GitHub Actions (ubuntu-latest)
+    │  scraper.py lee PORTAL_URL y MAC_ADDRESS
+    │  desde variables de entorno
+    │
+    ▼
+Portal Stalker
+    │  Autenticación MAC → Token
+    │  Extracción TV/Películas/Series/Episodios
+    │
+    ▼
+GitHub Repository
+    │  playlist.m3u + metadata.json + stats.json
+    │
+    ▼
+Dashboard (reload)
+    │  Carga metadata.json desde raw.githubusercontent.com
+    │  Muestra posters, filtros, sinopsis
+
 ## ⚙️ Características
 - ✅ 100% gratuito (GitHub Actions + GitHub Pages)
 - ✅ Auto-actualización cada 12 horas
