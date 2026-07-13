@@ -1,1 +1,76 @@
+name: 🔄 Auto-Actualizar Playlist M3U
 
+on:
+  # ── Ejecución automática cada 12 horas ───────────────────────
+  schedule:
+    - cron: '0 */12 * * *'
+
+  # ── Permite ejecutarlo manualmente desde GitHub Actions ───────
+  workflow_dispatch:
+    inputs:
+      force_full_scan:
+        description: 'Forzar escaneo completo (incluyendo series)'
+        required: false
+        default: 'true'
+        type: boolean
+
+jobs:
+  update-playlist:
+    name: Scrape & Generate M3U
+    runs-on: ubuntu-latest
+    timeout-minutes: 120   # Máximo 2 horas (las series pueden tardar)
+
+    permissions:
+      contents: write       # Necesario para hacer git push
+
+    steps:
+      # ── 1. Descargar el código del repositorio ───────────────
+      - name: 📥 Checkout del repositorio
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── 2. Configurar Python 3.11 ────────────────────────────
+      - name: 🐍 Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # ── 3. Instalar dependencias ─────────────────────────────
+      - name: 📦 Instalar dependencias
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # ── 4. Ejecutar el scraper principal ─────────────────────
+      - name: 🔍 Ejecutar Scraper (Stalker → M3U + JSON)
+        env:
+          PORTAL_URL:  "http://mag.greatott.me:80"
+          MAC_ADDRESS: "00:1A:79:74:B1:B9"
+        run: |
+          python scraper.py
+        continue-on-error: false
+
+      # ── 5. Verificar que se generaron los archivos ───────────
+      - name: ✅ Verificar archivos generados
+        run: |
+          echo "=== Archivos generados ==="
+          ls -lah playlist.m3u metadata.json stats.json || true
+          echo ""
+          echo "=== Primeras 20 líneas del M3U ==="
+          head -20 playlist.m3u || true
+          echo ""
+          echo "=== Stats ==="
+          cat stats.json || true
+
+      # ── 6. Hacer commit y push de los archivos generados ─────
+      - name: 💾 Guardar cambios en GitHub
+        run: |
+          git config --global user.name  "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          git add playlist.m3u metadata.json stats.json
+          git diff --staged --quiet || git commit -m "🔄 Auto-update: $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
