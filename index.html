@@ -3,148 +3,556 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎬 Mi IPTV Dashboard</title>
+  <title>📡 Mi IPTV Dashboard</title>
   <style>
     /* ═══════════════════════════════════════════════
        VARIABLES Y RESET
     ═══════════════════════════════════════════════ */
     :root {
-      --bg-dark:      #0d0d0d;
-      --bg-card:      #1a1a2e;
-      --bg-card2:     #16213e;
+      --bg-dark:      #0a0a0f;
+      --bg-card:      #12121e;
+      --bg-card2:     #0e0e1a;
+      --bg-input:     #1a1a2e;
       --accent:       #e94560;
+      --accent-hover: #c73652;
       --accent2:      #0f3460;
-      --text:         #e0e0e0;
-      --text-muted:   #888;
+      --accent3:      #533483;
+      --success:      #4ecca3;
+      --warning:      #f5a623;
+      --text:         #e8e8f0;
+      --text-muted:   #6a6a8a;
       --border:       #2a2a4a;
+      --border-focus: #4a4a7a;
       --badge-live:   #e94560;
       --badge-movie:  #4ecca3;
       --badge-series: #f5a623;
-      --radius:       12px;
-      --shadow:       0 8px 32px rgba(0,0,0,0.5);
+      --radius:       14px;
+      --radius-sm:    8px;
+      --shadow:       0 8px 32px rgba(0,0,0,0.6);
+      --shadow-lg:    0 20px 60px rgba(0,0,0,0.8);
     }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       background: var(--bg-dark);
       color: var(--text);
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       min-height: 100vh;
+      overflow-x: hidden;
     }
+
+    /* ═══════════════════════════════════════════════
+       SCROLLBAR PERSONALIZADO
+    ═══════════════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--accent2); border-radius: 3px; }
 
     /* ═══════════════════════════════════════════════
        HEADER
     ═══════════════════════════════════════════════ */
     header {
-      background: linear-gradient(135deg, var(--accent2) 0%, #1a0a2e 100%);
-      padding: 1.5rem 2rem;
-      border-bottom: 2px solid var(--accent);
+      background: linear-gradient(135deg, #0f0f1a 0%, #1a0a2e 50%, #0f1a2e 100%);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
       position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(10px);
     }
-    .header-content {
-      max-width: 1600px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem;
-    }
-    .logo { display: flex; align-items: center; gap: 0.75rem; }
-    .logo h1 { font-size: 1.5rem; font-weight: 700; }
-    .logo span { font-size: 2rem; }
 
+    .header-content {
+      max-width: 1800px; margin: 0 auto;
+      display: flex; align-items: center;
+      gap: 1rem; flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex; align-items: center; gap: 0.75rem;
+      flex-shrink: 0;
+    }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .logo h1 {
+      font-size: 1.2rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--text), #aaa);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .logo .subtitle {
+      font-size: 0.68rem; color: var(--text-muted);
+      margin-top: 0.1rem;
+    }
+
+    /* M3U URL box */
     .m3u-url-box {
       display: flex; align-items: center; gap: 0.5rem;
-      background: rgba(0,0,0,0.4); border: 1px solid var(--border);
-      border-radius: 8px; padding: 0.5rem 1rem;
-      flex: 1; min-width: 280px; max-width: 600px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.45rem 0.75rem;
+      flex: 1; min-width: 250px; max-width: 550px;
+    }
+    .m3u-url-box label {
+      font-size: 0.65rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      white-space: nowrap;
     }
     .m3u-url-box input {
       background: none; border: none; color: var(--accent);
-      font-family: monospace; font-size: 0.8rem;
+      font-family: monospace; font-size: 0.75rem;
       flex: 1; outline: none; cursor: pointer;
+      min-width: 0;
     }
-    .btn-copy {
-      background: var(--accent); color: white; border: none;
-      padding: 0.4rem 0.8rem; border-radius: 6px;
-      cursor: pointer; font-size: 0.8rem; font-weight: 600;
-      transition: opacity 0.2s;
-    }
-    .btn-copy:hover { opacity: 0.85; }
 
-    .stats-bar {
-      display: flex; gap: 1.5rem; flex-wrap: wrap;
+    /* Stats */
+    .stats-row {
+      display: flex; gap: 1.2rem; flex-wrap: wrap; align-items: center;
     }
     .stat-item { text-align: center; }
-    .stat-num { font-size: 1.4rem; font-weight: 700; color: var(--accent); }
-    .stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
+    .stat-num {
+      font-size: 1.2rem; font-weight: 700;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.62rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.05em;
+      margin-top: 0.1rem;
+    }
+
+    /* Header buttons */
+    .header-actions { display: flex; gap: 0.5rem; align-items: center; margin-left: auto; }
+
+    .btn-icon {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: var(--text); padding: 0.5rem 0.9rem;
+      border-radius: var(--radius-sm); cursor: pointer;
+      font-size: 0.82rem; font-weight: 600;
+      display: flex; align-items: center; gap: 0.4rem;
+      transition: all 0.2s; white-space: nowrap;
+    }
+    .btn-icon:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--border-focus);
+    }
+    .btn-icon.primary {
+      background: var(--accent);
+      border-color: var(--accent); color: white;
+    }
+    .btn-icon.primary:hover { background: var(--accent-hover); }
+
+    /* Badge de estado de configuración */
+    .config-status {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px; font-size: 0.72rem; font-weight: 600;
+      border: 1px solid;
+    }
+    .config-status.configured {
+      background: rgba(78,204,163,0.1);
+      border-color: rgba(78,204,163,0.3);
+      color: var(--success);
+    }
+    .config-status.not-configured {
+      background: rgba(233,69,96,0.1);
+      border-color: rgba(233,69,96,0.3);
+      color: var(--accent);
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: currentColor;
+    }
+    .status-dot.pulse {
+      animation: pulse-dot 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* ═══════════════════════════════════════════════
+       MODAL DE CONFIGURACIÓN
+    ═══════════════════════════════════════════════ */
+    .overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 1000;
+      justify-content: center; align-items: flex-start;
+      padding: 2rem 1rem;
+      overflow-y: auto;
+    }
+    .overlay.open { display: flex; }
+
+    .config-modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      width: 100%; max-width: 680px;
+      box-shadow: var(--shadow-lg);
+      animation: slide-in 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      overflow: hidden;
+      margin: auto;
+    }
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateY(-30px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .config-modal-header {
+      background: linear-gradient(135deg, var(--accent2), var(--accent3));
+      padding: 1.5rem;
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+    .config-modal-header h2 {
+      font-size: 1.15rem; font-weight: 700;
+    }
+    .config-modal-header p {
+      font-size: 0.78rem; color: rgba(255,255,255,0.65);
+      margin-top: 0.3rem; line-height: 1.4;
+    }
+    .modal-close-btn {
+      background: rgba(255,255,255,0.1); border: none; color: white;
+      width: 30px; height: 30px; border-radius: 50%;
+      cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-left: 1rem;
+      transition: background 0.2s;
+    }
+    .modal-close-btn:hover { background: rgba(255,255,255,0.25); }
+
+    .config-modal-body { padding: 1.5rem; }
+
+    /* Secciones del form */
+    .config-section {
+      margin-bottom: 1.5rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.2rem;
+    }
+    .config-section-title {
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--accent); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+
+    .form-group { margin-bottom: 1rem; }
+    .form-group:last-child { margin-bottom: 0; }
+
+    .form-group label {
+      display: block; font-size: 0.78rem; font-weight: 600;
+      color: var(--text); margin-bottom: 0.4rem;
+    }
+    .form-group label span {
+      font-size: 0.68rem; font-weight: 400;
+      color: var(--text-muted); margin-left: 0.4rem;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      padding: 0.65rem 0.9rem;
+      font-size: 0.88rem; font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(233,69,96,0.12);
+    }
+    .form-input::placeholder { color: var(--text-muted); }
+    .form-input.mono { font-family: 'Courier New', monospace; font-size: 0.85rem; }
+
+    .form-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+    }
+    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+
+    /* Input con ícono de ojo para campos de contraseña */
+    .input-wrapper { position: relative; }
+    .input-wrapper .form-input { padding-right: 2.5rem; }
+    .toggle-eye {
+      position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: var(--text-muted); font-size: 0.9rem; padding: 0;
+    }
+    .toggle-eye:hover { color: var(--text); }
+
+    .form-hint {
+      font-size: 0.72rem; color: var(--text-muted);
+      margin-top: 0.3rem; line-height: 1.4;
+    }
+    .form-hint a { color: var(--accent); text-decoration: none; }
+    .form-hint a:hover { text-decoration: underline; }
+
+    /* Preview de MAC */
+    .mac-preview {
+      display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap;
+    }
+    .mac-octet {
+      background: rgba(233,69,96,0.1); border: 1px solid rgba(233,69,96,0.3);
+      border-radius: 4px; padding: 0.15rem 0.4rem;
+      font-family: monospace; font-size: 0.75rem; color: var(--accent);
+      min-width: 28px; text-align: center;
+    }
+
+    /* Test de conexión */
+    .test-connection-btn {
+      width: 100%; padding: 0.6rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted); cursor: pointer;
+      font-size: 0.82rem; font-weight: 600;
+      transition: all 0.2s; margin-top: 0.75rem;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .test-connection-btn:hover {
+      background: rgba(78,204,163,0.08);
+      border-color: var(--success); color: var(--success);
+    }
+
+    .connection-result {
+      margin-top: 0.75rem; padding: 0.65rem 0.9rem;
+      border-radius: var(--radius-sm); font-size: 0.8rem;
+      display: none; line-height: 1.4;
+    }
+    .connection-result.success {
+      background: rgba(78,204,163,0.1);
+      border: 1px solid rgba(78,204,163,0.3);
+      color: var(--success); display: block;
+    }
+    .connection-result.error {
+      background: rgba(233,69,96,0.1);
+      border: 1px solid rgba(233,69,96,0.3);
+      color: var(--accent); display: block;
+    }
+    .connection-result.loading {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text-muted); display: block;
+    }
+
+    /* Botones del modal */
+    .config-modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 0.75rem; justify-content: flex-end;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .btn {
+      padding: 0.65rem 1.4rem; border-radius: var(--radius-sm);
+      border: none; cursor: pointer; font-size: 0.88rem; font-weight: 600;
+      transition: all 0.2s; display: flex; align-items: center; gap: 0.4rem;
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border); color: var(--text);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+    .btn-primary {
+      background: var(--accent); color: white;
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-success {
+      background: var(--success); color: #000;
+    }
+    .btn-success:hover { filter: brightness(0.9); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* ═══════════════════════════════════════════════
+       MODAL DE TRIGGER (Ejecutar Actualización)
+    ═══════════════════════════════════════════════ */
+    .run-modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      width: 100%; max-width: 480px;
+      box-shadow: var(--shadow-lg);
+      animation: slide-in 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      overflow: hidden;
+      margin: auto;
+    }
+
+    .run-modal-header {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .run-modal-header h3 { font-size: 1rem; }
+
+    .run-modal-body { padding: 1.5rem; }
+
+    .run-status-box {
+      text-align: center; padding: 2rem 1rem;
+    }
+    .run-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .run-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .run-desc {
+      font-size: 0.82rem; color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .run-info-list {
+      background: rgba(0,0,0,0.3);
+      border-radius: var(--radius-sm); padding: 1rem;
+      margin-top: 1rem;
+    }
+    .run-info-item {
+      display: flex; gap: 0.75rem; align-items: flex-start;
+      margin-bottom: 0.6rem; font-size: 0.8rem;
+    }
+    .run-info-item:last-child { margin-bottom: 0; }
+    .run-info-item .label { color: var(--text-muted); flex-shrink: 0; min-width: 70px; }
+    .run-info-item .value { color: var(--text); font-family: monospace; font-size: 0.78rem; word-break: break-all; }
+
+    .progress-bar-wrap {
+      background: rgba(255,255,255,0.06);
+      border-radius: 10px; height: 6px;
+      margin-top: 1.5rem; overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent3));
+      border-radius: 10px;
+      transition: width 0.5s ease;
+      animation: progress-shine 2s ease-in-out infinite;
+    }
+    @keyframes progress-shine {
+      0%,100% { filter: brightness(1); }
+      50% { filter: brightness(1.3); }
+    }
+
+    .actions-link {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      color: var(--accent); text-decoration: none; font-size: 0.8rem;
+      margin-top: 0.75rem; font-weight: 600;
+    }
+    .actions-link:hover { text-decoration: underline; }
 
     /* ═══════════════════════════════════════════════
        FILTROS
     ═══════════════════════════════════════════════ */
     .filters-section {
-      background: var(--bg-card2);
+      background: rgba(10,10,15,0.95);
       border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem;
-      position: sticky; top: 80px; z-index: 99;
+      padding: 0.75rem 1.5rem;
+      position: sticky; top: 65px; z-index: 90;
+      backdrop-filter: blur(10px);
     }
-    .filters-content { max-width: 1600px; margin: 0 auto; }
+    .filters-content { max-width: 1800px; margin: 0 auto; }
     .filters-row {
-      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
     }
 
-    /* Buscador */
     .search-box {
-      flex: 1; min-width: 200px;
-      background: rgba(0,0,0,0.4); border: 1px solid var(--border);
-      border-radius: 8px; padding: 0.6rem 1rem;
-      color: var(--text); font-size: 0.9rem; outline: none;
-      transition: border-color 0.2s;
+      flex: 1; min-width: 180px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.55rem 0.9rem;
+      color: var(--text); font-size: 0.88rem; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      font-family: inherit;
     }
-    .search-box:focus { border-color: var(--accent); }
+    .search-box:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
+    }
 
-    /* Botones de tipo */
-    .type-filters { display: flex; gap: 0.5rem; }
+    .type-filters { display: flex; gap: 0.4rem; }
     .type-btn {
-      padding: 0.5rem 1.2rem; border-radius: 20px;
-      border: 2px solid transparent; cursor: pointer;
-      font-size: 0.85rem; font-weight: 600;
-      transition: all 0.2s; background: rgba(255,255,255,0.05);
-      color: var(--text);
+      padding: 0.48rem 1rem; border-radius: 20px;
+      border: 1px solid var(--border); cursor: pointer;
+      font-size: 0.8rem; font-weight: 600;
+      transition: all 0.2s;
+      background: rgba(255,255,255,0.03);
+      color: var(--text-muted);
+      white-space: nowrap;
     }
-    .type-btn.active[data-type="all"]    { background: var(--accent);  border-color: var(--accent);  color: white; }
-    .type-btn.active[data-type="live"]   { background: var(--badge-live);  border-color: var(--badge-live);  color: white; }
-    .type-btn.active[data-type="movie"]  { background: var(--badge-movie); border-color: var(--badge-movie); color: #000; }
-    .type-btn.active[data-type="series"] { background: var(--badge-series);border-color: var(--badge-series);color: #000; }
-    .type-btn:hover:not(.active) { border-color: var(--accent); }
+    .type-btn:hover { border-color: var(--border-focus); color: var(--text); }
+    .type-btn.active { color: white; border-color: transparent; }
+    .type-btn.active[data-type="all"]    { background: var(--accent); }
+    .type-btn.active[data-type="live"]   { background: var(--badge-live); }
+    .type-btn.active[data-type="movie"]  { background: var(--badge-movie); color: #000; }
+    .type-btn.active[data-type="series"] { background: var(--badge-series); color: #000; }
 
-    /* Selector de idioma */
-    .lang-select {
-      background: rgba(0,0,0,0.4); border: 1px solid var(--border);
-      border-radius: 8px; padding: 0.55rem 1rem;
-      color: var(--text); font-size: 0.85rem; cursor: pointer; outline: none;
+    .filter-select {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.5rem 0.8rem;
+      color: var(--text); font-size: 0.82rem;
+      cursor: pointer; outline: none; font-family: inherit;
     }
-    .lang-select option { background: #1a1a2e; }
-
-    /* Sort */
-    .sort-select {
-      background: rgba(0,0,0,0.4); border: 1px solid var(--border);
-      border-radius: 8px; padding: 0.55rem 1rem;
-      color: var(--text); font-size: 0.85rem; cursor: pointer; outline: none;
-    }
+    .filter-select option { background: #1a1a2e; }
 
     .results-count {
-      font-size: 0.8rem; color: var(--text-muted); white-space: nowrap;
+      font-size: 0.75rem; color: var(--text-muted); white-space: nowrap;
+      margin-left: auto;
     }
 
     /* ═══════════════════════════════════════════════
-       GRILLA DE TARJETAS
+       BANNER DE CONFIGURACIÓN REQUERIDA
     ═══════════════════════════════════════════════ */
-    .main-content { max-width: 1600px; margin: 0 auto; padding: 1.5rem 2rem; }
+    .setup-banner {
+      max-width: 1800px; margin: 2rem auto; padding: 0 1.5rem;
+      display: none;
+    }
+    .setup-banner.visible { display: block; }
+    .setup-banner-inner {
+      background: linear-gradient(135deg, rgba(233,69,96,0.08), rgba(83,52,131,0.08));
+      border: 1px solid rgba(233,69,96,0.25);
+      border-radius: var(--radius);
+      padding: 2rem;
+      display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;
+    }
+    .setup-banner-icon { font-size: 3.5rem; flex-shrink: 0; }
+    .setup-banner-text { flex: 1; min-width: 200px; }
+    .setup-banner-text h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .setup-banner-text p {
+      font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    .setup-steps {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+    }
+    .setup-step {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.5rem 0.75rem;
+      font-size: 0.78rem;
+    }
+    .step-num {
+      background: var(--accent); color: white;
+      width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.68rem; font-weight: 700; flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════════
+       GRID DE TARJETAS
+    ═══════════════════════════════════════════════ */
+    .main-content {
+      max-width: 1800px; margin: 0 auto; padding: 1.5rem;
+    }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 1.2rem;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 1rem;
     }
 
-    /* ── Tarjeta ── */
     .card {
       background: var(--bg-card);
       border-radius: var(--radius);
@@ -155,7 +563,7 @@
       position: relative;
     }
     .card:hover {
-      transform: translateY(-5px) scale(1.02);
+      transform: translateY(-6px) scale(1.025);
       box-shadow: var(--shadow);
       border-color: var(--accent);
       z-index: 2;
@@ -164,185 +572,227 @@
     .card-poster {
       width: 100%; aspect-ratio: 2/3;
       object-fit: cover; display: block;
-      background: #1a1a2e;
+      background: var(--bg-input);
     }
     .card-poster.landscape { aspect-ratio: 16/9; }
 
-    .card-info {
-      padding: 0.7rem;
-    }
+    .card-info { padding: 0.65rem; }
     .card-title {
-      font-size: 0.82rem; font-weight: 600;
-      line-height: 1.3; margin-bottom: 0.3rem;
+      font-size: 0.8rem; font-weight: 600;
+      line-height: 1.3; margin-bottom: 0.35rem;
       display: -webkit-box; -webkit-line-clamp: 2;
       -webkit-box-orient: vertical; overflow: hidden;
     }
     .card-meta {
-      display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center;
+      display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: center;
     }
     .badge {
-      font-size: 0.65rem; padding: 0.15rem 0.4rem;
+      font-size: 0.62rem; padding: 0.12rem 0.38rem;
       border-radius: 4px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.03em;
     }
     .badge-live   { background: var(--badge-live);   color: white; }
     .badge-movie  { background: var(--badge-movie);  color: #000; }
     .badge-series { background: var(--badge-series); color: #000; }
-    .badge-lang   { background: var(--accent2); color: white; border: 1px solid #2a5aa0; }
-
-    .card-year { font-size: 0.7rem; color: var(--text-muted); }
-    .card-rating { font-size: 0.7rem; color: #f5a623; }
-
-    /* Live indicator */
-    .live-dot {
-      display: inline-block; width: 8px; height: 8px;
-      background: var(--accent); border-radius: 50%;
-      animation: pulse 1.5s ease-in-out infinite;
-      margin-right: 4px;
+    .badge-lang {
+      background: rgba(15,52,96,0.8);
+      border: 1px solid rgba(79,129,196,0.3);
+      color: #7ab3f0;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+    .card-year   { font-size: 0.68rem; color: var(--text-muted); }
+    .card-rating { font-size: 0.68rem; color: var(--warning); }
+
+    .live-dot {
+      display: inline-block; width: 6px; height: 6px;
+      background: var(--badge-live); border-radius: 50%;
+      animation: pulse-dot 1.5s ease-in-out infinite;
+      margin-right: 3px; vertical-align: middle;
     }
 
     /* ═══════════════════════════════════════════════
        MODAL DE DETALLE
     ═══════════════════════════════════════════════ */
-    .modal-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.85); z-index: 1000;
-      justify-content: center; align-items: center;
-      padding: 1rem;
-    }
-    .modal-overlay.open { display: flex; }
-
-    .modal {
+    .detail-modal {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      max-width: 750px; width: 100%;
+      max-width: 780px; width: 100%;
       max-height: 90vh; overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-      animation: modal-in 0.25s ease;
-    }
-    @keyframes modal-in {
-      from { opacity: 0; transform: scale(0.92); }
-      to   { opacity: 1; transform: scale(1); }
+      box-shadow: var(--shadow-lg);
+      animation: slide-in 0.25s ease;
+      margin: auto;
     }
 
-    .modal-header {
+    .detail-header {
       position: relative;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.2), var(--bg-card));
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1), var(--bg-card));
     }
-    .modal-backdrop {
-      width: 100%; height: 200px; object-fit: cover;
-      opacity: 0.4; filter: blur(3px);
+    .detail-backdrop {
+      width: 100%; height: 220px; object-fit: cover;
+      opacity: 0.35; filter: blur(4px); display: block;
     }
-    .modal-poster-wrap {
-      position: absolute; bottom: -40px; left: 1.5rem;
+    .detail-poster-wrap {
+      position: absolute; bottom: -45px; left: 1.5rem;
       width: 100px; border-radius: 8px; overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.8);
       border: 2px solid var(--border);
     }
-    .modal-poster { width: 100%; display: block; }
-    .modal-close {
-      position: absolute; top: 0.75rem; right: 0.75rem;
-      background: rgba(0,0,0,0.6); border: none; color: white;
+    .detail-poster { width: 100%; display: block; }
+    .detail-close {
+      position: absolute; top: 1rem; right: 1rem;
+      background: rgba(0,0,0,0.65); border: none; color: white;
       width: 32px; height: 32px; border-radius: 50%;
-      cursor: pointer; font-size: 1.1rem; display: flex;
-      align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
     }
+    .detail-close:hover { background: rgba(0,0,0,0.9); }
 
-    .modal-body { padding: 3.5rem 1.5rem 1.5rem; }
-    .modal-title {
-      font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;
-    }
-    .modal-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .detail-body { padding: 3.5rem 1.5rem 1.5rem; }
+    .detail-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .detail-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
 
-    .modal-meta-grid {
+    .detail-meta-grid {
       display: grid; grid-template-columns: repeat(2, 1fr);
       gap: 0.5rem 1.5rem; margin-bottom: 1rem;
     }
-    .modal-meta-item label {
-      font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;
+    @media (max-width: 500px) { .detail-meta-grid { grid-template-columns: 1fr; } }
+
+    .meta-item label {
+      font-size: 0.67rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.06em;
       display: block; margin-bottom: 0.1rem;
     }
-    .modal-meta-item span { font-size: 0.85rem; }
+    .meta-item span { font-size: 0.83rem; line-height: 1.4; }
 
-    .modal-desc {
-      font-size: 0.85rem; line-height: 1.6; color: #ccc;
-      background: rgba(0,0,0,0.2); border-radius: 8px;
-      padding: 0.75rem; margin-bottom: 1rem;
-      max-height: 150px; overflow-y: auto;
+    .detail-desc {
+      font-size: 0.83rem; line-height: 1.6; color: #bbb;
+      background: rgba(0,0,0,0.25); border-radius: var(--radius-sm);
+      padding: 0.85rem; margin-bottom: 1rem;
+      max-height: 130px; overflow-y: auto;
     }
 
-    .modal-url-box {
-      background: rgba(0,0,0,0.4); border: 1px solid var(--border);
-      border-radius: 8px; padding: 0.75rem;
+    .stream-url-box {
+      background: rgba(0,0,0,0.35);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.7rem;
       display: flex; align-items: center; gap: 0.5rem;
     }
-    .modal-url-box input {
+    .stream-url-box input {
       flex: 1; background: none; border: none;
-      color: var(--accent); font-family: monospace; font-size: 0.75rem;
-      outline: none; word-break: break-all;
+      color: var(--accent); font-family: monospace; font-size: 0.72rem;
+      outline: none; word-break: break-all; min-width: 0;
     }
     .btn-play {
       background: var(--accent); color: white; border: none;
-      padding: 0.5rem 1rem; border-radius: 8px;
+      padding: 0.45rem 0.85rem; border-radius: 6px;
       cursor: pointer; font-weight: 700; text-decoration: none;
-      font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.82rem; display: inline-flex; align-items: center;
+      gap: 0.3rem; white-space: nowrap; flex-shrink: 0;
     }
-    .btn-play:hover { opacity: 0.85; }
+    .btn-play:hover { background: var(--accent-hover); }
 
-    /* Episodios */
-    .episodes-section { margin-top: 1rem; }
+    .episodes-section { margin-top: 1.2rem; }
     .episodes-section h3 {
-      font-size: 0.9rem; color: var(--text-muted);
-      margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;
+      font-size: 0.75rem; color: var(--text-muted);
+      margin-bottom: 0.6rem; text-transform: uppercase;
+      letter-spacing: 0.08em; display: flex; align-items: center; gap: 0.5rem;
     }
-    .episode-list { display: flex; flex-direction: column; gap: 0.4rem; max-height: 250px; overflow-y: auto; }
+    .season-group { margin-bottom: 0.75rem; }
+    .season-title {
+      font-size: 0.75rem; font-weight: 700; color: var(--accent);
+      padding: 0.35rem 0.6rem;
+      background: rgba(233,69,96,0.08);
+      border-radius: 4px; margin-bottom: 0.4rem;
+    }
+    .episode-list { display: flex; flex-direction: column; gap: 0.3rem; max-height: 280px; overflow-y: auto; }
     .episode-item {
       display: flex; justify-content: space-between; align-items: center;
-      background: rgba(0,0,0,0.2); border-radius: 6px; padding: 0.5rem 0.75rem;
-      font-size: 0.8rem; border: 1px solid var(--border);
-      cursor: pointer; transition: background 0.15s;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.5rem 0.7rem;
+      font-size: 0.78rem; cursor: pointer;
+      transition: all 0.15s;
     }
-    .episode-item:hover { background: rgba(233,69,96,0.15); border-color: var(--accent); }
-    .episode-info { flex: 1; }
-    .episode-num { font-size: 0.7rem; color: var(--text-muted); }
-    .btn-ep-play {
+    .episode-item:hover {
+      background: rgba(233,69,96,0.1);
+      border-color: var(--accent);
+    }
+    .ep-info { flex: 1; min-width: 0; }
+    .ep-num {
+      font-size: 0.65rem; color: var(--text-muted);
+      margin-bottom: 0.15rem;
+    }
+    .ep-name {
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .btn-ep {
       background: var(--accent); color: white; border: none;
-      padding: 0.25rem 0.6rem; border-radius: 4px;
-      cursor: pointer; font-size: 0.75rem; font-weight: 600;
+      padding: 0.2rem 0.55rem; border-radius: 4px;
+      cursor: pointer; font-size: 0.7rem; font-weight: 700;
+      flex-shrink: 0; margin-left: 0.5rem;
     }
 
     /* ═══════════════════════════════════════════════
        LOADING / EMPTY
     ═══════════════════════════════════════════════ */
-    .loading {
-      text-align: center; padding: 4rem;
+    .loading-state {
+      text-align: center; padding: 5rem 2rem;
     }
     .spinner {
-      width: 50px; height: 50px; border: 4px solid var(--border);
-      border-top-color: var(--accent); border-radius: 50%;
-      animation: spin 0.8s linear infinite; margin: 0 auto 1rem;
+      width: 48px; height: 48px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1rem;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-state p { color: var(--text-muted); font-size: 0.88rem; }
 
     .empty-state {
-      text-align: center; padding: 4rem; color: var(--text-muted);
+      text-align: center; padding: 5rem 2rem; color: var(--text-muted);
     }
     .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+
+    /* ═══════════════════════════════════════════════
+       TOAST
+    ═══════════════════════════════════════════════ */
+    #toast-container {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      z-index: 9999; display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .toast {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1.2rem;
+      font-size: 0.85rem; font-weight: 600;
+      box-shadow: var(--shadow);
+      animation: toast-in 0.3s ease;
+      display: flex; align-items: center; gap: 0.5rem;
+      min-width: 200px;
+    }
+    .toast.success { border-left: 3px solid var(--success); }
+    .toast.error   { border-left: 3px solid var(--accent); }
+    .toast.info    { border-left: 3px solid var(--accent2); }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateX(30px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
 
     /* ═══════════════════════════════════════════════
        RESPONSIVE
     ═══════════════════════════════════════════════ */
     @media (max-width: 768px) {
-      header { padding: 1rem; position: static; }
-      .header-content { flex-direction: column; }
-      .filters-section { position: static; padding: 0.75rem 1rem; }
+      header { padding: 0.75rem 1rem; position: static; }
+      .header-content { gap: 0.75rem; }
+      .m3u-url-box { min-width: 200px; }
+      .filters-section { position: static; padding: 0.6rem 1rem; }
       .main-content { padding: 1rem; }
-      .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.8rem; }
-      .stats-bar { gap: 1rem; }
-      .modal-meta-grid { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.75rem; }
+      .stats-row { gap: 0.8rem; }
+      .setup-banner-inner { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
@@ -353,24 +803,27 @@
 ══════════════════════════════════════════════════ -->
 <header>
   <div class="header-content">
+
     <div class="logo">
-      <span>📡</span>
+      <div class="logo-icon">📡</div>
       <div>
         <h1>Mi IPTV Dashboard</h1>
-        <div style="font-size:0.72rem;color:#aaa;" id="last-update">Cargando...</div>
+        <div class="subtitle" id="last-update">Sin datos todavía</div>
       </div>
     </div>
 
     <div class="m3u-url-box">
-      <input id="m3u-url" type="text" readonly
-        value="https://raw.githubusercontent.com/naimmeliana-prog/conversor_metrico/main/playlist.m3u"
-        onclick="this.select()" />
-      <button class="btn-copy" onclick="copyM3uUrl()">📋 Copiar</button>
+      <label>M3U URL</label>
+      <input id="m3u-url-display" type="text" readonly
+             onclick="this.select()"
+             placeholder="Configura el portal para ver tu URL" />
+      <button class="btn-icon primary" style="padding:0.35rem 0.7rem;font-size:0.75rem"
+              onclick="copyM3uUrl()">📋</button>
     </div>
 
-    <div class="stats-bar" id="stats-bar">
+    <div class="stats-row" id="stats-row" style="display:none">
       <div class="stat-item">
-        <div class="stat-num" id="stat-total">—</div>
+        <div class="stat-num" id="stat-total" style="color:var(--text)">—</div>
         <div class="stat-label">Total</div>
       </div>
       <div class="stat-item">
@@ -386,6 +839,25 @@
         <div class="stat-label">Series</div>
       </div>
     </div>
+
+    <div class="header-actions">
+      <!-- Indicador de estado -->
+      <div class="config-status not-configured" id="config-status-badge">
+        <div class="status-dot pulse"></div>
+        <span id="config-status-text">Sin configurar</span>
+      </div>
+
+      <!-- Botón Actualizar -->
+      <button class="btn-icon" id="btn-run" onclick="openRunModal()" title="Ejecutar actualización">
+        🔄 Actualizar
+      </button>
+
+      <!-- Botón Configuración -->
+      <button class="btn-icon primary" onclick="openConfigModal()">
+        ⚙️ Configuración
+      </button>
+    </div>
+
   </div>
 </header>
 
@@ -405,11 +877,11 @@
         <button class="type-btn"        data-type="series" onclick="setType('series')">📺 Series</button>
       </div>
 
-      <select class="lang-select" id="lang-filter" onchange="applyFilters()">
+      <select class="filter-select" id="lang-filter" onchange="applyFilters()">
         <option value="all">🌍 Todos los idiomas</option>
         <option value="ES">🇪🇸 Español</option>
         <option value="FR">🇫🇷 Francés</option>
-        <option value="EN">🇬🇧 Inglés</option>
+        <option value="EN">🇬🇧 Inglés / UK</option>
         <option value="DE">🇩🇪 Alemán</option>
         <option value="IT">🇮🇹 Italiano</option>
         <option value="PT">🇵🇹 Portugués</option>
@@ -421,15 +893,48 @@
         <option value="OTHER">🌐 Otros</option>
       </select>
 
-      <select class="sort-select" id="sort-filter" onchange="applyFilters()">
+      <select class="filter-select" id="sort-filter" onchange="applyFilters()">
         <option value="name">📋 A-Z</option>
         <option value="year">📅 Año</option>
         <option value="rating">⭐ Rating</option>
         <option value="type">🏷️ Tipo</option>
       </select>
 
-      <span class="results-count" id="results-count">— resultados</span>
+      <span class="results-count" id="results-count"></span>
     </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BANNER DE BIENVENIDA (cuando no hay configuración)
+══════════════════════════════════════════════════ -->
+<div class="setup-banner" id="setup-banner">
+  <div class="setup-banner-inner">
+    <div class="setup-banner-icon">📡</div>
+    <div class="setup-banner-text">
+      <h2>¡Bienvenido a tu IPTV Dashboard!</h2>
+      <p>
+        Aún no has configurado tu portal MAC Stalker. Sigue estos 3 pasos para empezar.
+        Todo funciona en la nube mediante GitHub Actions — sin servidores propios, sin coste.
+      </p>
+      <div class="setup-steps">
+        <div class="setup-step">
+          <div class="step-num">1</div>
+          <span>Abre <strong>⚙️ Configuración</strong></span>
+        </div>
+        <div class="setup-step">
+          <div class="step-num">2</div>
+          <span>Introduce tu <strong>Portal URL + MAC</strong></span>
+        </div>
+        <div class="setup-step">
+          <div class="step-num">3</div>
+          <span>Pulsa <strong>🔄 Actualizar</strong> para generar el M3U</span>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="openConfigModal()" style="flex-shrink:0">
+      ⚙️ Abrir Configuración
+    </button>
   </div>
 </div>
 
@@ -437,110 +942,623 @@
      CONTENIDO PRINCIPAL
 ══════════════════════════════════════════════════ -->
 <div class="main-content">
-  <div id="loading" class="loading">
+  <div id="loading-state" class="loading-state" style="display:none">
     <div class="spinner"></div>
     <p>Cargando tu biblioteca IPTV...</p>
-    <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">
-      Leyendo metadata.json desde GitHub
-    </p>
+    <p style="font-size:0.75rem;margin-top:0.4rem">Leyendo metadata.json</p>
   </div>
   <div id="grid" class="grid" style="display:none"></div>
-  <div id="empty" class="empty-state" style="display:none">
+  <div id="empty-state" class="empty-state" style="display:none">
     <div class="icon">🔍</div>
-    <p>No se encontraron resultados con los filtros actuales.</p>
-    <p style="font-size:0.8rem;margin-top:0.5rem">Prueba a cambiar la búsqueda o los filtros.</p>
+    <p>No se encontraron resultados.</p>
+    <p style="font-size:0.8rem;margin-top:0.4rem">Prueba a cambiar los filtros de búsqueda.</p>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════
-     MODAL DE DETALLE
+     MODAL: CONFIGURACIÓN
 ══════════════════════════════════════════════════ -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
-  <div class="modal" id="modal">
-    <div class="modal-header" id="modal-header">
-      <img class="modal-backdrop" id="modal-backdrop" src="" alt="" />
-      <div class="modal-poster-wrap">
-        <img class="modal-poster" id="modal-poster" src="" alt="" />
+<div class="overlay" id="config-overlay" onclick="closeOnOverlay(event,'config-overlay')">
+  <div class="config-modal" onclick="event.stopPropagation()">
+
+    <div class="config-modal-header">
+      <div>
+        <h2>⚙️ Configuración del Portal</h2>
+        <p>Introduce los datos de tu portal MAC Stalker y las credenciales de GitHub para la auto-actualización.</p>
       </div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+      <button class="modal-close-btn" onclick="closeConfigModal()">✕</button>
     </div>
-    <div class="modal-body">
-      <div class="modal-title" id="modal-title"></div>
-      <div class="modal-badges" id="modal-badges"></div>
-      <div class="modal-meta-grid" id="modal-meta-grid"></div>
-      <div class="modal-desc" id="modal-desc" style="display:none"></div>
-      <div class="modal-url-box" id="modal-url-box">
-        <input id="modal-url-input" type="text" readonly />
-        <button class="btn-copy" onclick="copyModalUrl()">📋</button>
-        <a class="btn-play" id="modal-vlc-link" href="">▶ VLC</a>
+
+    <div class="config-modal-body">
+
+      <!-- SECCIÓN 1: Portal MAC -->
+      <div class="config-section">
+        <div class="config-section-title">📡 Credenciales del Portal MAC</div>
+
+        <div class="form-group">
+          <label>Portal URL <span>(dirección del servidor)</span></label>
+          <input class="form-input mono" id="cfg-portal-url" type="url"
+                 placeholder="http://mag.greatott.me:80"
+                 oninput="updatePreview()" />
+          <div class="form-hint">La URL que viene en tus datos de acceso IPTV. Incluye el puerto.</div>
+        </div>
+
+        <div class="form-group">
+          <label>Dirección MAC <span>(de tu dispositivo o suscripción)</span></label>
+          <div class="input-wrapper">
+            <input class="form-input mono" id="cfg-mac" type="text"
+                   placeholder="00:1A:79:00:00:00"
+                   maxlength="17"
+                   oninput="formatMac(this); updatePreview()" />
+          </div>
+          <div class="mac-preview" id="mac-preview"></div>
+          <div class="form-hint">Formato: XX:XX:XX:XX:XX:XX — 6 pares hexadecimales separados por dos puntos.</div>
+        </div>
+
+        <button class="test-connection-btn" id="test-btn" onclick="testConnection()">
+          🔌 Probar conexión con el portal
+        </button>
+        <div class="connection-result" id="connection-result"></div>
       </div>
-      <div class="episodes-section" id="episodes-section" style="display:none">
-        <h3>📌 Episodios</h3>
-        <div class="episode-list" id="episode-list"></div>
+
+      <!-- SECCIÓN 2: GitHub -->
+      <div class="config-section">
+        <div class="config-section-title">🐱 Credenciales de GitHub</div>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.5">
+          Necesarias para que el botón <strong>🔄 Actualizar</strong> dispare el workflow de GitHub Actions
+          directamente desde este dashboard, sin abrir GitHub.
+        </p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Usuario de GitHub <span>(tu username)</span></label>
+            <input class="form-input" id="cfg-gh-user" type="text"
+                   placeholder="naimmeliana-prog"
+                   oninput="updatePreview()" />
+          </div>
+          <div class="form-group">
+            <label>Nombre del repositorio</label>
+            <input class="form-input" id="cfg-gh-repo" type="text"
+                   placeholder="conversor_metrico"
+                   oninput="updatePreview()" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Personal Access Token (PAT) <span>(con permiso <code>workflow</code>)</span></label>
+          <div class="input-wrapper">
+            <input class="form-input mono" id="cfg-gh-token" type="password"
+                   placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
+            <button class="toggle-eye" onclick="toggleEye('cfg-gh-token', this)">👁️</button>
+          </div>
+          <div class="form-hint">
+            Genera uno en
+            <a href="https://github.com/settings/tokens/new?scopes=workflow&description=IPTV-Dashboard" target="_blank">
+              GitHub → Settings → Developer Settings → Personal Access Tokens
+            </a>
+            → Scope: <strong>workflow</strong>.
+            <br>⚠️ Se guarda solo en tu navegador (localStorage), nunca se envía a ningún servidor.
+          </div>
+        </div>
       </div>
+
+      <!-- SECCIÓN 3: Preview de la URL -->
+      <div class="config-section">
+        <div class="config-section-title">🔗 URLs generadas</div>
+        <div class="form-group">
+          <label>URL del Dashboard (GitHub Pages)</label>
+          <input class="form-input mono" id="preview-dashboard" type="text" readonly
+                 style="font-size:0.78rem;color:var(--success)" />
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>URL del archivo M3U (Raw)</label>
+          <input class="form-input mono" id="preview-m3u" type="text" readonly
+                 style="font-size:0.78rem;color:var(--accent)" />
+        </div>
+      </div>
+
+    </div><!-- /config-modal-body -->
+
+    <div class="config-modal-footer">
+      <button class="btn btn-secondary" onclick="clearConfig()">🗑️ Borrar todo</button>
+      <button class="btn btn-secondary" onclick="closeConfigModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveConfig()">💾 Guardar configuración</button>
     </div>
   </div>
 </div>
+
+<!-- ══════════════════════════════════════════════════
+     MODAL: EJECUTAR ACTUALIZACIÓN
+══════════════════════════════════════════════════ -->
+<div class="overlay" id="run-overlay" onclick="closeOnOverlay(event,'run-overlay')">
+  <div class="run-modal" onclick="event.stopPropagation()">
+
+    <div class="run-modal-header">
+      <h3>🔄 Ejecutar Actualización</h3>
+      <button class="modal-close-btn" onclick="closeRunModal()">✕</button>
+    </div>
+
+    <div class="run-modal-body">
+      <div id="run-status-box" class="run-status-box">
+        <!-- Se rellena dinámicamente -->
+      </div>
+    </div>
+
+    <div class="config-modal-footer" id="run-footer">
+      <button class="btn btn-secondary" onclick="closeRunModal()">Cerrar</button>
+      <button class="btn btn-primary" id="btn-trigger" onclick="triggerWorkflow()">
+        🚀 Disparar Workflow
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     MODAL: DETALLE DE CONTENIDO
+══════════════════════════════════════════════════ -->
+<div class="overlay" id="detail-overlay" onclick="closeOnOverlay(event,'detail-overlay')">
+  <div class="detail-modal" onclick="event.stopPropagation()">
+
+    <div class="detail-header">
+      <img class="detail-backdrop" id="det-backdrop" src="" alt="" />
+      <div class="detail-poster-wrap">
+        <img class="detail-poster" id="det-poster" src="" alt="" />
+      </div>
+      <button class="detail-close" onclick="closeDetailModal()">✕</button>
+    </div>
+
+    <div class="detail-body">
+      <div class="detail-title"  id="det-title"></div>
+      <div class="detail-badges" id="det-badges"></div>
+      <div class="detail-meta-grid" id="det-meta"></div>
+      <div class="detail-desc"   id="det-desc"  style="display:none"></div>
+
+      <div class="stream-url-box" id="det-url-box">
+        <input id="det-url-input" type="text" readonly placeholder="URL del stream" />
+        <button class="btn-play" onclick="copyDetailUrl()" title="Copiar URL">📋</button>
+        <a class="btn-play" id="det-vlc" href="#" target="_blank">▶ VLC</a>
+      </div>
+
+      <div class="episodes-section" id="det-episodes" style="display:none">
+        <h3>📌 Episodios <span id="det-ep-count" style="color:var(--text-muted)"></span></h3>
+        <div id="det-season-list"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
 
 <!-- ══════════════════════════════════════════════════
      JAVASCRIPT
 ══════════════════════════════════════════════════ -->
 <script>
-// ════════════════════════════════════════════════════
-//  CONFIGURACIÓN
-// ════════════════════════════════════════════════════
-const METADATA_URL = "metadata.json";
-const M3U_URL = "https://raw.githubusercontent.com/naimmeliana-prog/conversor_metrico/main/playlist.m3u";
-const POSTER_FALLBACK = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI3MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI3MCIgZmlsbD0iIzFhMWEyZSIvPjx0ZXh0IHg9IjkwIiB5PSIxMzUiIGZpbGw9IiM0NDQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iNDAiPvCfm4Q8L3RleHQ+PC9zdmc+";
+'use strict';
 
 // ════════════════════════════════════════════════════
-//  ESTADO DE LA APP
+//  CONSTANTES
 // ════════════════════════════════════════════════════
-let allItems   = [];
+const LS_KEY   = 'iptv_config_v2';
+const FALLBACK = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI3MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI3MCIgZmlsbD0iIzEyMTIxZSIvPjx0ZXh0IHg9IjkwIiB5PSIxNDUiIGZpbGw9IiMzMzMzNTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iNTAiPvCfm4Q8L3RleHQ+PC9zdmc+";
+
+// ════════════════════════════════════════════════════
+//  ESTADO
+// ════════════════════════════════════════════════════
+let cfg          = {};
+let allItems     = [];
 let filteredItems = [];
-let currentType = "all";
+let currentType  = 'all';
 
 // ════════════════════════════════════════════════════
 //  INICIALIZACIÓN
 // ════════════════════════════════════════════════════
-async function init() {
-  try {
-    const resp = await fetch(METADATA_URL + "?t=" + Date.now());
-    if (!resp.ok) throw new Error("No se pudo cargar metadata.json");
-    const data = await resp.json();
+function init() {
+  loadConfig();
+  updateHeaderFromConfig();
 
-    allItems = data.items || [];
-
-    // Actualizar stats
-    document.getElementById("last-update").textContent = "Actualizado: " + (data.generated || "—");
-    updateStats(data);
-
-    // Mostrar grid
-    applyFilters();
-    document.getElementById("loading").style.display = "none";
-    document.getElementById("grid").style.display = "grid";
-
-  } catch (err) {
-    document.getElementById("loading").innerHTML = `
-      <div style="color:var(--badge-live)">⚠️ ${err.message}</div>
-      <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted)">
-        Ejecuta el scraper en GitHub Actions para generar <code>metadata.json</code>
-      </p>
-      <div style="margin-top:2rem;background:rgba(0,0,0,0.3);border-radius:8px;padding:1rem;font-family:monospace;font-size:0.8rem;text-align:left;max-width:500px;margin-left:auto;margin-right:auto">
-        Ve a tu repo → Actions → "Actualizar Playlist M3U" → Run workflow
-      </div>`;
+  if (cfg.ghUser && cfg.ghRepo) {
+    loadMetadata();
+  } else {
+    document.getElementById('setup-banner').classList.add('visible');
   }
 }
 
-function updateStats(data) {
-  const live   = allItems.filter(i => i.type === "live").length;
-  const movies = allItems.filter(i => i.type === "movie").length;
-  const series = new Set(allItems.filter(i => i.type === "series").map(i => i.serie_name)).size;
+// ════════════════════════════════════════════════════
+//  CONFIGURACIÓN (localStorage)
+// ════════════════════════════════════════════════════
+function loadConfig() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    cfg = raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    cfg = {};
+  }
+}
 
-  document.getElementById("stat-total").textContent   = allItems.length.toLocaleString();
-  document.getElementById("stat-live").textContent    = live.toLocaleString();
-  document.getElementById("stat-movies").textContent  = movies.toLocaleString();
-  document.getElementById("stat-series").textContent  = series.toLocaleString();
+function saveConfig() {
+  const portalUrl = document.getElementById('cfg-portal-url').value.trim();
+  const mac       = document.getElementById('cfg-mac').value.trim().toUpperCase();
+  const ghUser    = document.getElementById('cfg-gh-user').value.trim();
+  const ghRepo    = document.getElementById('cfg-gh-repo').value.trim();
+  const ghToken   = document.getElementById('cfg-gh-token').value.trim();
+
+  // Validaciones
+  if (!portalUrl) {
+    toast('⚠️ Introduce la URL del portal', 'error'); return;
+  }
+  if (!portalUrl.startsWith('http')) {
+    toast('⚠️ La URL debe empezar por http:// o https://', 'error'); return;
+  }
+  if (!mac || !/^([0-9A-F]{2}:){5}[0-9A-F]{2}$/.test(mac)) {
+    toast('⚠️ Formato de MAC inválido (debe ser XX:XX:XX:XX:XX:XX)', 'error'); return;
+  }
+  if (!ghUser || !ghRepo) {
+    toast('⚠️ Introduce tu usuario y repositorio de GitHub', 'error'); return;
+  }
+
+  cfg = { portalUrl, mac, ghUser, ghRepo, ghToken };
+  localStorage.setItem(LS_KEY, JSON.stringify(cfg));
+
+  toast('✅ Configuración guardada correctamente', 'success');
+  closeConfigModal();
+  updateHeaderFromConfig();
+  document.getElementById('setup-banner').classList.remove('visible');
+  loadMetadata();
+}
+
+function clearConfig() {
+  if (!confirm('¿Seguro que quieres borrar toda la configuración?')) return;
+  cfg = {};
+  localStorage.removeItem(LS_KEY);
+  fillConfigForm();
+  updateHeaderFromConfig();
+  toast('🗑️ Configuración borrada', 'info');
+}
+
+function fillConfigForm() {
+  document.getElementById('cfg-portal-url').value = cfg.portalUrl || '';
+  document.getElementById('cfg-mac').value        = cfg.mac       || '';
+  document.getElementById('cfg-gh-user').value    = cfg.ghUser    || '';
+  document.getElementById('cfg-gh-repo').value    = cfg.ghRepo    || '';
+  document.getElementById('cfg-gh-token').value   = cfg.ghToken   || '';
+  updatePreview();
+  updateMacPreview(cfg.mac || '');
+}
+
+function updateHeaderFromConfig() {
+  const badge = document.getElementById('config-status-badge');
+  const text  = document.getElementById('config-status-text');
+  const m3uInput = document.getElementById('m3u-url-display');
+
+  if (cfg.ghUser && cfg.ghRepo) {
+    badge.className = 'config-status configured';
+    badge.querySelector('.status-dot').classList.remove('pulse');
+    text.textContent = cfg.mac ? `MAC: ${cfg.mac}` : 'Configurado';
+    m3uInput.value = `https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/playlist.m3u`;
+  } else {
+    badge.className = 'config-status not-configured';
+    badge.querySelector('.status-dot').classList.add('pulse');
+    text.textContent = 'Sin configurar';
+    m3uInput.value = '';
+    m3uInput.placeholder = 'Configura el portal primero';
+  }
+}
+
+// ════════════════════════════════════════════════════
+//  MODAL DE CONFIGURACIÓN
+// ════════════════════════════════════════════════════
+function openConfigModal() {
+  fillConfigForm();
+  document.getElementById('connection-result').className = 'connection-result';
+  document.getElementById('config-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeConfigModal() {
+  document.getElementById('config-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ════════════════════════════════════════════════════
+//  FORMATEO Y PREVIEW DE MAC
+// ════════════════════════════════════════════════════
+function formatMac(input) {
+  let val = input.value.replace(/[^0-9a-fA-F]/g, '').toUpperCase();
+  let formatted = '';
+  for (let i = 0; i < val.length && i < 12; i++) {
+    if (i > 0 && i % 2 === 0) formatted += ':';
+    formatted += val[i];
+  }
+  input.value = formatted;
+  updateMacPreview(formatted);
+}
+
+function updateMacPreview(mac) {
+  const parts = mac.split(':');
+  const el    = document.getElementById('mac-preview');
+  if (parts.length === 6 && parts.every(p => p.length === 2)) {
+    el.innerHTML = parts.map(p => `<span class="mac-octet">${p}</span>`).join('');
+  } else {
+    el.innerHTML = '';
+  }
+}
+
+function updatePreview() {
+  const user = document.getElementById('cfg-gh-user').value.trim() || 'usuario';
+  const repo = document.getElementById('cfg-gh-repo').value.trim() || 'repositorio';
+  document.getElementById('preview-dashboard').value =
+    `https://${user}.github.io/${repo}/`;
+  document.getElementById('preview-m3u').value =
+    `https://raw.githubusercontent.com/${user}/${repo}/main/playlist.m3u`;
+}
+
+function toggleEye(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    btn.textContent = '👁️';
+  }
+}
+
+// ════════════════════════════════════════════════════
+//  TEST DE CONEXIÓN (vía proxy CORS)
+// ════════════════════════════════════════════════════
+async function testConnection() {
+  const url = document.getElementById('cfg-portal-url').value.trim();
+  const mac = document.getElementById('cfg-mac').value.trim();
+  const resultEl = document.getElementById('connection-result');
+  const btn = document.getElementById('test-btn');
+
+  if (!url || !mac) {
+    resultEl.className = 'connection-result error';
+    resultEl.textContent = '⚠️ Introduce la URL del portal y la MAC primero.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Probando conexión...';
+  resultEl.className = 'connection-result loading';
+  resultEl.textContent = '🔌 Conectando con el portal Stalker...';
+
+  // Nota: las peticiones directas al portal fallan por CORS desde el navegador.
+  // El test real lo hace el scraper Python en GitHub Actions.
+  // Aquí solo validamos formato básico.
+  await new Promise(r => setTimeout(r, 1500));
+
+  const macValid = /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/.test(mac);
+  const urlValid = url.startsWith('http') && url.includes('.');
+
+  btn.disabled = false;
+  btn.textContent = '🔌 Probar conexión con el portal';
+
+  if (macValid && urlValid) {
+    resultEl.className = 'connection-result success';
+    resultEl.innerHTML = `
+      ✅ <strong>Formato válido.</strong><br>
+      <span style="font-size:0.78rem">
+        La conexión real al portal se realizará cuando ejecutes el workflow en GitHub Actions,
+        ya que el navegador no puede conectarse directamente al portal por restricciones CORS.
+        El scraper Python sí puede conectarse sin problemas.
+      </span>`;
+  } else {
+    resultEl.className = 'connection-result error';
+    resultEl.innerHTML = `❌ <strong>Formato inválido.</strong> Revisa la URL y la MAC.`;
+  }
+}
+
+// ════════════════════════════════════════════════════
+//  MODAL: EJECUTAR WORKFLOW
+// ════════════════════════════════════════════════════
+function openRunModal() {
+  const box = document.getElementById('run-status-box');
+  const footer = document.getElementById('run-footer');
+
+  if (!cfg.ghUser || !cfg.ghRepo) {
+    toast('⚠️ Configura primero GitHub (usuario y repositorio)', 'error');
+    openConfigModal();
+    return;
+  }
+
+  if (!cfg.ghToken) {
+    box.innerHTML = `
+      <div class="run-icon">⚠️</div>
+      <div class="run-title">Token de GitHub requerido</div>
+      <div class="run-desc">
+        Para disparar el workflow automáticamente desde aquí necesitas un
+        <strong>Personal Access Token</strong> con permiso <code>workflow</code>.<br><br>
+        Sin el token, puedes ejecutarlo manualmente en GitHub:
+      </div>
+      <a class="actions-link" href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions" target="_blank">
+        🔗 Abrir GitHub Actions
+      </a>`;
+    footer.innerHTML = `
+      <button class="btn btn-secondary" onclick="closeRunModal()">Cerrar</button>
+      <button class="btn btn-primary" onclick="closeRunModal();openConfigModal()">⚙️ Añadir Token</button>`;
+    document.getElementById('run-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    return;
+  }
+
+  box.innerHTML = `
+    <div class="run-icon">🚀</div>
+    <div class="run-title">¿Ejecutar actualización ahora?</div>
+    <div class="run-desc">
+      Se disparará el workflow <strong>"Actualizar Playlist M3U"</strong> en GitHub Actions.<br>
+      El proceso puede tardar entre <strong>5 y 60 minutos</strong> según el tamaño del portal.
+    </div>
+    <div class="run-info-list">
+      <div class="run-info-item">
+        <span class="label">📡 Portal</span>
+        <span class="value">${h(cfg.portalUrl || 'No configurado')}</span>
+      </div>
+      <div class="run-info-item">
+        <span class="label">🔑 MAC</span>
+        <span class="value">${h(cfg.mac || 'No configurada')}</span>
+      </div>
+      <div class="run-info-item">
+        <span class="label">📦 Repo</span>
+        <span class="value">${h(cfg.ghUser)}/${h(cfg.ghRepo)}</span>
+      </div>
+    </div>`;
+
+  footer.innerHTML = `
+    <button class="btn btn-secondary" onclick="closeRunModal()">Cancelar</button>
+    <button class="btn btn-primary" id="btn-trigger" onclick="triggerWorkflow()">
+      🚀 Disparar Workflow
+    </button>`;
+
+  document.getElementById('run-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeRunModal() {
+  document.getElementById('run-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function triggerWorkflow() {
+  const btn = document.getElementById('btn-trigger');
+  if (!btn) return;
+  btn.disabled = true;
+  btn.textContent = '⏳ Disparando...';
+
+  const box = document.getElementById('run-status-box');
+  const apiUrl = `https://api.github.com/repos/${cfg.ghUser}/${cfg.ghRepo}/actions/workflows/update.yml/dispatches`;
+
+  try {
+    const resp = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${cfg.ghToken}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ref: 'main',
+        inputs: {
+          portal_url:  cfg.portalUrl || '',
+          mac_address: cfg.mac       || '',
+        }
+      })
+    });
+
+    if (resp.status === 204) {
+      // Éxito
+      box.innerHTML = `
+        <div class="run-icon">✅</div>
+        <div class="run-title">¡Workflow disparado con éxito!</div>
+        <div class="run-desc">
+          GitHub Actions está ejecutando el scraper ahora mismo.<br>
+          El proceso tardará entre <strong>5 y 60 minutos</strong>.<br>
+          Cuando termine, tu playlist M3U y este dashboard se actualizarán automáticamente.
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="prog-bar"></div>
+        </div>
+        <a class="actions-link"
+           href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions"
+           target="_blank">
+          🔗 Ver progreso en GitHub Actions
+        </a>`;
+
+      document.getElementById('run-footer').innerHTML = `
+        <button class="btn btn-secondary" onclick="closeRunModal()">Cerrar</button>`;
+
+      // Animación de progreso (simulada)
+      let pct = 0;
+      const progInterval = setInterval(() => {
+        pct = Math.min(pct + Math.random() * 3, 85);
+        const bar = document.getElementById('prog-bar');
+        if (bar) bar.style.width = pct + '%';
+        else clearInterval(progInterval);
+      }, 800);
+
+      toast('🚀 Workflow iniciado en GitHub Actions', 'success');
+
+    } else if (resp.status === 401) {
+      throw new Error('Token inválido o sin permisos. Verifica que tiene el scope "workflow".');
+    } else if (resp.status === 404) {
+      throw new Error(`Repositorio no encontrado o el archivo "update.yml" no existe en .github/workflows/`);
+    } else if (resp.status === 422) {
+      throw new Error('El workflow no acepta dispatch. Verifica que el update.yml tiene "workflow_dispatch".');
+    } else {
+      const errData = await resp.json().catch(() => ({}));
+      throw new Error(errData.message || `Error HTTP ${resp.status}`);
+    }
+
+  } catch (err) {
+    box.innerHTML = `
+      <div class="run-icon">❌</div>
+      <div class="run-title">Error al disparar el workflow</div>
+      <div class="run-desc" style="color:var(--accent)">${h(err.message)}</div>
+      <div class="run-desc" style="margin-top:1rem">
+        Puedes ejecutarlo manualmente:<br>
+        <a class="actions-link"
+           href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions"
+           target="_blank">
+          🔗 Abrir GitHub Actions
+        </a>
+      </div>`;
+    document.getElementById('run-footer').innerHTML = `
+      <button class="btn btn-secondary" onclick="closeRunModal()">Cerrar</button>
+      <button class="btn btn-primary" onclick="closeRunModal();openConfigModal()">⚙️ Revisar token</button>`;
+    toast('❌ ' + err.message, 'error');
+  }
+}
+
+// ════════════════════════════════════════════════════
+//  CARGAR METADATA
+// ════════════════════════════════════════════════════
+async function loadMetadata() {
+  if (!cfg.ghUser || !cfg.ghRepo) return;
+
+  document.getElementById('setup-banner').classList.remove('visible');
+  document.getElementById('grid').style.display         = 'none';
+  document.getElementById('empty-state').style.display  = 'none';
+  document.getElementById('loading-state').style.display = 'block';
+
+  const metaUrl = `https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/metadata.json`;
+
+  try {
+    const resp = await fetch(metaUrl + '?t=' + Date.now());
+    if (!resp.ok) throw new Error('No se pudo cargar metadata.json — ¿ya ejecutaste el workflow?');
+    const data = await resp.json();
+
+    allItems = data.items || [];
+    document.getElementById('last-update').textContent = '🕐 ' + (data.generated || '—');
+    document.getElementById('stats-row').style.display = 'flex';
+
+    const live   = allItems.filter(i => i.type === 'live').length;
+    const movies = allItems.filter(i => i.type === 'movie').length;
+    const series = new Set(allItems.filter(i => i.type === 'series').map(i => i.serie_name)).size;
+
+    document.getElementById('stat-total').textContent  = allItems.length.toLocaleString();
+    document.getElementById('stat-live').textContent   = live.toLocaleString();
+    document.getElementById('stat-movies').textContent = movies.toLocaleString();
+    document.getElementById('stat-series').textContent = series.toLocaleString();
+
+    document.getElementById('loading-state').style.display = 'none';
+    applyFilters();
+
+  } catch (err) {
+    document.getElementById('loading-state').innerHTML = `
+      <div style="font-size:2.5rem;margin-bottom:1rem">📭</div>
+      <p style="font-weight:700;margin-bottom:0.5rem">${h(err.message)}</p>
+      <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-muted)">
+        Ve a la pestaña <strong>Actions</strong> de tu repositorio y ejecuta el workflow manualmente.
+      </p>
+      <div style="margin-top:1.5rem;display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="openRunModal()">🚀 Ejecutar ahora</button>
+        <a class="btn btn-secondary"
+           href="https://github.com/${h(cfg.ghUser||'')}/${h(cfg.ghRepo||'')}/actions"
+           target="_blank" style="text-decoration:none">🔗 Ver en GitHub</a>
+      </div>`;
+  }
 }
 
 // ════════════════════════════════════════════════════
@@ -548,138 +1566,108 @@ function updateStats(data) {
 // ════════════════════════════════════════════════════
 function setType(type) {
   currentType = type;
-  document.querySelectorAll(".type-btn").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.type === type);
-  });
+  document.querySelectorAll('.type-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.type === type)
+  );
   applyFilters();
 }
 
 function applyFilters() {
-  const query    = document.getElementById("search").value.toLowerCase().trim();
-  const lang     = document.getElementById("lang-filter").value;
-  const sortBy   = document.getElementById("sort-filter").value;
+  const q      = document.getElementById('search').value.toLowerCase().trim();
+  const lang   = document.getElementById('lang-filter').value;
+  const sortBy = document.getElementById('sort-filter').value;
 
-  // Si es tipo "series", mostrar solo la serie (no cada episodio)
-  // agrupamos por serie_name para TV de series
   let items = allItems;
 
-  // Filtro por tipo
-  if (currentType === "series") {
-    // Deduplicar: mostrar 1 tarjeta por serie
+  // Deduplicar series
+  if (currentType === 'series') {
     const seen = new Map();
-    items.forEach(item => {
-      if (item.type !== "series") return;
-      if (!seen.has(item.serie_name)) seen.set(item.serie_name, item);
-    });
+    items.forEach(i => { if (i.type === 'series' && !seen.has(i.serie_name)) seen.set(i.serie_name, i); });
     items = Array.from(seen.values());
-  } else if (currentType !== "all") {
-    items = items.filter(i => i.type === currentType);
-    // Para live, deduplicar por id
-    if (currentType === "live") {
-      const seen = new Set();
-      items = items.filter(i => { if(seen.has(i.id)) return false; seen.add(i.id); return true; });
-    }
+  } else if (currentType !== 'all') {
+    const seenIds = new Set();
+    items = items.filter(i => {
+      if (i.type !== currentType) return false;
+      if (seenIds.has(i.id)) return false;
+      seenIds.add(i.id); return true;
+    });
   } else {
-    // "all": mostrar live, movies, y series deduplicadas
-    const seenSeries = new Map();
-    const seenOther  = new Set();
-    const deduped = [];
-    items.forEach(item => {
-      if (item.type === "series") {
-        if (!seenSeries.has(item.serie_name)) {
-          seenSeries.set(item.serie_name, item);
-          deduped.push(item);
-        }
+    const seenSeries = new Map(), seenOther = new Set(), out = [];
+    items.forEach(i => {
+      if (i.type === 'series') {
+        if (!seenSeries.has(i.serie_name)) { seenSeries.set(i.serie_name, i); out.push(i); }
       } else {
-        if (!seenOther.has(item.id)) {
-          seenOther.add(item.id);
-          deduped.push(item);
-        }
+        if (!seenOther.has(i.id)) { seenOther.add(i.id); out.push(i); }
       }
     });
-    items = deduped;
+    items = out;
   }
 
-  // Filtro por idioma
-  if (lang !== "all") items = items.filter(i => i.lang === lang);
+  if (lang !== 'all') items = items.filter(i => i.lang === lang);
 
-  // Filtro por búsqueda
-  if (query) {
-    items = items.filter(i => {
-      const search = [
-        i.name, i.serie_name, i.description,
-        i.actors, i.director, i.group, i.genres
-      ].join(" ").toLowerCase();
-      return search.includes(query);
-    });
+  if (q) {
+    items = items.filter(i => [i.name, i.serie_name, i.description, i.actors, i.director, i.group, i.genres]
+      .join(' ').toLowerCase().includes(q));
   }
 
-  // Ordenar
   items = [...items].sort((a, b) => {
-    if (sortBy === "name")   return (a.name||"").localeCompare(b.name||"");
-    if (sortBy === "year")   return (b.year||0) - (a.year||0);
-    if (sortBy === "rating") return parseFloat(b.rating||0) - parseFloat(a.rating||0);
-    if (sortBy === "type")   return (a.type||"").localeCompare(b.type||"");
+    if (sortBy === 'name')   return (a.name||'').localeCompare(b.name||'');
+    if (sortBy === 'year')   return (b.year||0) - (a.year||0);
+    if (sortBy === 'rating') return parseFloat(b.rating||0) - parseFloat(a.rating||0);
+    if (sortBy === 'type')   return (a.type||'').localeCompare(b.type||'');
     return 0;
   });
 
   filteredItems = items;
   renderGrid(items);
-  document.getElementById("results-count").textContent = items.length.toLocaleString() + " resultados";
+  document.getElementById('results-count').textContent = items.length.toLocaleString() + ' resultados';
 }
 
-// Listener de búsqueda con debounce
-let searchTimeout;
-document.getElementById("search").addEventListener("input", () => {
-  clearTimeout(searchTimeout);
-  searchTimeout = setTimeout(applyFilters, 300);
+let searchTO;
+document.getElementById('search').addEventListener('input', () => {
+  clearTimeout(searchTO);
+  searchTO = setTimeout(applyFilters, 300);
 });
 
 // ════════════════════════════════════════════════════
-//  RENDERIZADO DE TARJETAS
+//  RENDER GRID
 // ════════════════════════════════════════════════════
 function renderGrid(items) {
-  const grid  = document.getElementById("grid");
-  const empty = document.getElementById("empty");
+  const grid  = document.getElementById('grid');
+  const empty = document.getElementById('empty-state');
 
   if (!items.length) {
-    grid.style.display  = "none";
-    empty.style.display = "block";
+    grid.style.display  = 'none';
+    empty.style.display = 'block';
     return;
   }
-
-  empty.style.display = "none";
-  grid.style.display  = "grid";
-  grid.innerHTML = items.map((item, idx) => buildCard(item, idx)).join("");
+  empty.style.display = 'none';
+  grid.style.display  = 'grid';
+  grid.innerHTML = items.map((item, i) => buildCard(item, i)).join('');
 }
 
 function buildCard(item, idx) {
-  const isLive   = item.type === "live";
-  const isMovie  = item.type === "movie";
-  const isSeries = item.type === "series";
-
-  const poster  = item.logo || POSTER_FALLBACK;
-  const name    = item.serie_name || item.name || "Sin nombre";
-  const year    = item.year    ? `<span class="card-year">${item.year}</span>` : "";
-  const rating  = item.rating  ? `<span class="card-rating">⭐ ${item.rating}</span>` : "";
-
-  const badgeClass = isLive ? "badge-live" : isMovie ? "badge-movie" : "badge-series";
-  const badgeText  = isLive ? "● En Vivo" : isMovie ? "🎬 Película" : "📺 Serie";
-
-  const aspectClass = isLive ? "landscape" : "";
+  const isLive   = item.type === 'live';
+  const isMovie  = item.type === 'movie';
+  const name     = h(item.serie_name || item.name || 'Sin nombre');
+  const logo     = item.logo || FALLBACK;
+  const badge    = isLive ? 'badge-live' : isMovie ? 'badge-movie' : 'badge-series';
+  const badgeTxt = isLive ? `<span class="live-dot"></span>En Vivo`
+                           : isMovie ? '🎬 Película' : '📺 Serie';
+  const year     = item.year   ? `<span class="card-year">${h(item.year)}</span>` : '';
+  const rating   = item.rating ? `<span class="card-rating">⭐${h(item.rating)}</span>` : '';
 
   return `
-    <div class="card" onclick="openModal(${idx})">
-      <img class="card-poster ${aspectClass}"
-           src="${escHtml(poster)}"
-           onerror="this.src='${POSTER_FALLBACK}'"
-           alt="${escHtml(name)}"
-           loading="lazy" />
+    <div class="card" onclick="openDetailModal(${idx})">
+      <img class="card-poster ${isLive?'landscape':''}"
+           src="${h(logo)}"
+           onerror="this.src='${FALLBACK}'"
+           alt="${name}" loading="lazy" />
       <div class="card-info">
-        <div class="card-title">${escHtml(name)}</div>
+        <div class="card-title">${name}</div>
         <div class="card-meta">
-          <span class="badge ${badgeClass}">${isLive ? '<span class="live-dot"></span>' : ""}${badgeText}</span>
-          <span class="badge badge-lang">${escHtml(item.lang || "?")}</span>
+          <span class="badge ${badge}">${badgeTxt}</span>
+          <span class="badge badge-lang">${h(item.lang||'?')}</span>
           ${year}${rating}
         </div>
       </div>
@@ -687,153 +1675,162 @@ function buildCard(item, idx) {
 }
 
 // ════════════════════════════════════════════════════
-//  MODAL
+//  MODAL DE DETALLE
 // ════════════════════════════════════════════════════
-function openModal(idx) {
+function openDetailModal(idx) {
   const item = filteredItems[idx];
   if (!item) return;
 
-  const name   = item.serie_name || item.name || "Sin nombre";
-  const poster = item.logo || POSTER_FALLBACK;
+  const name   = item.serie_name || item.name || 'Sin nombre';
+  const poster = item.logo || FALLBACK;
 
-  document.getElementById("modal-title").textContent = name;
-  document.getElementById("modal-backdrop").src = poster;
-  document.getElementById("modal-poster").src   = poster;
+  document.getElementById('det-title').textContent = name;
+  document.getElementById('det-backdrop').src = poster;
+  document.getElementById('det-poster').src   = poster;
 
   // Badges
-  const badgeClass = item.type === "live" ? "badge-live" : item.type === "movie" ? "badge-movie" : "badge-series";
-  const badgeText  = item.type === "live" ? "📡 En Vivo" : item.type === "movie" ? "🎬 Película" : "📺 Serie";
-  document.getElementById("modal-badges").innerHTML = `
-    <span class="badge ${badgeClass}">${badgeText}</span>
-    <span class="badge badge-lang">${escHtml(item.lang || "?")}</span>
-    ${item.genres ? `<span class="badge" style="background:#333">${escHtml(item.genres)}</span>` : ""}
-  `;
+  const bClass = item.type==='live' ? 'badge-live' : item.type==='movie' ? 'badge-movie' : 'badge-series';
+  const bText  = item.type==='live' ? '📡 En Vivo' : item.type==='movie'  ? '🎬 Película' : '📺 Serie';
+  document.getElementById('det-badges').innerHTML = `
+    <span class="badge ${bClass}">${bText}</span>
+    <span class="badge badge-lang">${h(item.lang||'?')}</span>
+    ${item.genres ? `<span class="badge" style="background:#222;color:#aaa">${h(item.genres)}</span>` : ''}`;
 
-  // Meta grid
-  const metaFields = [
-    ["Año",       item.year],
-    ["Rating",    item.rating ? `⭐ ${item.rating}` : ""],
-    ["Director",  item.director],
-    ["Reparto",   item.actors],
-    ["Duración",  item.duration],
-    ["Grupo",     item.group],
+  // Meta
+  const metas = [
+    ['Año',      item.year],
+    ['Rating',   item.rating   ? `⭐ ${item.rating}` : ''],
+    ['Director', item.director],
+    ['Reparto',  item.actors],
+    ['Duración', item.duration],
+    ['Grupo',    item.group],
   ].filter(([,v]) => v);
-
-  document.getElementById("modal-meta-grid").innerHTML = metaFields.map(([label, value]) => `
-    <div class="modal-meta-item">
-      <label>${label}</label>
-      <span>${escHtml(String(value))}</span>
-    </div>`).join("");
+  document.getElementById('det-meta').innerHTML = metas.map(([l,v]) => `
+    <div class="meta-item">
+      <label>${l}</label><span>${h(String(v))}</span>
+    </div>`).join('');
 
   // Descripción
-  const descEl = document.getElementById("modal-desc");
+  const descEl = document.getElementById('det-desc');
   if (item.description) {
     descEl.textContent = item.description;
-    descEl.style.display = "block";
+    descEl.style.display = 'block';
   } else {
-    descEl.style.display = "none";
+    descEl.style.display = 'none';
   }
 
-  // URL del stream
-  const streamUrl = item.url || "";
-  document.getElementById("modal-url-input").value = streamUrl;
-  document.getElementById("modal-vlc-link").href = streamUrl ? `vlc://${streamUrl}` : "#";
+  // URL stream
+  const url = item.url || '';
+  document.getElementById('det-url-input').value = url;
+  document.getElementById('det-vlc').href = url ? `vlc://${url}` : '#';
 
-  // Episodios (si es serie)
-  const epsSection = document.getElementById("episodes-section");
-  if (item.type === "series" && item.serie_name) {
-    const episodes = allItems.filter(i =>
-      i.type === "series" && i.serie_name === item.serie_name
-    ).sort((a, b) => {
-      const sa = parseInt(a.season || 0), sb = parseInt(b.season || 0);
-      const ea = parseInt(a.episode || 0), eb = parseInt(b.episode || 0);
-      return sa !== sb ? sa - sb : ea - eb;
+  // Episodios
+  const epsSection = document.getElementById('det-episodes');
+  if (item.type === 'series' && item.serie_name) {
+    const eps = allItems
+      .filter(i => i.type === 'series' && i.serie_name === item.serie_name)
+      .sort((a,b) => {
+        const sd = parseInt(a.season||0) - parseInt(b.season||0);
+        return sd !== 0 ? sd : parseInt(a.episode||0) - parseInt(b.episode||0);
+      });
+
+    document.getElementById('det-ep-count').textContent = `(${eps.length} episodios)`;
+
+    // Agrupar por temporada
+    const seasons = {};
+    eps.forEach(ep => {
+      const sk = ep.season_name || `Temporada ${ep.season||'?'}`;
+      if (!seasons[sk]) seasons[sk] = [];
+      seasons[sk].push(ep);
     });
 
-    document.getElementById("episode-list").innerHTML = episodes.map((ep, ei) => `
-      <div class="episode-item" onclick="playEpisode('${escHtml(ep.url || "")}', event)">
-        <div class="episode-info">
-          <div class="episode-num">T${ep.season || "?"} · E${ep.episode || "?"} · ${escHtml(ep.season_name || "")}</div>
-          <div>${escHtml(ep.ep_name || ep.name || "Episodio")}</div>
+    document.getElementById('det-season-list').innerHTML = Object.entries(seasons).map(([sName, eps]) => `
+      <div class="season-group">
+        <div class="season-title">🎬 ${h(sName)} <span style="color:var(--text-muted);font-weight:400">(${eps.length} ep.)</span></div>
+        <div class="episode-list">
+          ${eps.map((ep, ei) => `
+            <div class="episode-item" onclick="selectEpisode('${h(ep.url||'')}', event)">
+              <div class="ep-info">
+                <div class="ep-num">Episodio ${h(String(ep.episode||'?'))}</div>
+                <div class="ep-name">${h(ep.ep_name || ep.name || 'Episodio')}</div>
+              </div>
+              <button class="btn-ep" onclick="selectEpisode('${h(ep.url||'')}', event)">▶</button>
+            </div>`).join('')}
         </div>
-        <button class="btn-ep-play" title="Copiar URL del episodio">▶ Ver</button>
-      </div>`).join("");
+      </div>`).join('');
 
-    epsSection.style.display = episodes.length ? "block" : "none";
+    epsSection.style.display = 'block';
   } else {
-    epsSection.style.display = "none";
+    epsSection.style.display = 'none';
   }
 
-  document.getElementById("modal-overlay").classList.add("open");
-  document.body.style.overflow = "hidden";
+  document.getElementById('detail-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
-function playEpisode(url, event) {
+function selectEpisode(url, event) {
   event.stopPropagation();
-  document.getElementById("modal-url-input").value = url;
-  document.getElementById("modal-vlc-link").href   = url ? `vlc://${url}` : "#";
-  // Copiar al portapapeles
-  navigator.clipboard.writeText(url).then(() => {
-    showToast("URL del episodio copiada ✅");
-  }).catch(() => {});
+  document.getElementById('det-url-input').value = url;
+  document.getElementById('det-vlc').href = url ? `vlc://${url}` : '#';
+  navigator.clipboard.writeText(url).then(() => toast('📋 URL del episodio copiada', 'success')).catch(()=>{});
 }
 
-function closeModal() {
-  document.getElementById("modal-overlay").classList.remove("open");
-  document.body.style.overflow = "";
-}
-function closeModalOnOverlay(e) {
-  if (e.target === document.getElementById("modal-overlay")) closeModal();
+function closeDetailModal() {
+  document.getElementById('detail-overlay').classList.remove('open');
+  document.body.style.overflow = '';
 }
 
-// Cerrar con ESC
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+function copyDetailUrl() {
+  const url = document.getElementById('det-url-input').value;
+  navigator.clipboard.writeText(url).then(() => toast('📋 URL copiada', 'success')).catch(()=>{});
+}
 
 // ════════════════════════════════════════════════════
-//  COPIAR AL PORTAPAPELES
+//  COPIAR M3U URL
 // ════════════════════════════════════════════════════
 function copyM3uUrl() {
-  navigator.clipboard.writeText(M3U_URL).then(() => {
-    showToast("URL M3U copiada al portapapeles ✅");
-  }).catch(() => {
-    document.getElementById("m3u-url").select();
-    document.execCommand("copy");
-    showToast("URL M3U copiada ✅");
+  const val = document.getElementById('m3u-url-display').value;
+  if (!val) { toast('⚠️ Configura el portal primero', 'error'); return; }
+  navigator.clipboard.writeText(val)
+    .then(() => toast('📋 URL M3U copiada al portapapeles', 'success'))
+    .catch(() => toast('⚠️ No se pudo copiar', 'error'));
+}
+
+// ════════════════════════════════════════════════════
+//  CERRAR OVERLAY AL HACER CLIC FUERA
+// ════════════════════════════════════════════════════
+function closeOnOverlay(event, id) {
+  if (event.target.id === id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  ['config-overlay','run-overlay','detail-overlay'].forEach(id => {
+    document.getElementById(id).classList.remove('open');
   });
-}
-
-function copyModalUrl() {
-  const url = document.getElementById("modal-url-input").value;
-  navigator.clipboard.writeText(url).then(() => {
-    showToast("URL copiada ✅");
-  }).catch(() => {});
-}
+  document.body.style.overflow = '';
+});
 
 // ════════════════════════════════════════════════════
-//  TOAST NOTIFICATION
+//  TOAST
 // ════════════════════════════════════════════════════
-function showToast(msg) {
-  const t = document.createElement("div");
-  t.style.cssText = `
-    position:fixed; bottom:2rem; right:2rem; z-index:9999;
-    background:var(--accent); color:white; padding:0.75rem 1.5rem;
-    border-radius:8px; font-weight:600; animation:modal-in 0.3s ease;
-    box-shadow:0 4px 20px rgba(0,0,0,0.5);
-  `;
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 2500);
+function toast(msg, type = 'info') {
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.textContent = msg;
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(() => el.remove(), 3500);
 }
 
 // ════════════════════════════════════════════════════
 //  HELPERS
 // ════════════════════════════════════════════════════
-function escHtml(str) {
+function h(str) {
   return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 // ════════════════════════════════════════════════════
