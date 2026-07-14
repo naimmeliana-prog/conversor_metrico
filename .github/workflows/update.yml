@@ -1,82 +1,45 @@
-name: 🔄 Auto-Actualizar Playlist M3U
+name: Actualizar Playlist M3U
 
 on:
   schedule:
     - cron: '0 */12 * * *'
-
   workflow_dispatch:
-    inputs:
-      portal_url:
-        description: 'URL del portal Stalker (ej: http://mag.example.com:80)'
-        required: false
-        default: 'http://mag.greatott.me:80'
-      mac_address:
-        description: 'Dirección MAC (ej: 00:1A:79:00:00:00)'
-        required: false
-        default: '00:1A:79:74:B1:B9'
 
 jobs:
   update-playlist:
-    name: Scrape & Generate M3U
     runs-on: ubuntu-latest
-    timeout-minutes: 120
-
+    timeout-minutes: 180
     permissions:
       contents: write
-
     steps:
-      - name: 📥 Checkout del repositorio
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🐍 Configurar Python 3.11
+      - name: Configurar Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
 
-      - name: 📦 Instalar dependencias
+      - name: Instalar dependencias
         run: pip install -r requirements.txt
 
-      - name: 🔍 Ejecutar Scraper
-        env:
-          # Si viene del workflow_dispatch usa el input, si no usa el secret o el default
-          PORTAL_URL: >-
-            ${{
-              github.event.inputs.portal_url != '' &&
-              github.event.inputs.portal_url ||
-              secrets.PORTAL_URL != '' &&
-              secrets.PORTAL_URL ||
-              'http://mag.greatott.me:80'
-            }}
-          MAC_ADDRESS: >-
-            ${{
-              github.event.inputs.mac_address != '' &&
-              github.event.inputs.mac_address ||
-              secrets.MAC_ADDRESS != '' &&
-              secrets.MAC_ADDRESS ||
-              '00:1A:79:74:B1:B9'
-            }}
+      - name: Ejecutar Scraper Multi-Portal
         run: python scraper.py
 
-      - name: ✅ Verificar archivos generados
+      - name: Verificar archivos
         run: |
-          echo "=== Archivos generados ==="
-          ls -lah playlist.m3u metadata.json stats.json 2>/dev/null || echo "Algunos archivos no existen aún"
-          echo ""
-          echo "=== Primeras líneas del M3U ==="
-          head -15 playlist.m3u 2>/dev/null || true
-          echo ""
-          echo "=== Stats ==="
+          ls -lah playlist.m3u metadata.json stats.json 2>/dev/null || true
+          head -10 playlist.m3u 2>/dev/null || true
           cat stats.json 2>/dev/null || true
 
-      - name: 💾 Commit y Push
+      - name: Commit y Push
         run: |
-          git config --global user.name  "GitHub Actions Bot"
+          git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
           git add -f playlist.m3u metadata.json stats.json 2>/dev/null || true
-          git diff --staged --quiet || git commit -m "🔄 Auto-update: $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git diff --staged --quiet || git commit -m "Auto-update $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
