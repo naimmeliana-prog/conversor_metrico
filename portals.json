@@ -1,0 +1,26 @@
+[
+  {
+    "id": "portal_1",
+    "name": "GreatOTT Principal",
+    "url": "http://mag.greatott.me:80",
+    "mac": "00:1A:79:74:B1:B9",
+    "enabled": true,
+    "color": "#e94560"
+  },
+  {
+    "id": "portal_2",
+    "name": "Portal 2 (ejemplo)",
+    "url": "http://tu-segundo-portal.com:8080",
+    "mac": "00:1A:79:00:00:02",
+    "enabled": false,
+    "color": "#4ecca3"
+  },
+  {
+    "id": "portal_3",
+    "name": "Portal 3 (ejemplo)",
+    "url": "http://tu-tercer-portal.com:80",
+    "mac": "00:1A:79:00:00:03",
+    "enabled": false,
+    "color": "#f5a623"
+  }
+]
