@@ -1,668 +1,128 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-╔══════════════════════════════════════════════════════════════════╗
-║   Stalker MAC Portal → M3U Multi-Portal Auto-Updater            ║
-║   Soporta múltiples portales MAC en paralelo                    ║
-║   TV en Vivo / Películas / Series con episodios completos       ║
-╚══════════════════════════════════════════════════════════════════╝
-"""
-
-import requests
-import json
-import time
-import os
-import hashlib
-import re
-import sys
+import requests, json, time, os, hashlib, re, sys
 from datetime import datetime
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# ════════════════════════════════════════════════════════════════
-#  CONFIGURACIÓN
-# ════════════════════════════════════════════════════════════════
-PORTALS_FILE    = "portals.json"
-PORTAL_PATH     = "/portal.php"
-PORTAL_C        = "/stalker_portal/c/"
+PORTALS_FILE = "portals.json"
+PORTAL_PATH = "/portal.php"
 REQUEST_TIMEOUT = 30
-MAX_RETRIES     = 3
-RETRY_DELAY     = 5
-PAGE_SIZES_TO_TRY = [500, 250, 100, 50, 14]
+MAX_RETRIES = 3
 
-# ════════════════════════════════════════════════════════════════
-#  DETECCIÓN DE IDIOMA
-# ════════════════════════════════════════════════════════════════
 LANGUAGE_KEYWORDS = {
-    "ES": ["ES","ESP","ESPAÑOL","SPANISH","SPAIN","ESPANA","CASTELLANO","LATINO","LAT","SPA"],
-    "FR": ["FR","FRE","FRENCH","FRANCE","FRANÇAIS","FRANCAIS","FRA"],
-    "EN": ["EN","ENG","ENGLISH","UK","US","USA","GB","GBR","UHD UK","UNITED KINGDOM"],
-    "DE": ["DE","DEU","GERMAN","GERMANY","DEUTSCH","GER"],
+    "ES": ["ES","ESP","ESPAÑOL","SPANISH","SPAIN","LATINO","LAT","CAST","CASTELLANO"],
+    "FR": ["FR","FRE","FRENCH","FRANCE","FRANÇAIS","FRA"],
+    "EN": ["EN","ENG","ENGLISH","UK","US","USA","GBR"],
+    "DE": ["DE","DEU","GERMAN","GERMANY","DEUTSCH"],
     "IT": ["IT","ITA","ITALIAN","ITALY","ITALIANO"],
-    "PT": ["PT","POR","PORTUGUESE","PORTUGAL","BRASIL","BR","PORTUGUES"],
-    "AR": ["AR","ARA","ARABIC","ARAB","ARABE"],
-    "NL": ["NL","NED","DUTCH","NETHERLANDS","HOLLAND"],
-    "PL": ["PL","POL","POLISH","POLAND"],
-    "RU": ["RU","RUS","RUSSIAN","RUSSIA"],
-    "TR": ["TR","TUR","TURKISH","TURKEY","TURQUIE"],
+    "PT": ["PT","POR","PORTUGUESE","PORTUGAL","BRASIL","BR"],
+    "AR": ["AR","ARA","ARABIC","ARABE"],
+    "NL": ["NL","NED","DUTCH","HOLLAND"],
+    "PL": ["PL","POL","POLISH","POLSKA"],
+    "RU": ["RU","RUS","RUSSIAN","ROSSIA"],
+    "TR": ["TR","TUR","TURKISH","TÜRKIYE"]
 }
 
-# ════════════════════════════════════════════════════════════════
-#  DETECCIÓN DE PAÍSES
-# ════════════════════════════════════════════════════════════════
+# Diccionario reducido para el scraper (el dashboard tiene el completo)
 COUNTRY_KEYWORDS = {
-    "ES": {"flag":"🇪🇸","name":"España","keywords":["ESPAÑA","SPAIN","ESPANA","TVE","ANTENA 3","CUATRO","LA SEXTA","TELECINCO","CANAL SUR","TV3","TELEMADRID","ARAGONTV","IB3","ETB","TVG","LA 1","LA 2","MOVISTAR+","GOL TV","REAL MADRID TV","BARCA TV","SPAIN HD"]},
-    "FR": {"flag":"🇫🇷","name":"Francia","keywords":["FRANCE","FRANÇAIS","FRANCAIS","TF1","FRANCE 2","FRANCE 3","FRANCE 4","FRANCE 5","M6","W9","TMC","TFX","C8","CSTAR","BFMTV","LCI","CNEWS","ARTE","GULLI","RMC","NRJ12","FRANCE HD","OCS"]},
-    "GB": {"flag":"🇬🇧","name":"Reino Unido","keywords":["UK","UNITED KINGDOM","BRITAIN","BRITISH","ENGLAND","BBC","ITV","CHANNEL 4","CHANNEL 5","SKY","BT SPORT","DAVE","E4","MORE4","5USA","5STAR","GOLD","ALIBI","UHD UK","SKY ONE","SKY ATLANTIC","SKY CINEMA","SKY SPORTS","TNT SPORTS"]},
-    "DE": {"flag":"🇩🇪","name":"Alemania","keywords":["GERMANY","GERMAN","DEUTSCHLAND","DEUTSCH","ARD","ZDF","RTL","SAT.1","SAT1","PRO7","PROSIEBEN","VOX","KABEL1","DMAX DE","SPORT1","3SAT","PHOENIX","MÜNCHEN","BERLIN"]},
-    "IT": {"flag":"🇮🇹","name":"Italia","keywords":["ITALY","ITALIAN","ITALIA","ITA","RAI","RAI 1","RAI 2","RAI 3","CANALE 5","ITALIA 1","RETE 4","LA7","TV8","NOVE","MEDIASET","SKY IT","ROMA","MILAN","NAPOLI"]},
-    "PT": {"flag":"🇵🇹","name":"Portugal","keywords":["PORTUGAL","PORTUGUESE","PORTUGUES","RTP","RTP1","RTP2","SIC","TVI","CMTV","RECORD","SPORT TV","LISBOA","PORTO"]},
-    "NL": {"flag":"🇳🇱","name":"Países Bajos","keywords":["NETHERLANDS","DUTCH","HOLLAND","NED","NPO","RTL NL","SBS6","NET5","VERONICA","NPO 1","NPO 2","NPO 3","RTL 4","AMSTERDAM"]},
-    "BE": {"flag":"🇧🇪","name":"Bélgica","keywords":["BELGIUM","BELGIQUE","BELGIË","VRT","RTBF","VTM","CANVAS","EEN","LA UNE","LA DEUX","BRUSSELS"]},
-    "CH": {"flag":"🇨🇭","name":"Suiza","keywords":["SWITZERLAND","SWISS","SUISSE","SCHWEIZ","SRF","RTS","RSI","ZURICH","GENEVA"]},
-    "PL": {"flag":"🇵🇱","name":"Polonia","keywords":["POLAND","POLISH","POLSKA","TVP","TVN","POLSAT","TVP1","TVP2","TVN 24","WARSAW"]},
-    "RU": {"flag":"🇷🇺","name":"Rusia","keywords":["RUSSIA","RUSSIAN","RUSSIE","CHANNEL ONE RU","RUSSIA 1","NTV","MATCH TV","MOSCOW","RT "]},
-    "UA": {"flag":"🇺🇦","name":"Ucrania","keywords":["UKRAINE","UKRAINIAN","UKRAINA","1+1","INTER UA","KYIV","STB"]},
-    "RO": {"flag":"🇷🇴","name":"Rumanía","keywords":["ROMANIA","ROMANIAN","PRO TV","ANTENA 1 RO","TVR","DIGI24","BUCHAREST"]},
-    "TR": {"flag":"🇹🇷","name":"Turquía","keywords":["TURKEY","TURKISH","TÜRKIYE","TRT","TRT 1","ATV","SHOW TV","KANAL D TR","FOX TR","ISTANBUL"]},
-    "GR": {"flag":"🇬🇷","name":"Grecia","keywords":["GREECE","GREEK","GRECIA","ERT","ANT1","MEGA GR","STAR GR","ATHENS"]},
-    "SE": {"flag":"🇸🇪","name":"Suecia","keywords":["SWEDEN","SWEDISH","SVERIGE","SVT","TV4 SE","KANAL 5","STOCKHOLM"]},
-    "NO": {"flag":"🇳🇴","name":"Noruega","keywords":["NORWAY","NORWEGIAN","NORGE","NRK","TV 2 NO","OSLO"]},
-    "DK": {"flag":"🇩🇰","name":"Dinamarca","keywords":["DENMARK","DANISH","DANMARK","DR","TV2 DK","COPENHAGEN"]},
-    "FI": {"flag":"🇫🇮","name":"Finlandia","keywords":["FINLAND","FINNISH","SUOMI","YLE","MTV3 FI","HELSINKI"]},
-    "CZ": {"flag":"🇨🇿","name":"Rep. Checa","keywords":["CZECH","CZECHIA","CESKA","CT","PRIMA","NOVA CZ","PRAGUE"]},
-    "HU": {"flag":"🇭🇺","name":"Hungría","keywords":["HUNGARY","HUNGARIAN","MAGYARORSZÁG","DUNA","RTL HU","TV2 HU","BUDAPEST"]},
-    "HR": {"flag":"🇭🇷","name":"Croacia","keywords":["CROATIA","CROATIAN","HRVATSKA","HRT","NOVA HR","ZAGREB"]},
-    "RS": {"flag":"🇷🇸","name":"Serbia","keywords":["SERBIA","SERBIAN","SRBIJA","RTS","BEOGRAD","PINK TV","B92"]},
-    "US": {"flag":"🇺🇸","name":"USA","keywords":["USA","UNITED STATES","AMERICAN","NBC","CBS","ABC US","FOX US","CNN","MSNBC","ESPN","HBO","SHOWTIME","STARZ","AMC","TNT","COMEDY CENTRAL","SYFY","NEW YORK","LOS ANGELES"]},
-    "MX": {"flag":"🇲🇽","name":"México","keywords":["MEXICO","MÉXICO","MEXICANO","TELEVISA","TV AZTECA","AZTECA 7","AZTECA UNO","GUADALAJARA","MONTERREY"]},
-    "AR": {"flag":"🇦🇷","name":"Argentina","keywords":["ARGENTINA","ARGENTINO","EL TRECE","TELEFE","CANAL 9 AR","AMERICA TV AR","TN","BUENOS AIRES"]},
-    "CO": {"flag":"🇨🇴","name":"Colombia","keywords":["COLOMBIA","COLOMBIANO","RCN","CARACOL","CANAL 1 CO","BOGOTA","MEDELLIN"]},
-    "CL": {"flag":"🇨🇱","name":"Chile","keywords":["CHILE","CHILENO","TVN","CANAL 13 CL","CHV","MEGA CL","SANTIAGO DE CHILE"]},
-    "PE": {"flag":"🇵🇪","name":"Perú","keywords":["PERU","PERÚ","PERUANO","LATINA TV","AMERICA TV PE","ATV","LIMA"]},
-    "VE": {"flag":"🇻🇪","name":"Venezuela","keywords":["VENEZUELA","VENEZOLANO","VENEVISION","TELEVEN","GLOBOVISION","CARACAS"]},
-    "BR": {"flag":"🇧🇷","name":"Brasil","keywords":["BRAZIL","BRASIL","BRASILEIRO","GLOBO","SBT","RECORD BR","BAND","SAO PAULO","RIO DE JANEIRO"]},
-    "CA": {"flag":"🇨🇦","name":"Canadá","keywords":["CANADA","CANADIAN","CBC","CTV","TORONTO","MONTREAL","TSN","SPORTSNET"]},
-    "MA": {"flag":"🇲🇦","name":"Marruecos","keywords":["MAROC","MOROCCO","MARRUECOS","2M","SNRT","AL AOULA","CASABLANCA","RABAT","MARRAKECH"]},
-    "DZ": {"flag":"🇩🇿","name":"Argelia","keywords":["ALGERIA","ALGERIE","ARGELIA","ENTV","DZAIR TV","ALGER","ORAN"]},
-    "TN": {"flag":"🇹🇳","name":"Túnez","keywords":["TUNISIA","TUNISIE","TUNEZ","WATANIYA","HANNIBAL TV","NESSMA","TUNIS"]},
-    "EG": {"flag":"🇪🇬","name":"Egipto","keywords":["EGYPT","EGYPTE","EGIPTO","NILE TV","CBC EG","MBC MASR","CAIRO"]},
-    "SA": {"flag":"🇸🇦","name":"Arabia Saudí","keywords":["SAUDI","ARABIA SAUDI","KSA","MBC","ROTANA","AL ARABIYA","RIYADH","MBC 1","MBC 2","MBC 3","MBC 4"]},
-    "AE": {"flag":"🇦🇪","name":"Emiratos","keywords":["UAE","EMIRATOS","EMIRATES","DUBAI","ABU DHABI","SHARJAH"]},
-    "QA": {"flag":"🇶🇦","name":"Qatar","keywords":["QATAR","AL JAZEERA","BEIN SPORTS","DOHA","BEINSPORTS"]},
-    "LB": {"flag":"🇱🇧","name":"Líbano","keywords":["LEBANON","LIBAN","LIBANO","LBC","MTV LIBAN","AL JADEED","BEIRUT"]},
-    "IQ": {"flag":"🇮🇶","name":"Irak","keywords":["IRAQ","IRAK","IRAQIA","AL IRAQIA","BAGHDAD","KURDISTAN"]},
-    "IR": {"flag":"🇮🇷","name":"Irán","keywords":["IRAN","IRANIEN","IRANI","IRIB","TEHRAN"]},
-    "IN": {"flag":"🇮🇳","name":"India","keywords":["INDIA","INDIAN","HINDI","STAR PLUS","ZEE TV","COLORS","SAB TV","BOLLYWOOD","MUMBAI","DELHI"]},
-    "PK": {"flag":"🇵🇰","name":"Pakistán","keywords":["PAKISTAN","PAKISTANI","URDU","GEO TV","ARY DIGITAL","HUM TV","KARACHI","LAHORE"]},
-    "CN": {"flag":"🇨🇳","name":"China","keywords":["CHINA","CHINESE","CCTV","CCTV 1","CCTV 4","PHOENIX TV","BEIJING","SHANGHAI","MANDARIN"]},
-    "JP": {"flag":"🇯🇵","name":"Japón","keywords":["JAPAN","JAPANESE","JAPON","NHK","TV TOKYO","FUJI TV","ANIME","TOKYO JP"]},
-    "KR": {"flag":"🇰🇷","name":"Corea del Sur","keywords":["KOREA","KOREAN","COREA","KBS","MBC KR","SBS KR","SEOUL","KDRAMA","K-DRAMA"]},
-    "NG": {"flag":"🇳🇬","name":"Nigeria","keywords":["NIGERIA","NIGERIAN","CHANNELS TV","NTA","LAGOS","NOLLYWOOD"]},
-    "ZA": {"flag":"🇿🇦","name":"Sudáfrica","keywords":["SOUTH AFRICA","SUDAFRICA","SABC","DSTV","JOHANNESBURG"]},
-    "INTL": {"flag":"🌍","name":"Internacional","keywords":["INTERNATIONAL","INTERNACIONAL","EUROSPORT","EURONEWS","AL JAZEERA ENGLISH","BBC WORLD","CNN INTERNATIONAL","BLOOMBERG","NATIONAL GEOGRAPHIC","HISTORY CHANNEL"]},
+    "ES": ["ESPAÑA","SPAIN","TVE","ANTENA 3","TELECINCO","LA SEXTA","CUATRO","MOVISTAR"],
+    "FR": ["FRANCE","FRANCAIS","TF1","M6","CANAL+ FR"],
+    "GB": ["UK","BBC","ITV","SKY SPORTS","BT SPORT","CHANNEL 4"],
+    "US": ["USA","NBC","CBS","ABC US","FOX US","HBO","CNN","ESPN"],
+    "MX": ["MEXICO","MÉXICO","TELEVISA","AZTECA"],
+    "AR": ["ARGENTINA","TELEFE","EL TRECE","TYC"],
+    "CO": ["COLOMBIA","CARACOL","RCN"],
+    "CL": ["CHILE","TVN","CHV"],
+    "PE": ["PERU","LATINA"],
+    "IT": ["ITALIA","RAI","MEDIASET"],
+    "PT": ["PORTUGAL","RTP","SIC"],
+    "DE": ["GERMANY","ARD","ZDF","RTL DE"]
 }
 
-# ════════════════════════════════════════════════════════════════
-#  CLASE PORTAL — Encapsula toda la lógica de un portal MAG
-# ════════════════════════════════════════════════════════════════
 class StalkerPortal:
-    def __init__(self, portal_cfg: dict):
-        self.id          = portal_cfg.get("id", "portal_unknown")
-        self.name        = portal_cfg.get("name", "Portal sin nombre")
-        self.url         = portal_cfg.get("url", "").rstrip("/")
-        self.mac         = portal_cfg.get("mac", "")
-        self.color       = portal_cfg.get("color", "#e94560")
-        self.enabled     = portal_cfg.get("enabled", True)
-        self.api_url     = self.url + PORTAL_PATH
-        self.token       = ""
-        self.page_size   = 14
-        self.session     = requests.Session()
+    def __init__(self, p_cfg):
+        self.id, self.name, self.url, self.mac = p_cfg["id"], p_cfg["name"], p_cfg["url"].rstrip("/"), p_cfg["mac"]
+        self.color = p_cfg.get("color", "#e94560")
+        self.enabled = p_cfg.get("enabled", True)
+        self.token = ""
+        self.session = requests.Session()
         self.session.verify = False
+        self.device_id = hashlib.md5(self.mac.encode()).hexdigest()[:13].upper()
 
-        # Identificadores del dispositivo MAG
-        self.device_id  = hashlib.md5(self.mac.encode()).hexdigest()[:13].upper()
-        self.device_id2 = hashlib.sha256(self.mac.encode()).hexdigest()[:13].upper()
-        self.serial_num = self.device_id
-        self.signature  = hashlib.md5((self.mac + self.device_id).encode()).hexdigest()
-
-    def build_headers(self) -> dict:
-        return {
-            "User-Agent": "Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 2 rev: 250 Safari/533.3",
+    def safe_get(self, params):
+        headers = {
+            "User-Agent": "Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200",
             "X-User-Agent": "Model: MAG250; Link: WiFi",
-            "Accept": "*/*",
-            "Accept-Language": "en-US,en;q=0.5",
-            "Accept-Encoding": "gzip, deflate",
-            "Connection": "keep-alive",
-            "Referer": f"{self.url}{PORTAL_C}",
-            "Authorization": f"Bearer {self.token}" if self.token else "",
-            "Cookie": f"mac={self.mac}; stb_lang=en; timezone=Europe/Madrid; device_id={self.device_id}; sn={self.serial_num};",
+            "Cookie": f"mac={self.mac}; stb_lang=en; device_id={self.device_id};",
+            "Authorization": f"Bearer {self.token}" if self.token else ""
         }
-
-    def safe_get(self, params: dict):
-        headers = self.build_headers()
-        for attempt in range(1, MAX_RETRIES + 1):
+        for a in range(MAX_RETRIES):
             try:
-                resp = self.session.get(
-                    self.api_url, params=params, headers=headers,
-                    timeout=REQUEST_TIMEOUT, allow_redirects=True
-                )
-                resp.raise_for_status()
-                data = resp.json()
-                return data.get("js", data)
-            except requests.exceptions.Timeout:
-                print(f"    [{self.name}] ⚠ Timeout intento {attempt}/{MAX_RETRIES}")
-            except requests.exceptions.HTTPError as e:
-                print(f"    [{self.name}] ⚠ HTTP {e.response.status_code} intento {attempt}/{MAX_RETRIES}")
-            except json.JSONDecodeError:
-                print(f"    [{self.name}] ⚠ Respuesta no JSON intento {attempt}/{MAX_RETRIES}")
-            except Exception as e:
-                print(f"    [{self.name}] ⚠ Error [{e}] intento {attempt}/{MAX_RETRIES}")
-            if attempt < MAX_RETRIES:
-                time.sleep(RETRY_DELAY)
+                r = self.session.get(self.url + PORTAL_PATH, params=params, headers=headers, timeout=REQUEST_TIMEOUT)
+                return r.json().get("js", r.json())
+            except: time.sleep(2)
         return None
 
-    def authenticate(self) -> bool:
-        print(f"\n  🔐 [{self.name}] Autenticando... (MAC: {self.mac})")
-        result = self.safe_get({
-            "action": "handshake", "type": "stb",
-            "token": "", "JsHttpRequest": "1-xml",
-        })
-        if not result:
-            print(f"  ❌ [{self.name}] Handshake fallido")
-            return False
-        self.token = result.get("token", "")
-        if not self.token:
-            print(f"  ❌ [{self.name}] Sin token en respuesta")
-            return False
-        print(f"  ✅ [{self.name}] Token: {self.token[:20]}...")
+    def authenticate(self):
+        res = self.safe_get({"action": "handshake", "type": "stb", "JsHttpRequest": "1-xml"})
+        if res and "token" in res:
+            self.token = res["token"]
+            self.safe_get({"action": "get_profile", "type": "stb", "id": self.mac, "JsHttpRequest": "1-xml"})
+            return True
+        return False
 
-        profile = self.safe_get({
-            "action": "get_profile", "type": "stb",
-            "id": self.mac, "JsHttpRequest": "1-xml",
-            "hw_version": "2.0.0", "sn": self.serial_num,
-            "device_id": self.device_id, "device_id2": self.device_id2,
-            "signature": self.signature, "auth_second_step_token": "",
-        })
-        if profile:
-            print(f"  ✅ [{self.name}] Perfil: estado={profile.get('status','?')} expira={profile.get('end_date','?')}")
-        return True
-
-    def detect_page_size(self) -> int:
-        print(f"\n  🔍 [{self.name}] Detectando PAGE_SIZE óptimo...")
-        for size in PAGE_SIZES_TO_TRY:
-            result = self.safe_get({
-                "action": "get_ordered_list", "type": "itv",
-                "genre": "*", "p": "1", "perpage": str(size),
-                "fav": "0", "sortby": "name", "JsHttpRequest": "1-xml",
-            })
-            if not result:
-                continue
-            items = result.get("data", []) if isinstance(result, dict) else result
-            total = int(result.get("total_items", 0)) if isinstance(result, dict) else len(items)
-            received = len(items)
-            if received == 0:
-                continue
-            if received >= size or received == total:
-                print(f"  ✅ [{self.name}] PAGE_SIZE = {size}")
-                return size
-        return 14
-
-    def paginated_fetch(self, params_base: dict) -> list:
-        all_items   = []
-        page        = 1
-        empty_pages = 0
-
-        while True:
-            params = {**params_base, "p": str(page), "perpage": str(self.page_size)}
-            result = self.safe_get(params)
-            if not result:
-                empty_pages += 1
-                if empty_pages >= 3:
-                    break
-                time.sleep(RETRY_DELAY)
-                continue
-
-            items = result.get("data", []) if isinstance(result, dict) else result
-            total = int(result.get("total_items", 0)) if isinstance(result, dict) else 0
-
-            if not items:
-                empty_pages += 1
-                if empty_pages >= 3:
-                    break
-                page += 1
-                continue
-
-            empty_pages = 0
-            all_items.extend(items)
-            pct = (len(all_items) / total * 100) if total > 0 else 0
-            print(f"      [{self.name}] 📄 Pág {page:>3}: +{len(items):>4} │ {len(all_items):>5}/{total:<6} │ {pct:.0f}%")
-
-            if total > 0 and len(all_items) >= total:
-                break
-            if len(items) < self.page_size:
-                break
-            page += 1
-            time.sleep(0.15 if self.page_size >= 100 else 0.4)
-
-        return all_items
-
-    def resolve_stream_url(self, cmd: str, content_type: str, item_id: str) -> str:
-        if not cmd:
-            return ""
-        if cmd.startswith("http://") or cmd.startswith("https://"):
-            return cmd.strip()
-        result = self.safe_get({
-            "action": "create_link", "type": content_type,
-            "cmd": cmd, "series": "0",
-            "forced_storage": "undefined", "disable_ad": "0",
-            "JsHttpRequest": "1-xml",
-        })
-        if not result:
-            return f"{self.url}{cmd}" if cmd.startswith("/") else cmd
-        if isinstance(result, dict):
-            resolved = result.get("cmd", result.get("url", ""))
-            if resolved:
-                url_match = re.search(r'(https?://\S+)', resolved)
-                if url_match:
-                    return url_match.group(1).strip()
-                return resolved.strip()
-        return ""
-
-    def fetch_live_tv(self) -> list:
-        print(f"\n  📺 [{self.name}] Extrayendo TV en Vivo...")
-        genres_result = self.safe_get({"action":"get_genres","type":"itv","JsHttpRequest":"1-xml"})
-        genres = []
-        if isinstance(genres_result, list): genres = genres_result
-        elif isinstance(genres_result, dict): genres = genres_result.get("data", [])
-        if not any(g.get("id") == "*" for g in genres):
-            genres.insert(0, {"id": "*", "title": "All"})
-
-        channels  = []
-        seen_ids  = set()
-        for genre in genres:
-            genre_id    = genre.get("id", "*")
-            genre_title = genre.get("title", "General")
-            items = self.paginated_fetch({
-                "action": "get_ordered_list", "type": "itv",
-                "genre": genre_id, "force_ch_link_check": "",
-                "fav": "0", "sortby": "name", "JsHttpRequest": "1-xml",
-            })
-            for ch in items:
-                ch_id = ch.get("id", "")
-                if ch_id in seen_ids: continue
-                seen_ids.add(ch_id)
-                name    = clean_name(ch.get("name", ch.get("title", "Canal")))
-                channels.append({
-                    "type":       "live",
-                    "id":         f"{self.id}_{ch_id}",
-                    "name":       name,
-                    "logo":       ch.get("logo", ch.get("tv_logo", "")),
-                    "url":        self.resolve_stream_url(ch.get("cmd",""), "itv", ch_id),
-                    "group":      genre_title,
-                    "lang":       detect_language(f"{name} {genre_title}"),
-                    "country":    detect_country(name, genre_title, ch.get("country","")),
-                    "epg_id":     ch.get("xmltv_id", ch.get("epg_id", "")),
-                    "portal_id":  self.id,
-                    "portal_name":self.name,
-                    "portal_color":self.color,
-                })
-        print(f"  ✅ [{self.name}] Canales en vivo: {len(channels)}")
-        return channels
-
-    def fetch_movies(self) -> list:
-        print(f"\n  🎬 [{self.name}] Extrayendo Películas...")
-        cats_result = self.safe_get({"action":"get_categories","type":"vod","JsHttpRequest":"1-xml"})
-        cats = []
-        if isinstance(cats_result, list): cats = cats_result
-        elif isinstance(cats_result, dict): cats = cats_result.get("data", [])
-        if not cats: cats = [{"id": "*", "title": "Películas"}]
-
-        movies   = []
-        seen_ids = set()
-        for cat in cats:
-            cat_id    = cat.get("id", "*")
-            cat_title = cat.get("title", cat.get("name", "Películas"))
-            items = self.paginated_fetch({
-                "action": "get_ordered_list", "type": "vod",
-                "category": cat_id, "sortby": "added",
-                "fav": "0", "JsHttpRequest": "1-xml",
-            })
-            for movie in items:
-                mid = movie.get("id", "")
-                if mid in seen_ids: continue
-                seen_ids.add(mid)
-                name = clean_name(movie.get("name", movie.get("o_name", "Película")))
-                movies.append({
-                    "type":         "movie",
-                    "id":           f"{self.id}_{mid}",
-                    "name":         name,
-                    "logo":         movie.get("screenshot_uri", movie.get("logo", movie.get("poster",""))),
-                    "url":          self.resolve_stream_url(movie.get("cmd",""), "vod", mid),
-                    "group":        cat_title,
-                    "lang":         detect_language(f"{name} {cat_title}"),
-                    "country":      detect_country(name, cat_title, movie.get("country","")),
-                    "description":  movie.get("description", movie.get("desc","")),
-                    "year":         movie.get("year",""),
-                    "director":     movie.get("director",""),
-                    "actors":       movie.get("actors", movie.get("cast","")),
-                    "rating":       movie.get("rating_imdb", movie.get("rating","")),
-                    "duration":     movie.get("time", movie.get("duration","")),
-                    "genres":       movie.get("genres_str", movie.get("genre","")),
-                    "portal_id":    self.id,
-                    "portal_name":  self.name,
-                    "portal_color": self.color,
-                })
-        print(f"  ✅ [{self.name}] Películas: {len(movies)}")
-        return movies
-
-    def fetch_series(self) -> list:
-        print(f"\n  📺 [{self.name}] Extrayendo Series (rastreo profundo)...")
-        cats_result = self.safe_get({"action":"get_categories","type":"series","JsHttpRequest":"1-xml"})
-        cats = []
-        if isinstance(cats_result, list): cats = cats_result
-        elif isinstance(cats_result, dict): cats = cats_result.get("data", [])
-        if not cats: cats = [{"id": "*", "title": "Series"}]
-
-        episodes_list = []
-        for cat in cats:
-            cat_id    = cat.get("id", "*")
-            cat_title = cat.get("title", cat.get("name", "Series"))
-            series_items = self.paginated_fetch({
-                "action": "get_ordered_list", "type": "series",
-                "category": cat_id, "sortby": "added",
-                "fav": "0", "JsHttpRequest": "1-xml",
-            })
-            for serie in series_items:
-                serie_id   = serie.get("id", "")
-                serie_name = clean_name(serie.get("name", serie.get("title", "Serie")))
-                serie_logo = serie.get("screenshot_uri", serie.get("logo", serie.get("poster","")))
-                lang       = detect_language(f"{serie_name} {cat_title}")
-                country    = detect_country(serie_name, cat_title, serie.get("country",""))
-
-                seasons_result = self.safe_get({
-                    "action": "get_seasons", "type": "series",
-                    "series_id": serie_id, "JsHttpRequest": "1-xml",
-                })
-                seasons = []
-                if isinstance(seasons_result, list): seasons = seasons_result
-                elif isinstance(seasons_result, dict):
-                    seasons = seasons_result.get("data", seasons_result.get("seasons", []))
-                if not seasons: seasons = [{"id": "0", "name": "Temporada 1"}]
-
-                for season in seasons:
-                    season_id   = season.get("id", "0")
-                    season_name = season.get("name", season.get("title", f"Temporada {season_id}"))
-                    season_num  = season.get("number", season_id)
-
-                    episodes = self.paginated_fetch({
-                        "action": "get_ordered_list", "type": "series",
-                        "series_id": serie_id, "season_id": season_id,
-                        "episode_id": "0", "fav": "0",
-                        "sortby": "added", "JsHttpRequest": "1-xml",
-                    })
-                    for ep in episodes:
-                        ep_id   = ep.get("id", "")
-                        ep_name = ep.get("name", ep.get("title", f"Episodio {ep_id}"))
-                        ep_num  = ep.get("episode_num", ep.get("number", ""))
-                        episodes_list.append({
-                            "type":         "series",
-                            "id":           f"{self.id}_{ep_id}",
-                            "serie_id":     f"{self.id}_{serie_id}",
-                            "serie_name":   serie_name,
-                            "name":         f"{serie_name} · {season_name} · E{ep_num} - {ep_name}",
-                            "logo":         serie_logo,
-                            "url":          self.resolve_stream_url(ep.get("cmd",""), "series", ep_id),
-                            "group":        f"SERIES · {cat_title}",
-                            "lang":         lang,
-                            "country":      country,
-                            "description":  serie.get("description", serie.get("desc","")),
-                            "year":         serie.get("year",""),
-                            "director":     serie.get("director",""),
-                            "actors":       serie.get("actors", serie.get("cast","")),
-                            "rating":       serie.get("rating_imdb", serie.get("rating","")),
-                            "genres":       serie.get("genres_str", serie.get("genre","")),
-                            "season":       str(season_num),
-                            "episode":      str(ep_num),
-                            "season_name":  season_name,
-                            "ep_name":      ep_name,
-                            "portal_id":    self.id,
-                            "portal_name":  self.name,
-                            "portal_color": self.color,
-                        })
-                    time.sleep(0.2)
-                time.sleep(0.3)
-
-        print(f"  ✅ [{self.name}] Episodios: {len(episodes_list)}")
-        return episodes_list
-
-    def scrape_all(self) -> list:
-        """Scraping completo de un portal. Devuelve todos los items."""
-        if not self.enabled:
-            print(f"\n⏭  [{self.name}] Portal desactivado, omitiendo.")
-            return []
-
-        print(f"\n{'='*60}")
-        print(f"  🚀 Iniciando scraping: {self.name}")
-        print(f"     URL: {self.url}")
-        print(f"     MAC: {self.mac}")
-        print(f"{'='*60}")
-
-        if not self.authenticate():
-            print(f"  ❌ [{self.name}] Autenticación fallida, omitiendo portal.")
-            return []
-
-        self.page_size = self.detect_page_size()
+    def fetch_items(self, itype):
+        action = "get_ordered_list"
         items = []
+        # Obtenemos categorías
+        cats_res = self.safe_get({"action": "get_categories" if itype != "itv" else "get_genres", "type": itype, "JsHttpRequest": "1-xml"})
+        cats = cats_res if isinstance(cats_res, list) else cats_res.get("data", []) if isinstance(cats_res, dict) else []
+        if not cats: cats = [{"id": "*", "title": "General"}]
+        
+        for cat in cats:
+            p = {"action": action, "type": itype, "JsHttpRequest": "1-xml", "p": 1, "perpage": 100}
+            p["category" if itype != "itv" else "genre"] = cat.get("id", "*")
+            res = self.safe_get(p)
+            data = res.get("data", []) if isinstance(res, dict) else res if isinstance(res, list) else []
+            for item in data:
+                name = item.get("name", item.get("title", "Unknown"))
+                lang = "OTHER"
+                for l, kws in LANGUAGE_KEYWORDS.items():
+                    if any(re.search(r'\b'+re.escape(k)+r'\b', name.upper()) for k in kws): lang = l; break
+                
+                ctry = "OTHER"
+                for c, kws in COUNTRY_KEYWORDS.items():
+                    if any(k in name.upper() for k in kws): ctry = c; break
 
-        try:
-            items.extend(self.fetch_live_tv())
-        except Exception as e:
-            print(f"  ⚠ [{self.name}] Error TV en Vivo: {e}")
-
-        try:
-            items.extend(self.fetch_movies())
-        except Exception as e:
-            print(f"  ⚠ [{self.name}] Error Películas: {e}")
-
-        try:
-            items.extend(self.fetch_series())
-        except Exception as e:
-            print(f"  ⚠ [{self.name}] Error Series: {e}")
-
-        print(f"\n  ✅ [{self.name}] Total items: {len(items)}")
+                items.append({
+                    "type": "live" if itype == "itv" else "movie" if itype == "vod" else "series",
+                    "id": f"{self.id}_{item.get('id')}",
+                    "name": name,
+                    "logo": item.get("logo", item.get("tv_logo", item.get("poster", ""))),
+                    "url": item.get("cmd", ""),
+                    "group": cat.get("title", cat.get("name", "General")),
+                    "lang": lang,
+                    "country": ctry,
+                    "portal_id": self.id,
+                    "portal_name": self.name,
+                    "portal_color": self.color
+                })
         return items
 
-
-# ════════════════════════════════════════════════════════════════
-#  FUNCIONES AUXILIARES GLOBALES
-# ════════════════════════════════════════════════════════════════
-def clean_name(name: str) -> str:
-    if not name: return "Sin nombre"
-    return name.strip().replace(",", " -").replace('"', "'")
-
-def detect_language(text: str) -> str:
-    upper = text.upper()
-    for lang, keywords in LANGUAGE_KEYWORDS.items():
-        for kw in keywords:
-            pattern = r'(?:^|[\s|\-_\[\]():,])' + re.escape(kw) + r'(?:$|[\s|\-_\[\]():,])'
-            if re.search(pattern, upper):
-                return lang
-    return "OTHER"
-
-def detect_country(name: str, group: str = "", country_field: str = "") -> str:
-    if country_field:
-        upper_cf = country_field.upper().strip()
-        for code, data in COUNTRY_KEYWORDS.items():
-            if upper_cf == code or upper_cf == data["name"].upper():
-                return code
-    search_text = f"{name} {group}".upper()
-    for code, data in COUNTRY_KEYWORDS.items():
-        for kw in data["keywords"]:
-            if not kw: continue
-            pattern = r'(?:^|[\s|\-_\[\]():,./+])' + re.escape(kw) + r'(?:$|[\s|\-_\[\]():,./+])'
-            if re.search(pattern, search_text):
-                return code
-    return "OTHER"
-
-def load_portals() -> list:
-    """Carga los portales desde portals.json o variables de entorno."""
-    portals = []
-
-    # Primero intentar cargar desde portals.json
-    if os.path.exists(PORTALS_FILE):
-        try:
-            with open(PORTALS_FILE, "r", encoding="utf-8") as f:
-                portals = json.load(f)
-            print(f"✅ Portales cargados desde {PORTALS_FILE}: {len(portals)}")
-        except Exception as e:
-            print(f"⚠ Error leyendo {PORTALS_FILE}: {e}")
-
-    # Si hay variables de entorno, añadir/sobreescribir portal 1
-    env_url = os.environ.get("PORTAL_URL", "")
-    env_mac = os.environ.get("MAC_ADDRESS", "")
-    if env_url and env_mac:
-        env_portal = {
-            "id":      "portal_env",
-            "name":    "Portal (env variable)",
-            "url":     env_url,
-            "mac":     env_mac,
-            "enabled": True,
-            "color":   "#e94560"
-        }
-        # Si ya existe en el JSON, actualizarlo; si no, añadirlo
-        existing = next((p for p in portals if p.get("url") == env_url), None)
-        if not existing:
-            portals.insert(0, env_portal)
-            print(f"✅ Portal añadido desde variables de entorno: {env_url}")
-
-    if not portals:
-        print("❌ No se encontraron portales configurados.")
-        print("   Crea portals.json con la configuración de tus portales.")
-        sys.exit(1)
-
-    enabled = [p for p in portals if p.get("enabled", True)]
-    print(f"📡 Portales activos: {len(enabled)}/{len(portals)}")
-    return portals
-
-def generate_m3u(all_items: list, portals: list) -> str:
-    portal_names = {p["id"]: p["name"] for p in portals}
-    lines = [
-        "#EXTM3U",
-        f"# Generado: {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}",
-        f"# Portales: {', '.join(portal_names.values())}",
-        f"# Total items: {len(all_items)}",
-        "",
-    ]
-    for item in all_items:
-        if not item.get("url"): continue
-        lang        = item.get("lang", "OTHER")
-        country     = item.get("country", "OTHER")
-        itype       = item.get("type", "live")
-        portal_name = item.get("portal_name", "")
-
-        if itype == "live":
-            group = f"TV · {item.get('group','General')} · {lang} · {country} · {portal_name}"
-        elif itype == "movie":
-            group = f"PELICULAS · {item.get('group','Películas')} · {lang} · {country} · {portal_name}"
-        else:
-            group = f"SERIES · {item.get('group','Series')} · {lang} · {country} · {portal_name}"
-
-        extinf = (
-            f'#EXTINF:-1 tvg-id="{item.get("epg_id","")}" '
-            f'tvg-logo="{item.get("logo","")}" '
-            f'group-title="{group}"'
-        )
-        if itype in ("movie","series"):
-            if item.get("year"):    extinf += f' tvg-year="{item["year"]}"'
-            if item.get("director"):extinf += f' tvg-director="{item["director"]}"'
-            if item.get("rating"):  extinf += f' tvg-rating="{item["rating"]}"'
-
-        lines.extend([extinf, item.get("name","Sin nombre"), item["url"], ""])
-    return "\n".join(lines)
-
-def generate_stats(all_items: list, portals: list) -> dict:
-    live   = [i for i in all_items if i["type"]=="live"]
-    movies = [i for i in all_items if i["type"]=="movie"]
-    series = [i for i in all_items if i["type"]=="series"]
-
-    langs     = {}
-    countries = {}
-    by_portal = {}
-
-    for item in all_items:
-        l = item.get("lang","OTHER");    langs[l]     = langs.get(l,0)+1
-        c = item.get("country","OTHER"); countries[c] = countries.get(c,0)+1
-        p = item.get("portal_name","?"); by_portal[p] = by_portal.get(p,0)+1
-
-    return {
-        "live_channels": len(live),
-        "movies":        len(movies),
-        "series":        len(set(i.get("serie_name","") for i in series)),
-        "episodes":      len(series),
-        "languages":     langs,
-        "countries":     countries,
-        "by_portal":     by_portal,
-        "portals":       [{"id":p["id"],"name":p["name"],"color":p["color"],"enabled":p["enabled"]} for p in portals],
-        "total":         len(all_items),
-    }
-
-# ════════════════════════════════════════════════════════════════
-#  MAIN
-# ════════════════════════════════════════════════════════════════
 def main():
-    print("="*65)
-    print("  🚀 Stalker MAC Multi-Portal → M3U Scraper")
-    print(f"  📅 {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}")
-    print("="*65)
-
-    # Cargar configuración de portales
-    portals_cfg = load_portals()
-    enabled     = [p for p in portals_cfg if p.get("enabled", True)]
-
-    if not enabled:
-        print("❌ No hay portales activos.")
-        sys.exit(1)
-
-    # Scraping de cada portal (secuencial para no saturar)
+    if not os.path.exists(PORTALS_FILE): return
+    with open(PORTALS_FILE, "r") as f: portals_cfg = json.load(f)
+    
     all_items = []
-    for portal_cfg in enabled:
-        portal = StalkerPortal(portal_cfg)
-        items  = portal.scrape_all()
-        all_items.extend(items)
+    active_portals = [p for p in portals_cfg if p.get("enabled")]
+    
+    for p_cfg in active_portals:
+        p = StalkerPortal(p_cfg)
+        if p.authenticate():
+            all_items.extend(p.fetch_items("itv"))
+            all_items.extend(p.fetch_items("vod"))
+            all_items.extend(p.fetch_items("series"))
+            
+    with open("metadata.json", "w", encoding="utf-8") as f:
+        json.dump({"generated": datetime.now().strftime("%Y-%m-%d %H:%M"), "items": all_items}, f, ensure_ascii=False, indent=2)
 
-    # Estadísticas finales
-    stats = generate_stats(all_items, portals_cfg)
-    print("\n"+"="*65)
-    print("  📊 RESUMEN FINAL")
-    print("="*65)
-    print(f"  📡 Portales procesados : {len(enabled)}")
-    print(f"  📺 Canales en vivo     : {stats['live_channels']}")
-    print(f"  🎬 Películas           : {stats['movies']}")
-    print(f"  📺 Series únicas       : {stats['series']}")
-    print(f"  📌 Episodios           : {stats['episodes']}")
-    print(f"  📁 TOTAL               : {stats['total']}")
-    print(f"\n  Por portal:")
-    for pname, count in stats["by_portal"].items():
-        print(f"     {pname}: {count} items")
-    print("="*65)
-
-    if not all_items:
-        print("⚠ No se extrajeron items.")
-        sys.exit(1)
-
-    # Guardar archivos
-    m3u = generate_m3u(all_items, portals_cfg)
-    with open("playlist.m3u","w",encoding="utf-8") as f: f.write(m3u)
-    print(f"\n✅ playlist.m3u  ({len(m3u):,} bytes)")
-
-    metadata = {"generated":datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),"portals":[p["name"] for p in enabled],"total":len(all_items),"items":all_items}
-    with open("metadata.json","w",encoding="utf-8") as f: json.dump(metadata,f,ensure_ascii=False,indent=2)
-    print(f"✅ metadata.json ({len(json.dumps(metadata)):,} bytes)")
-
-    stats["generated"] = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
-    with open("stats.json","w",encoding="utf-8") as f: json.dump(stats,f,ensure_ascii=False,indent=2)
-    print("✅ stats.json")
-    print("\n🎉 ¡Proceso completado!")
-
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__": main()
