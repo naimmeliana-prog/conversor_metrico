@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>📡 Mi IPTV Dashboard</title>
   <style>
-    /* ═══════════════════════════════════════════════
-       VARIABLES Y RESET
-    ═══════════════════════════════════════════════ */
     :root {
       --bg-dark:      #0a0a0f;
       --bg-card:      #12121e;
@@ -31,45 +28,29 @@
       --shadow:       0 8px 32px rgba(0,0,0,0.6);
       --shadow-lg:    0 20px 60px rgba(0,0,0,0.8);
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       background: var(--bg-dark);
       color: var(--text);
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: 'Segoe UI', system-ui, sans-serif;
       min-height: 100vh;
-      overflow-x: hidden;
     }
-
-    /* ═══════════════════════════════════════════════
-       SCROLLBAR PERSONALIZADO
-    ═══════════════════════════════════════════════ */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg-dark); }
     ::-webkit-scrollbar-thumb { background: var(--accent2); border-radius: 3px; }
 
-    /* ═══════════════════════════════════════════════
-       HEADER
-    ═══════════════════════════════════════════════ */
+    /* ── HEADER ── */
     header {
-      background: linear-gradient(135deg, #0f0f1a 0%, #1a0a2e 50%, #0f1a2e 100%);
+      background: linear-gradient(135deg,#0f0f1a 0%,#1a0a2e 50%,#0f1a2e 100%);
       padding: 1rem 1.5rem;
       border-bottom: 1px solid var(--border);
       position: sticky; top: 0; z-index: 100;
-      backdrop-filter: blur(10px);
     }
-
     .header-content {
       max-width: 1800px; margin: 0 auto;
-      display: flex; align-items: center;
-      gap: 1rem; flex-wrap: wrap;
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
     }
-
-    .logo {
-      display: flex; align-items: center; gap: 0.75rem;
-      flex-shrink: 0;
-    }
+    .logo { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
     .logo-icon {
       width: 40px; height: 40px;
       background: linear-gradient(135deg, var(--accent), var(--accent3));
@@ -82,12 +63,8 @@
       background: linear-gradient(135deg, var(--text), #aaa);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .logo .subtitle {
-      font-size: 0.68rem; color: var(--text-muted);
-      margin-top: 0.1rem;
-    }
+    .logo .subtitle { font-size: 0.68rem; color: var(--text-muted); margin-top: 0.1rem; }
 
-    /* M3U URL box */
     .m3u-url-box {
       display: flex; align-items: center; gap: 0.5rem;
       background: rgba(255,255,255,0.04);
@@ -96,36 +73,19 @@
       padding: 0.45rem 0.75rem;
       flex: 1; min-width: 250px; max-width: 550px;
     }
-    .m3u-url-box label {
-      font-size: 0.65rem; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 0.08em;
-      white-space: nowrap;
-    }
+    .m3u-url-box label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; white-space: nowrap; }
     .m3u-url-box input {
       background: none; border: none; color: var(--accent);
       font-family: monospace; font-size: 0.75rem;
-      flex: 1; outline: none; cursor: pointer;
-      min-width: 0;
+      flex: 1; outline: none; cursor: pointer; min-width: 0;
     }
 
-    /* Stats */
-    .stats-row {
-      display: flex; gap: 1.2rem; flex-wrap: wrap; align-items: center;
-    }
+    .stats-row { display: flex; gap: 1.2rem; flex-wrap: wrap; align-items: center; }
     .stat-item { text-align: center; }
-    .stat-num {
-      font-size: 1.2rem; font-weight: 700;
-      line-height: 1;
-    }
-    .stat-label {
-      font-size: 0.62rem; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 0.05em;
-      margin-top: 0.1rem;
-    }
+    .stat-num { font-size: 1.2rem; font-weight: 700; line-height: 1; }
+    .stat-label { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; margin-top: 0.1rem; }
 
-    /* Header buttons */
     .header-actions { display: flex; gap: 0.5rem; align-items: center; margin-left: auto; }
-
     .btn-icon {
       background: rgba(255,255,255,0.06);
       border: 1px solid var(--border);
@@ -135,349 +95,200 @@
       display: flex; align-items: center; gap: 0.4rem;
       transition: all 0.2s; white-space: nowrap;
     }
-    .btn-icon:hover {
-      background: rgba(255,255,255,0.1);
-      border-color: var(--border-focus);
-    }
-    .btn-icon.primary {
-      background: var(--accent);
-      border-color: var(--accent); color: white;
-    }
+    .btn-icon:hover { background: rgba(255,255,255,0.1); border-color: var(--border-focus); }
+    .btn-icon.primary { background: var(--accent); border-color: var(--accent); color: white; }
     .btn-icon.primary:hover { background: var(--accent-hover); }
 
-    /* Badge de estado de configuración */
     .config-status {
       display: flex; align-items: center; gap: 0.4rem;
-      padding: 0.35rem 0.75rem;
-      border-radius: 20px; font-size: 0.72rem; font-weight: 600;
-      border: 1px solid;
+      padding: 0.35rem 0.75rem; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 600; border: 1px solid;
     }
     .config-status.configured {
-      background: rgba(78,204,163,0.1);
-      border-color: rgba(78,204,163,0.3);
-      color: var(--success);
+      background: rgba(78,204,163,0.1); border-color: rgba(78,204,163,0.3); color: var(--success);
     }
     .config-status.not-configured {
-      background: rgba(233,69,96,0.1);
-      border-color: rgba(233,69,96,0.3);
-      color: var(--accent);
+      background: rgba(233,69,96,0.1); border-color: rgba(233,69,96,0.3); color: var(--accent);
     }
-    .status-dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: currentColor;
-    }
-    .status-dot.pulse {
-      animation: pulse-dot 1.5s ease-in-out infinite;
-    }
-    @keyframes pulse-dot {
-      0%,100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.8); }
-    }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .status-dot.pulse { animation: pulse-dot 1.5s ease-in-out infinite; }
+    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
 
-    /* ═══════════════════════════════════════════════
-       MODAL DE CONFIGURACIÓN
-    ═══════════════════════════════════════════════ */
+    /* ── OVERLAYS ── */
     .overlay {
       display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.88);
-      z-index: 1000;
+      background: rgba(0,0,0,0.88); z-index: 1000;
       justify-content: center; align-items: flex-start;
-      padding: 2rem 1rem;
-      overflow-y: auto;
+      padding: 2rem 1rem; overflow-y: auto;
     }
     .overlay.open { display: flex; }
 
+    /* ── MODAL CONFIG ── */
     .config-modal {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      width: 100%; max-width: 680px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); width: 100%; max-width: 680px;
       box-shadow: var(--shadow-lg);
       animation: slide-in 0.3s cubic-bezier(0.34,1.56,0.64,1);
-      overflow: hidden;
-      margin: auto;
+      overflow: hidden; margin: auto;
     }
     @keyframes slide-in {
-      from { opacity: 0; transform: translateY(-30px) scale(0.96); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+      from{opacity:0;transform:translateY(-30px) scale(0.96)}
+      to{opacity:1;transform:translateY(0) scale(1)}
     }
-
     .config-modal-header {
       background: linear-gradient(135deg, var(--accent2), var(--accent3));
       padding: 1.5rem;
       display: flex; justify-content: space-between; align-items: flex-start;
     }
-    .config-modal-header h2 {
-      font-size: 1.15rem; font-weight: 700;
-    }
-    .config-modal-header p {
-      font-size: 0.78rem; color: rgba(255,255,255,0.65);
-      margin-top: 0.3rem; line-height: 1.4;
-    }
+    .config-modal-header h2 { font-size: 1.15rem; font-weight: 700; }
+    .config-modal-header p { font-size: 0.78rem; color: rgba(255,255,255,0.65); margin-top: 0.3rem; line-height: 1.4; }
     .modal-close-btn {
       background: rgba(255,255,255,0.1); border: none; color: white;
       width: 30px; height: 30px; border-radius: 50%;
       cursor: pointer; font-size: 1rem;
       display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; margin-left: 1rem;
-      transition: background 0.2s;
+      flex-shrink: 0; margin-left: 1rem; transition: background 0.2s;
     }
     .modal-close-btn:hover { background: rgba(255,255,255,0.25); }
-
     .config-modal-body { padding: 1.5rem; }
 
-    /* Secciones del form */
     .config-section {
       margin-bottom: 1.5rem;
       background: rgba(255,255,255,0.02);
       border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 1.2rem;
+      border-radius: var(--radius-sm); padding: 1.2rem;
     }
     .config-section-title {
       font-size: 0.72rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.1em;
       color: var(--accent); margin-bottom: 1rem;
-      display: flex; align-items: center; gap: 0.5rem;
     }
-
     .form-group { margin-bottom: 1rem; }
     .form-group:last-child { margin-bottom: 0; }
-
     .form-group label {
       display: block; font-size: 0.78rem; font-weight: 600;
       color: var(--text); margin-bottom: 0.4rem;
     }
-    .form-group label span {
-      font-size: 0.68rem; font-weight: 400;
-      color: var(--text-muted); margin-left: 0.4rem;
-    }
-
+    .form-group label span { font-size: 0.68rem; font-weight: 400; color: var(--text-muted); margin-left: 0.4rem; }
     .form-input {
-      width: 100%;
-      background: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--text);
-      padding: 0.65rem 0.9rem;
-      font-size: 0.88rem; font-family: inherit;
-      outline: none;
+      width: 100%; background: var(--bg-input);
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      color: var(--text); padding: 0.65rem 0.9rem;
+      font-size: 0.88rem; font-family: inherit; outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .form-input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(233,69,96,0.12);
-    }
+    .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(233,69,96,0.12); }
     .form-input::placeholder { color: var(--text-muted); }
     .form-input.mono { font-family: 'Courier New', monospace; font-size: 0.85rem; }
-
-    .form-row {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
-    }
-    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
-
-    /* Input con ícono de ojo para campos de contraseña */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
     .input-wrapper { position: relative; }
     .input-wrapper .form-input { padding-right: 2.5rem; }
     .toggle-eye {
       position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
-      background: none; border: none; cursor: pointer;
-      color: var(--text-muted); font-size: 0.9rem; padding: 0;
+      background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 0.9rem;
     }
     .toggle-eye:hover { color: var(--text); }
-
-    .form-hint {
-      font-size: 0.72rem; color: var(--text-muted);
-      margin-top: 0.3rem; line-height: 1.4;
-    }
+    .form-hint { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.4; }
     .form-hint a { color: var(--accent); text-decoration: none; }
     .form-hint a:hover { text-decoration: underline; }
-
-    /* Preview de MAC */
-    .mac-preview {
-      display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap;
-    }
+    .mac-preview { display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap; }
     .mac-octet {
       background: rgba(233,69,96,0.1); border: 1px solid rgba(233,69,96,0.3);
       border-radius: 4px; padding: 0.15rem 0.4rem;
-      font-family: monospace; font-size: 0.75rem; color: var(--accent);
-      min-width: 28px; text-align: center;
+      font-family: monospace; font-size: 0.75rem; color: var(--accent); min-width: 28px; text-align: center;
     }
-
-    /* Test de conexión */
     .test-connection-btn {
       width: 100%; padding: 0.6rem;
-      background: rgba(255,255,255,0.04);
-      border: 1px dashed var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--text-muted); cursor: pointer;
-      font-size: 0.82rem; font-weight: 600;
-      transition: all 0.2s; margin-top: 0.75rem;
+      background: rgba(255,255,255,0.04); border: 1px dashed var(--border);
+      border-radius: var(--radius-sm); color: var(--text-muted); cursor: pointer;
+      font-size: 0.82rem; font-weight: 600; transition: all 0.2s; margin-top: 0.75rem;
       display: flex; align-items: center; justify-content: center; gap: 0.5rem;
     }
-    .test-connection-btn:hover {
-      background: rgba(78,204,163,0.08);
-      border-color: var(--success); color: var(--success);
-    }
-
+    .test-connection-btn:hover { background: rgba(78,204,163,0.08); border-color: var(--success); color: var(--success); }
     .connection-result {
       margin-top: 0.75rem; padding: 0.65rem 0.9rem;
-      border-radius: var(--radius-sm); font-size: 0.8rem;
-      display: none; line-height: 1.4;
+      border-radius: var(--radius-sm); font-size: 0.8rem; display: none; line-height: 1.4;
     }
-    .connection-result.success {
-      background: rgba(78,204,163,0.1);
-      border: 1px solid rgba(78,204,163,0.3);
-      color: var(--success); display: block;
-    }
-    .connection-result.error {
-      background: rgba(233,69,96,0.1);
-      border: 1px solid rgba(233,69,96,0.3);
-      color: var(--accent); display: block;
-    }
-    .connection-result.loading {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      color: var(--text-muted); display: block;
-    }
+    .connection-result.success { background:rgba(78,204,163,0.1);border:1px solid rgba(78,204,163,0.3);color:var(--success);display:block; }
+    .connection-result.error   { background:rgba(233,69,96,0.1);border:1px solid rgba(233,69,96,0.3);color:var(--accent);display:block; }
+    .connection-result.loading { background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text-muted);display:block; }
 
-    /* Botones del modal */
     .config-modal-footer {
-      padding: 1rem 1.5rem;
-      border-top: 1px solid var(--border);
+      padding: 1rem 1.5rem; border-top: 1px solid var(--border);
       display: flex; gap: 0.75rem; justify-content: flex-end;
       background: rgba(0,0,0,0.2);
     }
-
     .btn {
       padding: 0.65rem 1.4rem; border-radius: var(--radius-sm);
       border: none; cursor: pointer; font-size: 0.88rem; font-weight: 600;
       transition: all 0.2s; display: flex; align-items: center; gap: 0.4rem;
     }
-    .btn-secondary {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border); color: var(--text);
-    }
+    .btn-secondary { background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text); }
     .btn-secondary:hover { background: rgba(255,255,255,0.1); }
-    .btn-primary {
-      background: var(--accent); color: white;
-    }
+    .btn-primary { background: var(--accent); color: white; }
     .btn-primary:hover { background: var(--accent-hover); }
-    .btn-success {
-      background: var(--success); color: #000;
-    }
-    .btn-success:hover { filter: brightness(0.9); }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* ═══════════════════════════════════════════════
-       MODAL DE TRIGGER (Ejecutar Actualización)
-    ═══════════════════════════════════════════════ */
+    /* ── MODAL RUN ── */
     .run-modal {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      width: 100%; max-width: 480px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); width: 100%; max-width: 480px;
       box-shadow: var(--shadow-lg);
       animation: slide-in 0.3s cubic-bezier(0.34,1.56,0.64,1);
-      overflow: hidden;
-      margin: auto;
+      overflow: hidden; margin: auto;
     }
-
     .run-modal-header {
-      padding: 1.2rem 1.5rem;
-      border-bottom: 1px solid var(--border);
+      padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border);
       display: flex; justify-content: space-between; align-items: center;
     }
     .run-modal-header h3 { font-size: 1rem; }
-
     .run-modal-body { padding: 1.5rem; }
-
-    .run-status-box {
-      text-align: center; padding: 2rem 1rem;
-    }
+    .run-status-box { text-align: center; padding: 1.5rem 1rem; }
     .run-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
     .run-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .run-desc {
-      font-size: 0.82rem; color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .run-info-list {
-      background: rgba(0,0,0,0.3);
-      border-radius: var(--radius-sm); padding: 1rem;
-      margin-top: 1rem;
-    }
-    .run-info-item {
-      display: flex; gap: 0.75rem; align-items: flex-start;
-      margin-bottom: 0.6rem; font-size: 0.8rem;
-    }
-    .run-info-item:last-child { margin-bottom: 0; }
-    .run-info-item .label { color: var(--text-muted); flex-shrink: 0; min-width: 70px; }
-    .run-info-item .value { color: var(--text); font-family: monospace; font-size: 0.78rem; word-break: break-all; }
-
-    .progress-bar-wrap {
-      background: rgba(255,255,255,0.06);
-      border-radius: 10px; height: 6px;
-      margin-top: 1.5rem; overflow: hidden;
-    }
+    .run-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+    .run-info-list { background:rgba(0,0,0,0.3);border-radius:var(--radius-sm);padding:1rem;margin-top:1rem; }
+    .run-info-item { display:flex;gap:0.75rem;align-items:flex-start;margin-bottom:0.6rem;font-size:0.8rem; }
+    .run-info-item:last-child { margin-bottom:0; }
+    .run-info-item .label { color:var(--text-muted);flex-shrink:0;min-width:70px; }
+    .run-info-item .value { color:var(--text);font-family:monospace;font-size:0.78rem;word-break:break-all; }
+    .progress-bar-wrap { background:rgba(255,255,255,0.06);border-radius:10px;height:6px;margin-top:1.5rem;overflow:hidden; }
     .progress-bar {
-      height: 100%; width: 0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent3));
-      border-radius: 10px;
-      transition: width 0.5s ease;
-      animation: progress-shine 2s ease-in-out infinite;
+      height:100%;width:0%;
+      background:linear-gradient(90deg,var(--accent),var(--accent3));
+      border-radius:10px;transition:width 0.5s ease;
     }
-    @keyframes progress-shine {
-      0%,100% { filter: brightness(1); }
-      50% { filter: brightness(1.3); }
-    }
-
     .actions-link {
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      color: var(--accent); text-decoration: none; font-size: 0.8rem;
-      margin-top: 0.75rem; font-weight: 600;
+      display:inline-flex;align-items:center;gap:0.3rem;
+      color:var(--accent);text-decoration:none;font-size:0.8rem;margin-top:0.75rem;font-weight:600;
     }
-    .actions-link:hover { text-decoration: underline; }
+    .actions-link:hover { text-decoration:underline; }
 
-    /* ═══════════════════════════════════════════════
-       FILTROS
-    ═══════════════════════════════════════════════ */
+    /* ── FILTROS ── */
     .filters-section {
       background: rgba(10,10,15,0.95);
       border-bottom: 1px solid var(--border);
       padding: 0.75rem 1.5rem;
       position: sticky; top: 65px; z-index: 90;
-      backdrop-filter: blur(10px);
     }
     .filters-content { max-width: 1800px; margin: 0 auto; }
-    .filters-row {
-      display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
-    }
+    .filters-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
 
     .search-box {
       flex: 1; min-width: 180px;
-      background: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 0.55rem 0.9rem;
-      color: var(--text); font-size: 0.88rem; outline: none;
+      background: var(--bg-input); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.55rem 0.9rem;
+      color: var(--text); font-size: 0.88rem; outline: none; font-family: inherit;
       transition: border-color 0.2s, box-shadow 0.2s;
-      font-family: inherit;
     }
-    .search-box:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
-    }
+    .search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(233,69,96,0.1); }
 
     .type-filters { display: flex; gap: 0.4rem; }
     .type-btn {
-      padding: 0.48rem 1rem; border-radius: 20px;
+      padding: 0.48rem 0.9rem; border-radius: 20px;
       border: 1px solid var(--border); cursor: pointer;
-      font-size: 0.8rem; font-weight: 600;
-      transition: all 0.2s;
-      background: rgba(255,255,255,0.03);
-      color: var(--text-muted);
-      white-space: nowrap;
+      font-size: 0.78rem; font-weight: 600; transition: all 0.2s;
+      background: rgba(255,255,255,0.03); color: var(--text-muted); white-space: nowrap;
     }
     .type-btn:hover { border-color: var(--border-focus); color: var(--text); }
     .type-btn.active { color: white; border-color: transparent; }
@@ -487,51 +298,31 @@
     .type-btn.active[data-type="series"] { background: var(--badge-series); color: #000; }
 
     .filter-select {
-      background: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 0.5rem 0.8rem;
-      color: var(--text); font-size: 0.82rem;
-      cursor: pointer; outline: none; font-family: inherit;
+      background: var(--bg-input); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.5rem 0.7rem;
+      color: var(--text); font-size: 0.8rem; cursor: pointer; outline: none; font-family: inherit;
     }
-    .filter-select option { background: #1a1a2e; }
+    .filter-select option, .filter-select optgroup { background: #1a1a2e; }
 
-    .results-count {
-      font-size: 0.75rem; color: var(--text-muted); white-space: nowrap;
-      margin-left: auto;
-    }
+    .results-count { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; margin-left: auto; }
 
-    /* ═══════════════════════════════════════════════
-       BANNER DE CONFIGURACIÓN REQUERIDA
-    ═══════════════════════════════════════════════ */
-    .setup-banner {
-      max-width: 1800px; margin: 2rem auto; padding: 0 1.5rem;
-      display: none;
-    }
+    /* ── BANNER BIENVENIDA ── */
+    .setup-banner { max-width: 1800px; margin: 2rem auto; padding: 0 1.5rem; display: none; }
     .setup-banner.visible { display: block; }
     .setup-banner-inner {
-      background: linear-gradient(135deg, rgba(233,69,96,0.08), rgba(83,52,131,0.08));
-      border: 1px solid rgba(233,69,96,0.25);
-      border-radius: var(--radius);
-      padding: 2rem;
-      display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;
+      background: linear-gradient(135deg,rgba(233,69,96,0.08),rgba(83,52,131,0.08));
+      border: 1px solid rgba(233,69,96,0.25); border-radius: var(--radius);
+      padding: 2rem; display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;
     }
     .setup-banner-icon { font-size: 3.5rem; flex-shrink: 0; }
     .setup-banner-text { flex: 1; min-width: 200px; }
     .setup-banner-text h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
-    .setup-banner-text p {
-      font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;
-      margin-bottom: 1rem;
-    }
-    .setup-steps {
-      display: flex; gap: 0.5rem; flex-wrap: wrap;
-    }
+    .setup-banner-text p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem; }
+    .setup-steps { display: flex; gap: 0.5rem; flex-wrap: wrap; }
     .setup-step {
       display: flex; align-items: center; gap: 0.5rem;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm); padding: 0.5rem 0.75rem;
-      font-size: 0.78rem;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.5rem 0.75rem; font-size: 0.78rem;
     }
     .step-num {
       background: var(--accent); color: white;
@@ -540,270 +331,145 @@
       font-size: 0.68rem; font-weight: 700; flex-shrink: 0;
     }
 
-    /* ═══════════════════════════════════════════════
-       GRID DE TARJETAS
-    ═══════════════════════════════════════════════ */
-    .main-content {
-      max-width: 1800px; margin: 0 auto; padding: 1.5rem;
-    }
-
+    /* ── GRID ── */
+    .main-content { max-width: 1800px; margin: 0 auto; padding: 1.5rem; }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
       gap: 1rem;
     }
-
     .card {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      background: var(--bg-card); border-radius: var(--radius);
+      overflow: hidden; border: 1px solid var(--border);
+      cursor: pointer; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
       position: relative;
     }
-    .card:hover {
-      transform: translateY(-6px) scale(1.025);
-      box-shadow: var(--shadow);
-      border-color: var(--accent);
-      z-index: 2;
-    }
-
-    .card-poster {
-      width: 100%; aspect-ratio: 2/3;
-      object-fit: cover; display: block;
-      background: var(--bg-input);
-    }
+    .card:hover { transform: translateY(-6px) scale(1.025); box-shadow: var(--shadow); border-color: var(--accent); z-index: 2; }
+    .card-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; background: var(--bg-input); }
     .card-poster.landscape { aspect-ratio: 16/9; }
-
     .card-info { padding: 0.65rem; }
     .card-title {
-      font-size: 0.8rem; font-weight: 600;
-      line-height: 1.3; margin-bottom: 0.35rem;
-      display: -webkit-box; -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical; overflow: hidden;
+      font-size: 0.8rem; font-weight: 600; line-height: 1.3; margin-bottom: 0.35rem;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
-    .card-meta {
-      display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: center;
-    }
-    .badge {
-      font-size: 0.62rem; padding: 0.12rem 0.38rem;
-      border-radius: 4px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
+    .card-meta { display: flex; gap: 0.3rem; flex-wrap: wrap; align-items: center; }
+    .badge { font-size: 0.6rem; padding: 0.1rem 0.35rem; border-radius: 4px; font-weight: 700; text-transform: uppercase; }
     .badge-live   { background: var(--badge-live);   color: white; }
     .badge-movie  { background: var(--badge-movie);  color: #000; }
     .badge-series { background: var(--badge-series); color: #000; }
-    .badge-lang {
-      background: rgba(15,52,96,0.8);
-      border: 1px solid rgba(79,129,196,0.3);
-      color: #7ab3f0;
-    }
-    .card-year   { font-size: 0.68rem; color: var(--text-muted); }
-    .card-rating { font-size: 0.68rem; color: var(--warning); }
-
+    .badge-lang { background: rgba(15,52,96,0.8); border: 1px solid rgba(79,129,196,0.3); color: #7ab3f0; }
+    .badge-country { background: rgba(83,52,131,0.6); border: 1px solid rgba(150,100,200,0.3); color: #c8a0f0; }
+    .card-year   { font-size: 0.65rem; color: var(--text-muted); }
+    .card-rating { font-size: 0.65rem; color: var(--warning); }
     .live-dot {
-      display: inline-block; width: 6px; height: 6px;
-      background: var(--badge-live); border-radius: 50%;
-      animation: pulse-dot 1.5s ease-in-out infinite;
+      display: inline-block; width: 6px; height: 6px; background: var(--badge-live);
+      border-radius: 50%; animation: pulse-dot 1.5s ease-in-out infinite;
       margin-right: 3px; vertical-align: middle;
     }
 
-    /* ═══════════════════════════════════════════════
-       MODAL DE DETALLE
-    ═══════════════════════════════════════════════ */
+    /* ── MODAL DETALLE ── */
     .detail-modal {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      max-width: 780px; width: 100%;
-      max-height: 90vh; overflow-y: auto;
-      box-shadow: var(--shadow-lg);
-      animation: slide-in 0.25s ease;
-      margin: auto;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); max-width: 780px; width: 100%;
+      max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg);
+      animation: slide-in 0.25s ease; margin: auto;
     }
-
-    .detail-header {
-      position: relative;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.1), var(--bg-card));
-    }
-    .detail-backdrop {
-      width: 100%; height: 220px; object-fit: cover;
-      opacity: 0.35; filter: blur(4px); display: block;
-    }
+    .detail-header { position: relative; background: linear-gradient(to bottom,rgba(0,0,0,0.1),var(--bg-card)); }
+    .detail-backdrop { width: 100%; height: 220px; object-fit: cover; opacity: 0.35; filter: blur(4px); display: block; }
     .detail-poster-wrap {
       position: absolute; bottom: -45px; left: 1.5rem;
       width: 100px; border-radius: 8px; overflow: hidden;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.8);
-      border: 2px solid var(--border);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.8); border: 2px solid var(--border);
     }
     .detail-poster { width: 100%; display: block; }
     .detail-close {
       position: absolute; top: 1rem; right: 1rem;
       background: rgba(0,0,0,0.65); border: none; color: white;
-      width: 32px; height: 32px; border-radius: 50%;
-      cursor: pointer; font-size: 1rem;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s;
+      width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+      font-size: 1rem; display: flex; align-items: center; justify-content: center;
     }
     .detail-close:hover { background: rgba(0,0,0,0.9); }
-
     .detail-body { padding: 3.5rem 1.5rem 1.5rem; }
     .detail-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
     .detail-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
-
-    .detail-meta-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 0.5rem 1.5rem; margin-bottom: 1rem;
-    }
-    @media (max-width: 500px) { .detail-meta-grid { grid-template-columns: 1fr; } }
-
-    .meta-item label {
-      font-size: 0.67rem; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 0.06em;
-      display: block; margin-bottom: 0.1rem;
-    }
+    .detail-meta-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 0.5rem 1.5rem; margin-bottom: 1rem; }
+    .meta-item label { font-size: 0.67rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 0.1rem; }
     .meta-item span { font-size: 0.83rem; line-height: 1.4; }
-
     .detail-desc {
       font-size: 0.83rem; line-height: 1.6; color: #bbb;
       background: rgba(0,0,0,0.25); border-radius: var(--radius-sm);
-      padding: 0.85rem; margin-bottom: 1rem;
-      max-height: 130px; overflow-y: auto;
+      padding: 0.85rem; margin-bottom: 1rem; max-height: 130px; overflow-y: auto;
     }
-
     .stream-url-box {
-      background: rgba(0,0,0,0.35);
-      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.35); border: 1px solid var(--border);
       border-radius: var(--radius-sm); padding: 0.7rem;
       display: flex; align-items: center; gap: 0.5rem;
     }
     .stream-url-box input {
-      flex: 1; background: none; border: none;
-      color: var(--accent); font-family: monospace; font-size: 0.72rem;
-      outline: none; word-break: break-all; min-width: 0;
+      flex: 1; background: none; border: none; color: var(--accent);
+      font-family: monospace; font-size: 0.72rem; outline: none; min-width: 0;
     }
     .btn-play {
       background: var(--accent); color: white; border: none;
-      padding: 0.45rem 0.85rem; border-radius: 6px;
-      cursor: pointer; font-weight: 700; text-decoration: none;
-      font-size: 0.82rem; display: inline-flex; align-items: center;
-      gap: 0.3rem; white-space: nowrap; flex-shrink: 0;
+      padding: 0.45rem 0.85rem; border-radius: 6px; cursor: pointer;
+      font-weight: 700; text-decoration: none; font-size: 0.82rem;
+      display: inline-flex; align-items: center; gap: 0.3rem; white-space: nowrap; flex-shrink: 0;
     }
     .btn-play:hover { background: var(--accent-hover); }
-
     .episodes-section { margin-top: 1.2rem; }
-    .episodes-section h3 {
-      font-size: 0.75rem; color: var(--text-muted);
-      margin-bottom: 0.6rem; text-transform: uppercase;
-      letter-spacing: 0.08em; display: flex; align-items: center; gap: 0.5rem;
-    }
+    .episodes-section h3 { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; }
     .season-group { margin-bottom: 0.75rem; }
-    .season-title {
-      font-size: 0.75rem; font-weight: 700; color: var(--accent);
-      padding: 0.35rem 0.6rem;
-      background: rgba(233,69,96,0.08);
-      border-radius: 4px; margin-bottom: 0.4rem;
-    }
+    .season-title { font-size: 0.75rem; font-weight: 700; color: var(--accent); padding: 0.35rem 0.6rem; background: rgba(233,69,96,0.08); border-radius: 4px; margin-bottom: 0.4rem; }
     .episode-list { display: flex; flex-direction: column; gap: 0.3rem; max-height: 280px; overflow-y: auto; }
     .episode-item {
       display: flex; justify-content: space-between; align-items: center;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
-      border-radius: 6px; padding: 0.5rem 0.7rem;
-      font-size: 0.78rem; cursor: pointer;
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.5rem 0.7rem; font-size: 0.78rem; cursor: pointer;
       transition: all 0.15s;
     }
-    .episode-item:hover {
-      background: rgba(233,69,96,0.1);
-      border-color: var(--accent);
-    }
+    .episode-item:hover { background: rgba(233,69,96,0.1); border-color: var(--accent); }
     .ep-info { flex: 1; min-width: 0; }
-    .ep-num {
-      font-size: 0.65rem; color: var(--text-muted);
-      margin-bottom: 0.15rem;
-    }
-    .ep-name {
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .btn-ep {
-      background: var(--accent); color: white; border: none;
-      padding: 0.2rem 0.55rem; border-radius: 4px;
-      cursor: pointer; font-size: 0.7rem; font-weight: 700;
-      flex-shrink: 0; margin-left: 0.5rem;
-    }
+    .ep-num { font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.15rem; }
+    .ep-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .btn-ep { background: var(--accent); color: white; border: none; padding: 0.2rem 0.55rem; border-radius: 4px; cursor: pointer; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; margin-left: 0.5rem; }
 
-    /* ═══════════════════════════════════════════════
-       LOADING / EMPTY
-    ═══════════════════════════════════════════════ */
-    .loading-state {
-      text-align: center; padding: 5rem 2rem;
-    }
-    .spinner {
-      width: 48px; height: 48px;
-      border: 3px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 1rem;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    /* ── LOADING / EMPTY ── */
+    .loading-state { text-align: center; padding: 5rem 2rem; }
+    .spinner { width: 48px; height: 48px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+    @keyframes spin { to{transform:rotate(360deg)} }
     .loading-state p { color: var(--text-muted); font-size: 0.88rem; }
-
-    .empty-state {
-      text-align: center; padding: 5rem 2rem; color: var(--text-muted);
-    }
+    .empty-state { text-align: center; padding: 5rem 2rem; color: var(--text-muted); }
     .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
 
-    /* ═══════════════════════════════════════════════
-       TOAST
-    ═══════════════════════════════════════════════ */
-    #toast-container {
-      position: fixed; bottom: 1.5rem; right: 1.5rem;
-      z-index: 9999; display: flex; flex-direction: column; gap: 0.5rem;
-    }
+    /* ── TOAST ── */
+    #toast-container { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; display: flex; flex-direction: column; gap: 0.5rem; }
     .toast {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 0.75rem 1.2rem;
-      font-size: 0.85rem; font-weight: 600;
-      box-shadow: var(--shadow);
-      animation: toast-in 0.3s ease;
-      display: flex; align-items: center; gap: 0.5rem;
-      min-width: 200px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.75rem 1.2rem;
+      font-size: 0.85rem; font-weight: 600; box-shadow: var(--shadow);
+      animation: toast-in 0.3s ease; display: flex; align-items: center; gap: 0.5rem; min-width: 200px;
     }
     .toast.success { border-left: 3px solid var(--success); }
     .toast.error   { border-left: 3px solid var(--accent); }
     .toast.info    { border-left: 3px solid var(--accent2); }
-    @keyframes toast-in {
-      from { opacity: 0; transform: translateX(30px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
+    @keyframes toast-in { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
 
-    /* ═══════════════════════════════════════════════
-       RESPONSIVE
-    ═══════════════════════════════════════════════ */
     @media (max-width: 768px) {
       header { padding: 0.75rem 1rem; position: static; }
-      .header-content { gap: 0.75rem; }
-      .m3u-url-box { min-width: 200px; }
       .filters-section { position: static; padding: 0.6rem 1rem; }
       .main-content { padding: 1rem; }
-      .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.75rem; }
-      .stats-row { gap: 0.8rem; }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); gap: 0.75rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .detail-meta-grid { grid-template-columns: 1fr; }
       .setup-banner-inner { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════════
-     HEADER
-══════════════════════════════════════════════════ -->
+<!-- HEADER -->
 <header>
   <div class="header-content">
-
     <div class="logo">
       <div class="logo-icon">📡</div>
       <div>
@@ -813,17 +479,15 @@
     </div>
 
     <div class="m3u-url-box">
-      <label>M3U URL</label>
+      <label>M3U</label>
       <input id="m3u-url-display" type="text" readonly
-             onclick="this.select()"
-             placeholder="Configura el portal para ver tu URL" />
-      <button class="btn-icon primary" style="padding:0.35rem 0.7rem;font-size:0.75rem"
-              onclick="copyM3uUrl()">📋</button>
+             onclick="this.select()" placeholder="Configura el portal primero" />
+      <button class="btn-icon primary" style="padding:0.35rem 0.7rem;font-size:0.75rem" onclick="copyM3uUrl()">📋</button>
     </div>
 
     <div class="stats-row" id="stats-row" style="display:none">
       <div class="stat-item">
-        <div class="stat-num" id="stat-total" style="color:var(--text)">—</div>
+        <div class="stat-num" id="stat-total">—</div>
         <div class="stat-label">Total</div>
       </div>
       <div class="stat-item">
@@ -841,29 +505,17 @@
     </div>
 
     <div class="header-actions">
-      <!-- Indicador de estado -->
       <div class="config-status not-configured" id="config-status-badge">
         <div class="status-dot pulse"></div>
         <span id="config-status-text">Sin configurar</span>
       </div>
-
-      <!-- Botón Actualizar -->
-      <button class="btn-icon" id="btn-run" onclick="openRunModal()" title="Ejecutar actualización">
-        🔄 Actualizar
-      </button>
-
-      <!-- Botón Configuración -->
-      <button class="btn-icon primary" onclick="openConfigModal()">
-        ⚙️ Configuración
-      </button>
+      <button class="btn-icon" onclick="openRunModal()">🔄 Actualizar</button>
+      <button class="btn-icon primary" onclick="openConfigModal()">⚙️ Configuración</button>
     </div>
-
   </div>
 </header>
 
-<!-- ══════════════════════════════════════════════════
-     FILTROS
-══════════════════════════════════════════════════ -->
+<!-- FILTROS -->
 <div class="filters-section">
   <div class="filters-content">
     <div class="filters-row">
@@ -877,11 +529,12 @@
         <button class="type-btn"        data-type="series" onclick="setType('series')">📺 Series</button>
       </div>
 
+      <!-- Filtro Idioma -->
       <select class="filter-select" id="lang-filter" onchange="applyFilters()">
-        <option value="all">🌍 Todos los idiomas</option>
+        <option value="all">🌍 Idioma</option>
         <option value="ES">🇪🇸 Español</option>
         <option value="FR">🇫🇷 Francés</option>
-        <option value="EN">🇬🇧 Inglés / UK</option>
+        <option value="EN">🇬🇧 Inglés</option>
         <option value="DE">🇩🇪 Alemán</option>
         <option value="IT">🇮🇹 Italiano</option>
         <option value="PT">🇵🇹 Portugués</option>
@@ -893,6 +546,87 @@
         <option value="OTHER">🌐 Otros</option>
       </select>
 
+      <!-- Filtro País -->
+      <select class="filter-select" id="country-filter" onchange="applyFilters()">
+        <option value="all">🌍 País</option>
+        <optgroup label="── Europa ──">
+          <option value="ES">🇪🇸 España</option>
+          <option value="FR">🇫🇷 Francia</option>
+          <option value="GB">🇬🇧 Reino Unido</option>
+          <option value="DE">🇩🇪 Alemania</option>
+          <option value="IT">🇮🇹 Italia</option>
+          <option value="PT">🇵🇹 Portugal</option>
+          <option value="NL">🇳🇱 Países Bajos</option>
+          <option value="BE">🇧🇪 Bélgica</option>
+          <option value="CH">🇨🇭 Suiza</option>
+          <option value="PL">🇵🇱 Polonia</option>
+          <option value="RU">🇷🇺 Rusia</option>
+          <option value="TR">🇹🇷 Turquía</option>
+          <option value="RO">🇷🇴 Rumanía</option>
+          <option value="GR">🇬🇷 Grecia</option>
+          <option value="SE">🇸🇪 Suecia</option>
+          <option value="NO">🇳🇴 Noruega</option>
+          <option value="DK">🇩🇰 Dinamarca</option>
+          <option value="FI">🇫🇮 Finlandia</option>
+          <option value="CZ">🇨🇿 Rep. Checa</option>
+          <option value="HU">🇭🇺 Hungría</option>
+          <option value="HR">🇭🇷 Croacia</option>
+          <option value="RS">🇷🇸 Serbia</option>
+          <option value="UA">🇺🇦 Ucrania</option>
+        </optgroup>
+        <optgroup label="── Américas ──">
+          <option value="US">🇺🇸 USA</option>
+          <option value="MX">🇲🇽 México</option>
+          <option value="AR">🇦🇷 Argentina</option>
+          <option value="CO">🇨🇴 Colombia</option>
+          <option value="CL">🇨🇱 Chile</option>
+          <option value="PE">🇵🇪 Perú</option>
+          <option value="VE">🇻🇪 Venezuela</option>
+          <option value="BR">🇧🇷 Brasil</option>
+          <option value="EC">🇪🇨 Ecuador</option>
+          <option value="BO">🇧🇴 Bolivia</option>
+          <option value="UY">🇺🇾 Uruguay</option>
+          <option value="PY">🇵🇾 Paraguay</option>
+          <option value="CA">🇨🇦 Canadá</option>
+        </optgroup>
+        <optgroup label="── Oriente Medio y N. África ──">
+          <option value="MA">🇲🇦 Marruecos</option>
+          <option value="DZ">🇩🇿 Argelia</option>
+          <option value="TN">🇹🇳 Túnez</option>
+          <option value="LY">🇱🇾 Libia</option>
+          <option value="EG">🇪🇬 Egipto</option>
+          <option value="SA">🇸🇦 Arabia Saudí</option>
+          <option value="AE">🇦🇪 Emiratos</option>
+          <option value="QA">🇶🇦 Qatar</option>
+          <option value="KW">🇰🇼 Kuwait</option>
+          <option value="LB">🇱🇧 Líbano</option>
+          <option value="IQ">🇮🇶 Irak</option>
+          <option value="IR">🇮🇷 Irán</option>
+        </optgroup>
+        <optgroup label="── Asia ──">
+          <option value="IN">🇮🇳 India</option>
+          <option value="PK">🇵🇰 Pakistán</option>
+          <option value="CN">🇨🇳 China</option>
+          <option value="JP">🇯🇵 Japón</option>
+          <option value="KR">🇰🇷 Corea del Sur</option>
+          <option value="BD">🇧🇩 Bangladesh</option>
+          <option value="AF">🇦🇫 Afganistán</option>
+        </optgroup>
+        <optgroup label="── África ──">
+          <option value="NG">🇳🇬 Nigeria</option>
+          <option value="GH">🇬🇭 Ghana</option>
+          <option value="SN">🇸🇳 Senegal</option>
+          <option value="ZA">🇿🇦 Sudáfrica</option>
+          <option value="CM">🇨🇲 Camerún</option>
+          <option value="CI">🇨🇮 Costa de Marfil</option>
+        </optgroup>
+        <optgroup label="── Otros ──">
+          <option value="INTL">🌍 Internacional</option>
+          <option value="OTHER">❓ Sin detectar</option>
+        </optgroup>
+      </select>
+
+      <!-- Filtro Ordenar -->
       <select class="filter-select" id="sort-filter" onchange="applyFilters()">
         <option value="name">📋 A-Z</option>
         <option value="year">📅 Año</option>
@@ -905,42 +639,24 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     BANNER DE BIENVENIDA (cuando no hay configuración)
-══════════════════════════════════════════════════ -->
+<!-- BANNER BIENVENIDA -->
 <div class="setup-banner" id="setup-banner">
   <div class="setup-banner-inner">
     <div class="setup-banner-icon">📡</div>
     <div class="setup-banner-text">
       <h2>¡Bienvenido a tu IPTV Dashboard!</h2>
-      <p>
-        Aún no has configurado tu portal MAC Stalker. Sigue estos 3 pasos para empezar.
-        Todo funciona en la nube mediante GitHub Actions — sin servidores propios, sin coste.
-      </p>
+      <p>Configura tu portal MAC Stalker en 3 pasos. Todo funciona en la nube mediante GitHub Actions — sin servidores propios, sin coste.</p>
       <div class="setup-steps">
-        <div class="setup-step">
-          <div class="step-num">1</div>
-          <span>Abre <strong>⚙️ Configuración</strong></span>
-        </div>
-        <div class="setup-step">
-          <div class="step-num">2</div>
-          <span>Introduce tu <strong>Portal URL + MAC</strong></span>
-        </div>
-        <div class="setup-step">
-          <div class="step-num">3</div>
-          <span>Pulsa <strong>🔄 Actualizar</strong> para generar el M3U</span>
-        </div>
+        <div class="setup-step"><div class="step-num">1</div><span>Abre <strong>⚙️ Configuración</strong></span></div>
+        <div class="setup-step"><div class="step-num">2</div><span>Introduce <strong>Portal URL + MAC</strong></span></div>
+        <div class="setup-step"><div class="step-num">3</div><span>Pulsa <strong>🔄 Actualizar</strong></span></div>
       </div>
     </div>
-    <button class="btn btn-primary" onclick="openConfigModal()" style="flex-shrink:0">
-      ⚙️ Abrir Configuración
-    </button>
+    <button class="btn btn-primary" onclick="openConfigModal()">⚙️ Abrir Configuración</button>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     CONTENIDO PRINCIPAL
-══════════════════════════════════════════════════ -->
+<!-- CONTENIDO -->
 <div class="main-content">
   <div id="loading-state" class="loading-state" style="display:none">
     <div class="spinner"></div>
@@ -951,102 +667,85 @@
   <div id="empty-state" class="empty-state" style="display:none">
     <div class="icon">🔍</div>
     <p>No se encontraron resultados.</p>
-    <p style="font-size:0.8rem;margin-top:0.4rem">Prueba a cambiar los filtros de búsqueda.</p>
+    <p style="font-size:0.8rem;margin-top:0.4rem">Prueba a cambiar los filtros.</p>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     MODAL: CONFIGURACIÓN
-══════════════════════════════════════════════════ -->
+<!-- MODAL CONFIGURACIÓN -->
 <div class="overlay" id="config-overlay" onclick="closeOnOverlay(event,'config-overlay')">
   <div class="config-modal" onclick="event.stopPropagation()">
-
     <div class="config-modal-header">
       <div>
         <h2>⚙️ Configuración del Portal</h2>
-        <p>Introduce los datos de tu portal MAC Stalker y las credenciales de GitHub para la auto-actualización.</p>
+        <p>Introduce los datos de tu portal MAC Stalker y las credenciales de GitHub.</p>
       </div>
       <button class="modal-close-btn" onclick="closeConfigModal()">✕</button>
     </div>
-
     <div class="config-modal-body">
 
-      <!-- SECCIÓN 1: Portal MAC -->
       <div class="config-section">
         <div class="config-section-title">📡 Credenciales del Portal MAC</div>
-
         <div class="form-group">
           <label>Portal URL <span>(dirección del servidor)</span></label>
           <input class="form-input mono" id="cfg-portal-url" type="url"
-                 placeholder="http://mag.greatott.me:80"
-                 oninput="updatePreview()" />
+                 placeholder="http://mag.greatott.me:80" oninput="updatePreview()" />
           <div class="form-hint">La URL que viene en tus datos de acceso IPTV. Incluye el puerto.</div>
         </div>
-
         <div class="form-group">
           <label>Dirección MAC <span>(de tu dispositivo o suscripción)</span></label>
           <div class="input-wrapper">
             <input class="form-input mono" id="cfg-mac" type="text"
-                   placeholder="00:1A:79:00:00:00"
-                   maxlength="17"
-                   oninput="formatMac(this); updatePreview()" />
+                   placeholder="00:1A:79:00:00:00" maxlength="17"
+                   oninput="formatMac(this);updatePreview()" />
           </div>
           <div class="mac-preview" id="mac-preview"></div>
-          <div class="form-hint">Formato: XX:XX:XX:XX:XX:XX — 6 pares hexadecimales separados por dos puntos.</div>
+          <div class="form-hint">Formato: XX:XX:XX:XX:XX:XX</div>
         </div>
-
         <button class="test-connection-btn" id="test-btn" onclick="testConnection()">
           🔌 Probar conexión con el portal
         </button>
         <div class="connection-result" id="connection-result"></div>
       </div>
 
-      <!-- SECCIÓN 2: GitHub -->
       <div class="config-section">
         <div class="config-section-title">🐱 Credenciales de GitHub</div>
         <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.5">
-          Necesarias para que el botón <strong>🔄 Actualizar</strong> dispare el workflow de GitHub Actions
-          directamente desde este dashboard, sin abrir GitHub.
+          Necesarias para disparar el workflow de GitHub Actions desde este dashboard.
         </p>
-
         <div class="form-row">
           <div class="form-group">
-            <label>Usuario de GitHub <span>(tu username)</span></label>
+            <label>Usuario de GitHub</label>
             <input class="form-input" id="cfg-gh-user" type="text"
-                   placeholder="naimmeliana-prog"
-                   oninput="updatePreview()" />
+                   placeholder="naimmeliana-prog" oninput="updatePreview()" />
           </div>
           <div class="form-group">
             <label>Nombre del repositorio</label>
             <input class="form-input" id="cfg-gh-repo" type="text"
-                   placeholder="conversor_metrico"
-                   oninput="updatePreview()" />
+                   placeholder="conversor_metrico" oninput="updatePreview()" />
           </div>
         </div>
-
         <div class="form-group">
-          <label>Personal Access Token (PAT) <span>(con permiso <code>workflow</code>)</span></label>
+          <label>Personal Access Token (PAT) <span>(scopes: repo + workflow)</span></label>
           <div class="input-wrapper">
             <input class="form-input mono" id="cfg-gh-token" type="password"
                    placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
-            <button class="toggle-eye" onclick="toggleEye('cfg-gh-token', this)">👁️</button>
+            <button class="toggle-eye" onclick="toggleEye('cfg-gh-token',this)">👁️</button>
           </div>
           <div class="form-hint">
             Genera uno en
-            <a href="https://github.com/settings/tokens/new?scopes=workflow&description=IPTV-Dashboard" target="_blank">
+            <a href="https://github.com/settings/tokens/new?scopes=repo,workflow&description=IPTV-Dashboard" target="_blank">
               GitHub → Settings → Developer Settings → Personal Access Tokens
             </a>
-            → Scope: <strong>workflow</strong>.
-            <br>⚠️ Se guarda solo en tu navegador (localStorage), nunca se envía a ningún servidor.
+            → Scopes: <strong>repo</strong> + <strong>workflow</strong>.
+            <br>⚠️ Se guarda solo en tu navegador (localStorage).
           </div>
         </div>
       </div>
 
-      <!-- SECCIÓN 3: Preview de la URL -->
       <div class="config-section">
         <div class="config-section-title">🔗 URLs generadas</div>
         <div class="form-group">
-          <label>URL del Dashboard (GitHub Pages)</label>
+          <label>Dashboard (GitHub Pages)</label>
           <input class="form-input mono" id="preview-dashboard" type="text" readonly
                  style="font-size:0.78rem;color:var(--success)" />
         </div>
@@ -1057,8 +756,7 @@
         </div>
       </div>
 
-    </div><!-- /config-modal-body -->
-
+    </div>
     <div class="config-modal-footer">
       <button class="btn btn-secondary" onclick="clearConfig()">🗑️ Borrar todo</button>
       <button class="btn btn-secondary" onclick="closeConfigModal()">Cancelar</button>
@@ -1067,38 +765,23 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     MODAL: EJECUTAR ACTUALIZACIÓN
-══════════════════════════════════════════════════ -->
+<!-- MODAL EJECUTAR -->
 <div class="overlay" id="run-overlay" onclick="closeOnOverlay(event,'run-overlay')">
   <div class="run-modal" onclick="event.stopPropagation()">
-
     <div class="run-modal-header">
       <h3>🔄 Ejecutar Actualización</h3>
       <button class="modal-close-btn" onclick="closeRunModal()">✕</button>
     </div>
-
     <div class="run-modal-body">
-      <div id="run-status-box" class="run-status-box">
-        <!-- Se rellena dinámicamente -->
-      </div>
+      <div id="run-status-box" class="run-status-box"></div>
     </div>
-
-    <div class="config-modal-footer" id="run-footer">
-      <button class="btn btn-secondary" onclick="closeRunModal()">Cerrar</button>
-      <button class="btn btn-primary" id="btn-trigger" onclick="triggerWorkflow()">
-        🚀 Disparar Workflow
-      </button>
-    </div>
+    <div class="config-modal-footer" id="run-footer"></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     MODAL: DETALLE DE CONTENIDO
-══════════════════════════════════════════════════ -->
+<!-- MODAL DETALLE -->
 <div class="overlay" id="detail-overlay" onclick="closeOnOverlay(event,'detail-overlay')">
   <div class="detail-modal" onclick="event.stopPropagation()">
-
     <div class="detail-header">
       <img class="detail-backdrop" id="det-backdrop" src="" alt="" />
       <div class="detail-poster-wrap">
@@ -1106,34 +789,26 @@
       </div>
       <button class="detail-close" onclick="closeDetailModal()">✕</button>
     </div>
-
     <div class="detail-body">
       <div class="detail-title"  id="det-title"></div>
       <div class="detail-badges" id="det-badges"></div>
       <div class="detail-meta-grid" id="det-meta"></div>
-      <div class="detail-desc"   id="det-desc"  style="display:none"></div>
-
+      <div class="detail-desc"   id="det-desc" style="display:none"></div>
       <div class="stream-url-box" id="det-url-box">
         <input id="det-url-input" type="text" readonly placeholder="URL del stream" />
-        <button class="btn-play" onclick="copyDetailUrl()" title="Copiar URL">📋</button>
+        <button class="btn-play" onclick="copyDetailUrl()">📋</button>
         <a class="btn-play" id="det-vlc" href="#" target="_blank">▶ VLC</a>
       </div>
-
       <div class="episodes-section" id="det-episodes" style="display:none">
-        <h3>📌 Episodios <span id="det-ep-count" style="color:var(--text-muted)"></span></h3>
+        <h3>📌 Episodios <span id="det-ep-count" style="color:var(--text-muted);font-weight:400"></span></h3>
         <div id="det-season-list"></div>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- Toast container -->
 <div id="toast-container"></div>
 
-<!-- ══════════════════════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════════════════════ -->
 <script>
 'use strict';
 
@@ -1143,13 +818,28 @@
 const LS_KEY   = 'iptv_config_v2';
 const FALLBACK = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI3MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI3MCIgZmlsbD0iIzEyMTIxZSIvPjx0ZXh0IHg9IjkwIiB5PSIxNDUiIGZpbGw9IiMzMzMzNTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iNTAiPvCfm4Q8L3RleHQ+PC9zdmc+";
 
+// Mapa de banderas por código de país
+const FLAG_MAP = {
+  ES:'🇪🇸', FR:'🇫🇷', GB:'🇬🇧', DE:'🇩🇪', IT:'🇮🇹', PT:'🇵🇹',
+  NL:'🇳🇱', BE:'🇧🇪', CH:'🇨🇭', PL:'🇵🇱', RU:'🇷🇺', TR:'🇹🇷',
+  RO:'🇷🇴', GR:'🇬🇷', SE:'🇸🇪', NO:'🇳🇴', DK:'🇩🇰', FI:'🇫🇮',
+  CZ:'🇨🇿', HU:'🇭🇺', HR:'🇭🇷', RS:'🇷🇸', UA:'🇺🇦',
+  US:'🇺🇸', MX:'🇲🇽', AR:'🇦🇷', CO:'🇨🇴', CL:'🇨🇱', PE:'🇵🇪',
+  VE:'🇻🇪', BR:'🇧🇷', EC:'🇪🇨', BO:'🇧🇴', UY:'🇺🇾', PY:'🇵🇾', CA:'🇨🇦',
+  MA:'🇲🇦', DZ:'🇩🇿', TN:'🇹🇳', LY:'🇱🇾', EG:'🇪🇬', SA:'🇸🇦',
+  AE:'🇦🇪', QA:'🇶🇦', KW:'🇰🇼', LB:'🇱🇧', IQ:'🇮🇶', IR:'🇮🇷',
+  IN:'🇮🇳', PK:'🇵🇰', CN:'🇨🇳', JP:'🇯🇵', KR:'🇰🇷', BD:'🇧🇩', AF:'🇦🇫',
+  NG:'🇳🇬', GH:'🇬🇭', SN:'🇸🇳', ZA:'🇿🇦', CM:'🇨🇲', CI:'🇨🇮',
+  INTL:'🌍', OTHER:'🌐',
+};
+
 // ════════════════════════════════════════════════════
 //  ESTADO
 // ════════════════════════════════════════════════════
-let cfg          = {};
-let allItems     = [];
+let cfg           = {};
+let allItems      = [];
 let filteredItems = [];
-let currentType  = 'all';
+let currentType   = 'all';
 
 // ════════════════════════════════════════════════════
 //  INICIALIZACIÓN
@@ -1157,7 +847,6 @@ let currentType  = 'all';
 function init() {
   loadConfig();
   updateHeaderFromConfig();
-
   if (cfg.ghUser && cfg.ghRepo) {
     loadMetadata();
   } else {
@@ -1172,9 +861,7 @@ function loadConfig() {
   try {
     const raw = localStorage.getItem(LS_KEY);
     cfg = raw ? JSON.parse(raw) : {};
-  } catch (e) {
-    cfg = {};
-  }
+  } catch(e) { cfg = {}; }
 }
 
 function saveConfig() {
@@ -1184,24 +871,14 @@ function saveConfig() {
   const ghRepo    = document.getElementById('cfg-gh-repo').value.trim();
   const ghToken   = document.getElementById('cfg-gh-token').value.trim();
 
-  // Validaciones
-  if (!portalUrl) {
-    toast('⚠️ Introduce la URL del portal', 'error'); return;
-  }
-  if (!portalUrl.startsWith('http')) {
-    toast('⚠️ La URL debe empezar por http:// o https://', 'error'); return;
-  }
-  if (!mac || !/^([0-9A-F]{2}:){5}[0-9A-F]{2}$/.test(mac)) {
-    toast('⚠️ Formato de MAC inválido (debe ser XX:XX:XX:XX:XX:XX)', 'error'); return;
-  }
-  if (!ghUser || !ghRepo) {
-    toast('⚠️ Introduce tu usuario y repositorio de GitHub', 'error'); return;
-  }
+  if (!portalUrl) { toast('⚠️ Introduce la URL del portal','error'); return; }
+  if (!portalUrl.startsWith('http')) { toast('⚠️ La URL debe empezar por http://','error'); return; }
+  if (!mac || !/^([0-9A-F]{2}:){5}[0-9A-F]{2}$/.test(mac)) { toast('⚠️ Formato de MAC inválido','error'); return; }
+  if (!ghUser || !ghRepo) { toast('⚠️ Introduce usuario y repositorio de GitHub','error'); return; }
 
   cfg = { portalUrl, mac, ghUser, ghRepo, ghToken };
   localStorage.setItem(LS_KEY, JSON.stringify(cfg));
-
-  toast('✅ Configuración guardada correctamente', 'success');
+  toast('✅ Configuración guardada correctamente','success');
   closeConfigModal();
   updateHeaderFromConfig();
   document.getElementById('setup-banner').classList.remove('visible');
@@ -1214,7 +891,7 @@ function clearConfig() {
   localStorage.removeItem(LS_KEY);
   fillConfigForm();
   updateHeaderFromConfig();
-  toast('🗑️ Configuración borrada', 'info');
+  toast('🗑️ Configuración borrada','info');
 }
 
 function fillConfigForm() {
@@ -1228,26 +905,25 @@ function fillConfigForm() {
 }
 
 function updateHeaderFromConfig() {
-  const badge = document.getElementById('config-status-badge');
-  const text  = document.getElementById('config-status-text');
-  const m3uInput = document.getElementById('m3u-url-display');
+  const badge  = document.getElementById('config-status-badge');
+  const text   = document.getElementById('config-status-text');
+  const m3uInp = document.getElementById('m3u-url-display');
 
   if (cfg.ghUser && cfg.ghRepo) {
     badge.className = 'config-status configured';
     badge.querySelector('.status-dot').classList.remove('pulse');
     text.textContent = cfg.mac ? `MAC: ${cfg.mac}` : 'Configurado';
-    m3uInput.value = `https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/playlist.m3u`;
+    m3uInp.value = `https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/playlist.m3u`;
   } else {
     badge.className = 'config-status not-configured';
     badge.querySelector('.status-dot').classList.add('pulse');
     text.textContent = 'Sin configurar';
-    m3uInput.value = '';
-    m3uInput.placeholder = 'Configura el portal primero';
+    m3uInp.value = '';
   }
 }
 
 // ════════════════════════════════════════════════════
-//  MODAL DE CONFIGURACIÓN
+//  MODAL CONFIGURACIÓN
 // ════════════════════════════════════════════════════
 function openConfigModal() {
   fillConfigForm();
@@ -1255,58 +931,45 @@ function openConfigModal() {
   document.getElementById('config-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-
 function closeConfigModal() {
   document.getElementById('config-overlay').classList.remove('open');
   document.body.style.overflow = '';
 }
 
 // ════════════════════════════════════════════════════
-//  FORMATEO Y PREVIEW DE MAC
+//  FORMATEO MAC
 // ════════════════════════════════════════════════════
 function formatMac(input) {
-  let val = input.value.replace(/[^0-9a-fA-F]/g, '').toUpperCase();
-  let formatted = '';
-  for (let i = 0; i < val.length && i < 12; i++) {
-    if (i > 0 && i % 2 === 0) formatted += ':';
-    formatted += val[i];
+  let val = input.value.replace(/[^0-9a-fA-F]/g,'').toUpperCase();
+  let fmt = '';
+  for (let i=0; i<val.length && i<12; i++) {
+    if (i>0 && i%2===0) fmt += ':';
+    fmt += val[i];
   }
-  input.value = formatted;
-  updateMacPreview(formatted);
+  input.value = fmt;
+  updateMacPreview(fmt);
 }
-
 function updateMacPreview(mac) {
   const parts = mac.split(':');
-  const el    = document.getElementById('mac-preview');
-  if (parts.length === 6 && parts.every(p => p.length === 2)) {
-    el.innerHTML = parts.map(p => `<span class="mac-octet">${p}</span>`).join('');
-  } else {
-    el.innerHTML = '';
-  }
+  const el = document.getElementById('mac-preview');
+  el.innerHTML = (parts.length===6 && parts.every(p=>p.length===2))
+    ? parts.map(p=>`<span class="mac-octet">${p}</span>`).join('')
+    : '';
 }
-
 function updatePreview() {
   const user = document.getElementById('cfg-gh-user').value.trim() || 'usuario';
   const repo = document.getElementById('cfg-gh-repo').value.trim() || 'repositorio';
-  document.getElementById('preview-dashboard').value =
-    `https://${user}.github.io/${repo}/`;
-  document.getElementById('preview-m3u').value =
-    `https://raw.githubusercontent.com/${user}/${repo}/main/playlist.m3u`;
+  document.getElementById('preview-dashboard').value = `https://${user}.github.io/${repo}/`;
+  document.getElementById('preview-m3u').value = `https://raw.githubusercontent.com/${user}/${repo}/main/playlist.m3u`;
 }
-
 function toggleEye(inputId, btn) {
   const input = document.getElementById(inputId);
-  if (input.type === 'password') {
-    input.type = 'text';
-    btn.textContent = '🙈';
-  } else {
-    input.type = 'password';
-    btn.textContent = '👁️';
-  }
+  input.type = input.type === 'password' ? 'text' : 'password';
+  btn.textContent = input.type === 'password' ? '👁️' : '🙈';
 }
 
 // ════════════════════════════════════════════════════
-//  TEST DE CONEXIÓN (vía proxy CORS)
+//  TEST CONEXIÓN
 // ════════════════════════════════════════════════════
 async function testConnection() {
   const url = document.getElementById('cfg-portal-url').value.trim();
@@ -1316,19 +979,15 @@ async function testConnection() {
 
   if (!url || !mac) {
     resultEl.className = 'connection-result error';
-    resultEl.textContent = '⚠️ Introduce la URL del portal y la MAC primero.';
+    resultEl.textContent = '⚠️ Introduce la URL y la MAC primero.';
     return;
   }
-
   btn.disabled = true;
-  btn.textContent = '⏳ Probando conexión...';
+  btn.textContent = '⏳ Probando...';
   resultEl.className = 'connection-result loading';
-  resultEl.textContent = '🔌 Conectando con el portal Stalker...';
+  resultEl.textContent = '🔌 Verificando formato...';
 
-  // Nota: las peticiones directas al portal fallan por CORS desde el navegador.
-  // El test real lo hace el scraper Python en GitHub Actions.
-  // Aquí solo validamos formato básico.
-  await new Promise(r => setTimeout(r, 1500));
+  await new Promise(r => setTimeout(r, 1200));
 
   const macValid = /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/.test(mac);
   const urlValid = url.startsWith('http') && url.includes('.');
@@ -1338,13 +997,8 @@ async function testConnection() {
 
   if (macValid && urlValid) {
     resultEl.className = 'connection-result success';
-    resultEl.innerHTML = `
-      ✅ <strong>Formato válido.</strong><br>
-      <span style="font-size:0.78rem">
-        La conexión real al portal se realizará cuando ejecutes el workflow en GitHub Actions,
-        ya que el navegador no puede conectarse directamente al portal por restricciones CORS.
-        El scraper Python sí puede conectarse sin problemas.
-      </span>`;
+    resultEl.innerHTML = `✅ <strong>Formato válido.</strong><br>
+      <span style="font-size:0.78rem">La conexión real se realizará cuando ejecutes el workflow en GitHub Actions.</span>`;
   } else {
     resultEl.className = 'connection-result error';
     resultEl.innerHTML = `❌ <strong>Formato inválido.</strong> Revisa la URL y la MAC.`;
@@ -1352,30 +1006,23 @@ async function testConnection() {
 }
 
 // ════════════════════════════════════════════════════
-//  MODAL: EJECUTAR WORKFLOW
+//  MODAL EJECUTAR WORKFLOW
 // ════════════════════════════════════════════════════
 function openRunModal() {
-  const box = document.getElementById('run-status-box');
+  const box    = document.getElementById('run-status-box');
   const footer = document.getElementById('run-footer');
 
   if (!cfg.ghUser || !cfg.ghRepo) {
-    toast('⚠️ Configura primero GitHub (usuario y repositorio)', 'error');
-    openConfigModal();
-    return;
+    toast('⚠️ Configura primero GitHub','error');
+    openConfigModal(); return;
   }
 
   if (!cfg.ghToken) {
     box.innerHTML = `
       <div class="run-icon">⚠️</div>
       <div class="run-title">Token de GitHub requerido</div>
-      <div class="run-desc">
-        Para disparar el workflow automáticamente desde aquí necesitas un
-        <strong>Personal Access Token</strong> con permiso <code>workflow</code>.<br><br>
-        Sin el token, puedes ejecutarlo manualmente en GitHub:
-      </div>
-      <a class="actions-link" href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions" target="_blank">
-        🔗 Abrir GitHub Actions
-      </a>`;
+      <div class="run-desc">Necesitas un Personal Access Token con scopes <code>repo</code> + <code>workflow</code>.</div>
+      <a class="actions-link" href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions" target="_blank">🔗 Abrir GitHub Actions</a>`;
     footer.innerHTML = `
       <button class="btn btn-secondary" onclick="closeRunModal()">Cerrar</button>
       <button class="btn btn-primary" onclick="closeRunModal();openConfigModal()">⚙️ Añadir Token</button>`;
@@ -1387,30 +1034,15 @@ function openRunModal() {
   box.innerHTML = `
     <div class="run-icon">🚀</div>
     <div class="run-title">¿Ejecutar actualización ahora?</div>
-    <div class="run-desc">
-      Se disparará el workflow <strong>"Actualizar Playlist M3U"</strong> en GitHub Actions.<br>
-      El proceso puede tardar entre <strong>5 y 60 minutos</strong> según el tamaño del portal.
-    </div>
+    <div class="run-desc">Se disparará el workflow en GitHub Actions. Puede tardar entre <strong>5 y 60 minutos</strong>.</div>
     <div class="run-info-list">
-      <div class="run-info-item">
-        <span class="label">📡 Portal</span>
-        <span class="value">${h(cfg.portalUrl || 'No configurado')}</span>
-      </div>
-      <div class="run-info-item">
-        <span class="label">🔑 MAC</span>
-        <span class="value">${h(cfg.mac || 'No configurada')}</span>
-      </div>
-      <div class="run-info-item">
-        <span class="label">📦 Repo</span>
-        <span class="value">${h(cfg.ghUser)}/${h(cfg.ghRepo)}</span>
-      </div>
+      <div class="run-info-item"><span class="label">📡 Portal</span><span class="value">${h(cfg.portalUrl||'No configurado')}</span></div>
+      <div class="run-info-item"><span class="label">🔑 MAC</span><span class="value">${h(cfg.mac||'No configurada')}</span></div>
+      <div class="run-info-item"><span class="label">📦 Repo</span><span class="value">${h(cfg.ghUser)}/${h(cfg.ghRepo)}</span></div>
     </div>`;
-
   footer.innerHTML = `
     <button class="btn btn-secondary" onclick="closeRunModal()">Cancelar</button>
-    <button class="btn btn-primary" id="btn-trigger" onclick="triggerWorkflow()">
-      🚀 Disparar Workflow
-    </button>`;
+    <button class="btn btn-primary" id="btn-trigger" onclick="triggerWorkflow()">🚀 Disparar Workflow</button>`;
 
   document.getElementById('run-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1424,10 +1056,9 @@ function closeRunModal() {
 async function triggerWorkflow() {
   const btn = document.getElementById('btn-trigger');
   if (!btn) return;
-  btn.disabled = true;
-  btn.textContent = '⏳ Disparando...';
+  btn.disabled = true; btn.textContent = '⏳ Disparando...';
 
-  const box = document.getElementById('run-status-box');
+  const box    = document.getElementById('run-status-box');
   const apiUrl = `https://api.github.com/repos/${cfg.ghUser}/${cfg.ghRepo}/actions/workflows/update.yml/dispatches`;
 
   try {
@@ -1440,74 +1071,47 @@ async function triggerWorkflow() {
       },
       body: JSON.stringify({
         ref: 'main',
-        inputs: {
-          portal_url:  cfg.portalUrl || '',
-          mac_address: cfg.mac       || '',
-        }
+        inputs: { portal_url: cfg.portalUrl||'', mac_address: cfg.mac||'' }
       })
     });
 
     if (resp.status === 204) {
-      // Éxito
       box.innerHTML = `
         <div class="run-icon">✅</div>
         <div class="run-title">¡Workflow disparado con éxito!</div>
-        <div class="run-desc">
-          GitHub Actions está ejecutando el scraper ahora mismo.<br>
-          El proceso tardará entre <strong>5 y 60 minutos</strong>.<br>
-          Cuando termine, tu playlist M3U y este dashboard se actualizarán automáticamente.
-        </div>
-        <div class="progress-bar-wrap">
-          <div class="progress-bar" id="prog-bar"></div>
-        </div>
-        <a class="actions-link"
-           href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions"
-           target="_blank">
-          🔗 Ver progreso en GitHub Actions
-        </a>`;
+        <div class="run-desc">GitHub Actions está ejecutando el scraper. Tardará entre <strong>5 y 60 minutos</strong>.</div>
+        <div class="progress-bar-wrap"><div class="progress-bar" id="prog-bar"></div></div>
+        <a class="actions-link" href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions" target="_blank">🔗 Ver progreso en GitHub Actions</a>`;
+      document.getElementById('run-footer').innerHTML = `<button class="btn btn-secondary" onclick="closeRunModal()">Cerrar</button>`;
 
-      document.getElementById('run-footer').innerHTML = `
-        <button class="btn btn-secondary" onclick="closeRunModal()">Cerrar</button>`;
-
-      // Animación de progreso (simulada)
       let pct = 0;
-      const progInterval = setInterval(() => {
-        pct = Math.min(pct + Math.random() * 3, 85);
+      const iv = setInterval(() => {
+        pct = Math.min(pct + Math.random()*3, 85);
         const bar = document.getElementById('prog-bar');
-        if (bar) bar.style.width = pct + '%';
-        else clearInterval(progInterval);
+        if (bar) bar.style.width = pct+'%'; else clearInterval(iv);
       }, 800);
-
-      toast('🚀 Workflow iniciado en GitHub Actions', 'success');
+      toast('🚀 Workflow iniciado en GitHub Actions','success');
 
     } else if (resp.status === 401) {
-      throw new Error('Token inválido o sin permisos. Verifica que tiene el scope "workflow".');
+      throw new Error('Token inválido. Verifica que tiene los scopes repo + workflow.');
     } else if (resp.status === 404) {
-      throw new Error(`Repositorio no encontrado o el archivo "update.yml" no existe en .github/workflows/`);
+      throw new Error('Repositorio no encontrado o update.yml no existe en .github/workflows/');
     } else if (resp.status === 422) {
-      throw new Error('El workflow no acepta dispatch. Verifica que el update.yml tiene "workflow_dispatch".');
+      throw new Error('El workflow no acepta dispatch. Verifica que update.yml tiene "workflow_dispatch".');
     } else {
-      const errData = await resp.json().catch(() => ({}));
-      throw new Error(errData.message || `Error HTTP ${resp.status}`);
+      const d = await resp.json().catch(()=>({}));
+      throw new Error(d.message || `Error HTTP ${resp.status}`);
     }
-
-  } catch (err) {
+  } catch(err) {
     box.innerHTML = `
       <div class="run-icon">❌</div>
       <div class="run-title">Error al disparar el workflow</div>
       <div class="run-desc" style="color:var(--accent)">${h(err.message)}</div>
-      <div class="run-desc" style="margin-top:1rem">
-        Puedes ejecutarlo manualmente:<br>
-        <a class="actions-link"
-           href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions"
-           target="_blank">
-          🔗 Abrir GitHub Actions
-        </a>
-      </div>`;
+      <a class="actions-link" href="https://github.com/${h(cfg.ghUser||'')}/${h(cfg.ghRepo||'')}/actions" target="_blank">🔗 Abrir GitHub Actions</a>`;
     document.getElementById('run-footer').innerHTML = `
       <button class="btn btn-secondary" onclick="closeRunModal()">Cerrar</button>
       <button class="btn btn-primary" onclick="closeRunModal();openConfigModal()">⚙️ Revisar token</button>`;
-    toast('❌ ' + err.message, 'error');
+    toast('❌ '+err.message,'error');
   }
 }
 
@@ -1518,8 +1122,8 @@ async function loadMetadata() {
   if (!cfg.ghUser || !cfg.ghRepo) return;
 
   document.getElementById('setup-banner').classList.remove('visible');
-  document.getElementById('grid').style.display         = 'none';
-  document.getElementById('empty-state').style.display  = 'none';
+  document.getElementById('grid').style.display          = 'none';
+  document.getElementById('empty-state').style.display   = 'none';
   document.getElementById('loading-state').style.display = 'block';
 
   const metaUrl = `https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/metadata.json`;
@@ -1530,12 +1134,12 @@ async function loadMetadata() {
     const data = await resp.json();
 
     allItems = data.items || [];
-    document.getElementById('last-update').textContent = '🕐 ' + (data.generated || '—');
-    document.getElementById('stats-row').style.display = 'flex';
+    document.getElementById('last-update').textContent = '🕐 ' + (data.generated||'—');
+    document.getElementById('stats-row').style.display  = 'flex';
 
-    const live   = allItems.filter(i => i.type === 'live').length;
-    const movies = allItems.filter(i => i.type === 'movie').length;
-    const series = new Set(allItems.filter(i => i.type === 'series').map(i => i.serie_name)).size;
+    const live   = allItems.filter(i=>i.type==='live').length;
+    const movies = allItems.filter(i=>i.type==='movie').length;
+    const series = new Set(allItems.filter(i=>i.type==='series').map(i=>i.serie_name)).size;
 
     document.getElementById('stat-total').textContent  = allItems.length.toLocaleString();
     document.getElementById('stat-live').textContent   = live.toLocaleString();
@@ -1545,17 +1149,16 @@ async function loadMetadata() {
     document.getElementById('loading-state').style.display = 'none';
     applyFilters();
 
-  } catch (err) {
+  } catch(err) {
     document.getElementById('loading-state').innerHTML = `
       <div style="font-size:2.5rem;margin-bottom:1rem">📭</div>
       <p style="font-weight:700;margin-bottom:0.5rem">${h(err.message)}</p>
       <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-muted)">
-        Ve a la pestaña <strong>Actions</strong> de tu repositorio y ejecuta el workflow manualmente.
+        Ve a la pestaña <strong>Actions</strong> de tu repositorio y ejecuta el workflow.
       </p>
       <div style="margin-top:1.5rem;display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
         <button class="btn btn-primary" onclick="openRunModal()">🚀 Ejecutar ahora</button>
-        <a class="btn btn-secondary"
-           href="https://github.com/${h(cfg.ghUser||'')}/${h(cfg.ghRepo||'')}/actions"
+        <a class="btn btn-secondary" href="https://github.com/${h(cfg.ghUser||'')}/${h(cfg.ghRepo||'')}/actions"
            target="_blank" style="text-decoration:none">🔗 Ver en GitHub</a>
       </div>`;
   }
@@ -1573,16 +1176,17 @@ function setType(type) {
 }
 
 function applyFilters() {
-  const q      = document.getElementById('search').value.toLowerCase().trim();
-  const lang   = document.getElementById('lang-filter').value;
-  const sortBy = document.getElementById('sort-filter').value;
+  const q       = document.getElementById('search').value.toLowerCase().trim();
+  const lang    = document.getElementById('lang-filter').value;
+  const country = document.getElementById('country-filter').value;
+  const sortBy  = document.getElementById('sort-filter').value;
 
   let items = allItems;
 
-  // Deduplicar series
+  // Deduplicar según tipo
   if (currentType === 'series') {
     const seen = new Map();
-    items.forEach(i => { if (i.type === 'series' && !seen.has(i.serie_name)) seen.set(i.serie_name, i); });
+    items.forEach(i => { if (i.type==='series' && !seen.has(i.serie_name)) seen.set(i.serie_name, i); });
     items = Array.from(seen.values());
   } else if (currentType !== 'all') {
     const seenIds = new Set();
@@ -1603,18 +1207,26 @@ function applyFilters() {
     items = out;
   }
 
+  // Filtro idioma
   if (lang !== 'all') items = items.filter(i => i.lang === lang);
 
+  // Filtro país
+  if (country !== 'all') items = items.filter(i => i.country === country);
+
+  // Filtro búsqueda
   if (q) {
-    items = items.filter(i => [i.name, i.serie_name, i.description, i.actors, i.director, i.group, i.genres]
-      .join(' ').toLowerCase().includes(q));
+    items = items.filter(i =>
+      [i.name, i.serie_name, i.description, i.actors, i.director, i.group, i.genres]
+        .join(' ').toLowerCase().includes(q)
+    );
   }
 
-  items = [...items].sort((a, b) => {
-    if (sortBy === 'name')   return (a.name||'').localeCompare(b.name||'');
-    if (sortBy === 'year')   return (b.year||0) - (a.year||0);
-    if (sortBy === 'rating') return parseFloat(b.rating||0) - parseFloat(a.rating||0);
-    if (sortBy === 'type')   return (a.type||'').localeCompare(b.type||'');
+  // Ordenar
+  items = [...items].sort((a,b) => {
+    if (sortBy==='name')   return (a.name||'').localeCompare(b.name||'');
+    if (sortBy==='year')   return (b.year||0)-(a.year||0);
+    if (sortBy==='rating') return parseFloat(b.rating||0)-parseFloat(a.rating||0);
+    if (sortBy==='type')   return (a.type||'').localeCompare(b.type||'');
     return 0;
   });
 
@@ -1635,15 +1247,10 @@ document.getElementById('search').addEventListener('input', () => {
 function renderGrid(items) {
   const grid  = document.getElementById('grid');
   const empty = document.getElementById('empty-state');
-
-  if (!items.length) {
-    grid.style.display  = 'none';
-    empty.style.display = 'block';
-    return;
-  }
+  if (!items.length) { grid.style.display='none'; empty.style.display='block'; return; }
   empty.style.display = 'none';
   grid.style.display  = 'grid';
-  grid.innerHTML = items.map((item, i) => buildCard(item, i)).join('');
+  grid.innerHTML = items.map((item,i) => buildCard(item,i)).join('');
 }
 
 function buildCard(item, idx) {
@@ -1653,9 +1260,11 @@ function buildCard(item, idx) {
   const logo     = item.logo || FALLBACK;
   const badge    = isLive ? 'badge-live' : isMovie ? 'badge-movie' : 'badge-series';
   const badgeTxt = isLive ? `<span class="live-dot"></span>En Vivo`
-                           : isMovie ? '🎬 Película' : '📺 Serie';
+                          : isMovie ? '🎬 Película' : '📺 Serie';
   const year     = item.year   ? `<span class="card-year">${h(item.year)}</span>` : '';
   const rating   = item.rating ? `<span class="card-rating">⭐${h(item.rating)}</span>` : '';
+  const flag     = FLAG_MAP[item.country] || '🌐';
+  const countryCode = item.country || 'OTHER';
 
   return `
     <div class="card" onclick="openDetailModal(${idx})">
@@ -1668,6 +1277,7 @@ function buildCard(item, idx) {
         <div class="card-meta">
           <span class="badge ${badge}">${badgeTxt}</span>
           <span class="badge badge-lang">${h(item.lang||'?')}</span>
+          <span class="badge badge-country" title="${h(countryCode)}">${flag}</span>
           ${year}${rating}
         </div>
       </div>
@@ -1675,7 +1285,7 @@ function buildCard(item, idx) {
 }
 
 // ════════════════════════════════════════════════════
-//  MODAL DE DETALLE
+//  MODAL DETALLE
 // ════════════════════════════════════════════════════
 function openDetailModal(idx) {
   const item = filteredItems[idx];
@@ -1683,43 +1293,39 @@ function openDetailModal(idx) {
 
   const name   = item.serie_name || item.name || 'Sin nombre';
   const poster = item.logo || FALLBACK;
+  const flag   = FLAG_MAP[item.country] || '🌐';
 
   document.getElementById('det-title').textContent = name;
   document.getElementById('det-backdrop').src = poster;
   document.getElementById('det-poster').src   = poster;
 
-  // Badges
   const bClass = item.type==='live' ? 'badge-live' : item.type==='movie' ? 'badge-movie' : 'badge-series';
   const bText  = item.type==='live' ? '📡 En Vivo' : item.type==='movie'  ? '🎬 Película' : '📺 Serie';
   document.getElementById('det-badges').innerHTML = `
     <span class="badge ${bClass}">${bText}</span>
     <span class="badge badge-lang">${h(item.lang||'?')}</span>
+    <span class="badge badge-country">${flag} ${h(item.country||'OTHER')}</span>
     ${item.genres ? `<span class="badge" style="background:#222;color:#aaa">${h(item.genres)}</span>` : ''}`;
 
-  // Meta
   const metas = [
     ['Año',      item.year],
+    ['País',     item.country ? `${flag} ${item.country}` : ''],
     ['Rating',   item.rating   ? `⭐ ${item.rating}` : ''],
     ['Director', item.director],
     ['Reparto',  item.actors],
     ['Duración', item.duration],
     ['Grupo',    item.group],
   ].filter(([,v]) => v);
+
   document.getElementById('det-meta').innerHTML = metas.map(([l,v]) => `
     <div class="meta-item">
       <label>${l}</label><span>${h(String(v))}</span>
     </div>`).join('');
 
-  // Descripción
   const descEl = document.getElementById('det-desc');
-  if (item.description) {
-    descEl.textContent = item.description;
-    descEl.style.display = 'block';
-  } else {
-    descEl.style.display = 'none';
-  }
+  if (item.description) { descEl.textContent = item.description; descEl.style.display='block'; }
+  else { descEl.style.display = 'none'; }
 
-  // URL stream
   const url = item.url || '';
   document.getElementById('det-url-input').value = url;
   document.getElementById('det-vlc').href = url ? `vlc://${url}` : '#';
@@ -1728,7 +1334,7 @@ function openDetailModal(idx) {
   const epsSection = document.getElementById('det-episodes');
   if (item.type === 'series' && item.serie_name) {
     const eps = allItems
-      .filter(i => i.type === 'series' && i.serie_name === item.serie_name)
+      .filter(i => i.type==='series' && i.serie_name===item.serie_name)
       .sort((a,b) => {
         const sd = parseInt(a.season||0) - parseInt(b.season||0);
         return sd !== 0 ? sd : parseInt(a.episode||0) - parseInt(b.episode||0);
@@ -1744,22 +1350,22 @@ function openDetailModal(idx) {
       seasons[sk].push(ep);
     });
 
-    document.getElementById('det-season-list').innerHTML = Object.entries(seasons).map(([sName, eps]) => `
+    document.getElementById('det-season-list').innerHTML = Object.entries(seasons).map(([sName,eps]) => `
       <div class="season-group">
         <div class="season-title">🎬 ${h(sName)} <span style="color:var(--text-muted);font-weight:400">(${eps.length} ep.)</span></div>
         <div class="episode-list">
-          ${eps.map((ep, ei) => `
-            <div class="episode-item" onclick="selectEpisode('${h(ep.url||'')}', event)">
+          ${eps.map(ep => `
+            <div class="episode-item" onclick="selectEpisode('${h(ep.url||'')}',event)">
               <div class="ep-info">
                 <div class="ep-num">Episodio ${h(String(ep.episode||'?'))}</div>
-                <div class="ep-name">${h(ep.ep_name || ep.name || 'Episodio')}</div>
+                <div class="ep-name">${h(ep.ep_name||ep.name||'Episodio')}</div>
               </div>
-              <button class="btn-ep" onclick="selectEpisode('${h(ep.url||'')}', event)">▶</button>
+              <button class="btn-ep" onclick="selectEpisode('${h(ep.url||'')}',event)">▶</button>
             </div>`).join('')}
         </div>
       </div>`).join('');
 
-    epsSection.style.display = 'block';
+    epsSection.style.display = eps.length ? 'block' : 'none';
   } else {
     epsSection.style.display = 'none';
   }
@@ -1772,7 +1378,7 @@ function selectEpisode(url, event) {
   event.stopPropagation();
   document.getElementById('det-url-input').value = url;
   document.getElementById('det-vlc').href = url ? `vlc://${url}` : '#';
-  navigator.clipboard.writeText(url).then(() => toast('📋 URL del episodio copiada', 'success')).catch(()=>{});
+  navigator.clipboard.writeText(url).then(()=>toast('📋 URL del episodio copiada','success')).catch(()=>{});
 }
 
 function closeDetailModal() {
@@ -1782,7 +1388,7 @@ function closeDetailModal() {
 
 function copyDetailUrl() {
   const url = document.getElementById('det-url-input').value;
-  navigator.clipboard.writeText(url).then(() => toast('📋 URL copiada', 'success')).catch(()=>{});
+  navigator.clipboard.writeText(url).then(()=>toast('📋 URL copiada','success')).catch(()=>{});
 }
 
 // ════════════════════════════════════════════════════
@@ -1790,14 +1396,14 @@ function copyDetailUrl() {
 // ════════════════════════════════════════════════════
 function copyM3uUrl() {
   const val = document.getElementById('m3u-url-display').value;
-  if (!val) { toast('⚠️ Configura el portal primero', 'error'); return; }
+  if (!val) { toast('⚠️ Configura el portal primero','error'); return; }
   navigator.clipboard.writeText(val)
-    .then(() => toast('📋 URL M3U copiada al portapapeles', 'success'))
-    .catch(() => toast('⚠️ No se pudo copiar', 'error'));
+    .then(()=>toast('📋 URL M3U copiada','success'))
+    .catch(()=>toast('⚠️ No se pudo copiar','error'));
 }
 
 // ════════════════════════════════════════════════════
-//  CERRAR OVERLAY AL HACER CLIC FUERA
+//  CERRAR OVERLAYS
 // ════════════════════════════════════════════════════
 function closeOnOverlay(event, id) {
   if (event.target.id === id) {
@@ -1816,16 +1422,16 @@ document.addEventListener('keydown', e => {
 // ════════════════════════════════════════════════════
 //  TOAST
 // ════════════════════════════════════════════════════
-function toast(msg, type = 'info') {
+function toast(msg, type='info') {
   const el = document.createElement('div');
   el.className = `toast ${type}`;
   el.textContent = msg;
   document.getElementById('toast-container').appendChild(el);
-  setTimeout(() => el.remove(), 3500);
+  setTimeout(()=>el.remove(), 3500);
 }
 
 // ════════════════════════════════════════════════════
-//  HELPERS
+//  ESCAPE HTML
 // ════════════════════════════════════════════════════
 function h(str) {
   return String(str)
