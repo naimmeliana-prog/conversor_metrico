@@ -1,467 +1,269 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>📡 Mi IPTV Dashboard</title>
   <style>
-    :root {
-      --bg-dark:      #0a0a0f;
-      --bg-card:      #12121e;
-      --bg-card2:     #0e0e1a;
-      --bg-input:     #1a1a2e;
-      --accent:       #e94560;
-      --accent-hover: #c73652;
-      --accent2:      #0f3460;
-      --accent3:      #533483;
-      --success:      #4ecca3;
-      --warning:      #f5a623;
-      --text:         #e8e8f0;
-      --text-muted:   #6a6a8a;
-      --border:       #2a2a4a;
-      --border-focus: #4a4a7a;
-      --badge-live:   #e94560;
-      --badge-movie:  #4ecca3;
-      --badge-series: #f5a623;
-      --radius:       14px;
-      --radius-sm:    8px;
-      --shadow:       0 8px 32px rgba(0,0,0,0.6);
-      --shadow-lg:    0 20px 60px rgba(0,0,0,0.8);
+    :root{
+      --bg-dark:#0a0a0f;--bg-card:#12121e;--bg-card2:#0e0e1a;--bg-input:#1a1a2e;
+      --accent:#e94560;--accent-h:#c73652;--accent2:#0f3460;--accent3:#533483;
+      --success:#4ecca3;--warning:#f5a623;
+      --text:#e8e8f0;--text-muted:#6a6a8a;
+      --border:#2a2a4a;--border-f:#4a4a7a;
+      --bl:#e94560;--bm:#4ecca3;--bs:#f5a623;
+      --r:14px;--rs:8px;
+      --shadow:0 8px 32px rgba(0,0,0,.6);
+      --shadow-lg:0 20px 60px rgba(0,0,0,.8);
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg-dark);
-      color: var(--text);
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      min-height: 100vh;
-    }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg-dark); }
-    ::-webkit-scrollbar-thumb { background: var(--accent2); border-radius: 3px; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg-dark);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg-dark)}::-webkit-scrollbar-thumb{background:var(--accent2);border-radius:3px}
 
     /* ── HEADER ── */
-    header {
-      background: linear-gradient(135deg,#0f0f1a 0%,#1a0a2e 50%,#0f1a2e 100%);
-      padding: 1rem 1.5rem;
-      border-bottom: 1px solid var(--border);
-      position: sticky; top: 0; z-index: 100;
-    }
-    .header-content {
-      max-width: 1800px; margin: 0 auto;
-      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
-    }
-    .logo { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
-    .logo-icon {
-      width: 40px; height: 40px;
-      background: linear-gradient(135deg, var(--accent), var(--accent3));
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-    }
-    .logo h1 {
-      font-size: 1.2rem; font-weight: 700;
-      background: linear-gradient(135deg, var(--text), #aaa);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .logo .subtitle { font-size: 0.68rem; color: var(--text-muted); margin-top: 0.1rem; }
-
-    .m3u-url-box {
-      display: flex; align-items: center; gap: 0.5rem;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 0.45rem 0.75rem;
-      flex: 1; min-width: 250px; max-width: 550px;
-    }
-    .m3u-url-box label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; white-space: nowrap; }
-    .m3u-url-box input {
-      background: none; border: none; color: var(--accent);
-      font-family: monospace; font-size: 0.75rem;
-      flex: 1; outline: none; cursor: pointer; min-width: 0;
-    }
-
-    .stats-row { display: flex; gap: 1.2rem; flex-wrap: wrap; align-items: center; }
-    .stat-item { text-align: center; }
-    .stat-num { font-size: 1.2rem; font-weight: 700; line-height: 1; }
-    .stat-label { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; margin-top: 0.1rem; }
-
-    .header-actions { display: flex; gap: 0.5rem; align-items: center; margin-left: auto; }
-    .btn-icon {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border);
-      color: var(--text); padding: 0.5rem 0.9rem;
-      border-radius: var(--radius-sm); cursor: pointer;
-      font-size: 0.82rem; font-weight: 600;
-      display: flex; align-items: center; gap: 0.4rem;
-      transition: all 0.2s; white-space: nowrap;
-    }
-    .btn-icon:hover { background: rgba(255,255,255,0.1); border-color: var(--border-focus); }
-    .btn-icon.primary { background: var(--accent); border-color: var(--accent); color: white; }
-    .btn-icon.primary:hover { background: var(--accent-hover); }
-
-    .config-status {
-      display: flex; align-items: center; gap: 0.4rem;
-      padding: 0.35rem 0.75rem; border-radius: 20px;
-      font-size: 0.72rem; font-weight: 600; border: 1px solid;
-    }
-    .config-status.configured {
-      background: rgba(78,204,163,0.1); border-color: rgba(78,204,163,0.3); color: var(--success);
-    }
-    .config-status.not-configured {
-      background: rgba(233,69,96,0.1); border-color: rgba(233,69,96,0.3); color: var(--accent);
-    }
-    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
-    .status-dot.pulse { animation: pulse-dot 1.5s ease-in-out infinite; }
-    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
-
-    /* ── OVERLAYS ── */
-    .overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.88); z-index: 1000;
-      justify-content: center; align-items: flex-start;
-      padding: 2rem 1rem; overflow-y: auto;
-    }
-    .overlay.open { display: flex; }
-
-    /* ── MODAL CONFIG ── */
-    .config-modal {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); width: 100%; max-width: 680px;
-      box-shadow: var(--shadow-lg);
-      animation: slide-in 0.3s cubic-bezier(0.34,1.56,0.64,1);
-      overflow: hidden; margin: auto;
-    }
-    @keyframes slide-in {
-      from{opacity:0;transform:translateY(-30px) scale(0.96)}
-      to{opacity:1;transform:translateY(0) scale(1)}
-    }
-    .config-modal-header {
-      background: linear-gradient(135deg, var(--accent2), var(--accent3));
-      padding: 1.5rem;
-      display: flex; justify-content: space-between; align-items: flex-start;
-    }
-    .config-modal-header h2 { font-size: 1.15rem; font-weight: 700; }
-    .config-modal-header p { font-size: 0.78rem; color: rgba(255,255,255,0.65); margin-top: 0.3rem; line-height: 1.4; }
-    .modal-close-btn {
-      background: rgba(255,255,255,0.1); border: none; color: white;
-      width: 30px; height: 30px; border-radius: 50%;
-      cursor: pointer; font-size: 1rem;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; margin-left: 1rem; transition: background 0.2s;
-    }
-    .modal-close-btn:hover { background: rgba(255,255,255,0.25); }
-    .config-modal-body { padding: 1.5rem; }
-
-    .config-section {
-      margin-bottom: 1.5rem;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm); padding: 1.2rem;
-    }
-    .config-section-title {
-      font-size: 0.72rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.1em;
-      color: var(--accent); margin-bottom: 1rem;
-    }
-    .form-group { margin-bottom: 1rem; }
-    .form-group:last-child { margin-bottom: 0; }
-    .form-group label {
-      display: block; font-size: 0.78rem; font-weight: 600;
-      color: var(--text); margin-bottom: 0.4rem;
-    }
-    .form-group label span { font-size: 0.68rem; font-weight: 400; color: var(--text-muted); margin-left: 0.4rem; }
-    .form-input {
-      width: 100%; background: var(--bg-input);
-      border: 1px solid var(--border); border-radius: var(--radius-sm);
-      color: var(--text); padding: 0.65rem 0.9rem;
-      font-size: 0.88rem; font-family: inherit; outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(233,69,96,0.12); }
-    .form-input::placeholder { color: var(--text-muted); }
-    .form-input.mono { font-family: 'Courier New', monospace; font-size: 0.85rem; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-    .input-wrapper { position: relative; }
-    .input-wrapper .form-input { padding-right: 2.5rem; }
-    .toggle-eye {
-      position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
-      background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 0.9rem;
-    }
-    .toggle-eye:hover { color: var(--text); }
-    .form-hint { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.4; }
-    .form-hint a { color: var(--accent); text-decoration: none; }
-    .form-hint a:hover { text-decoration: underline; }
-    .mac-preview { display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap; }
-    .mac-octet {
-      background: rgba(233,69,96,0.1); border: 1px solid rgba(233,69,96,0.3);
-      border-radius: 4px; padding: 0.15rem 0.4rem;
-      font-family: monospace; font-size: 0.75rem; color: var(--accent); min-width: 28px; text-align: center;
-    }
-    .test-connection-btn {
-      width: 100%; padding: 0.6rem;
-      background: rgba(255,255,255,0.04); border: 1px dashed var(--border);
-      border-radius: var(--radius-sm); color: var(--text-muted); cursor: pointer;
-      font-size: 0.82rem; font-weight: 600; transition: all 0.2s; margin-top: 0.75rem;
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-    }
-    .test-connection-btn:hover { background: rgba(78,204,163,0.08); border-color: var(--success); color: var(--success); }
-    .connection-result {
-      margin-top: 0.75rem; padding: 0.65rem 0.9rem;
-      border-radius: var(--radius-sm); font-size: 0.8rem; display: none; line-height: 1.4;
-    }
-    .connection-result.success { background:rgba(78,204,163,0.1);border:1px solid rgba(78,204,163,0.3);color:var(--success);display:block; }
-    .connection-result.error   { background:rgba(233,69,96,0.1);border:1px solid rgba(233,69,96,0.3);color:var(--accent);display:block; }
-    .connection-result.loading { background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text-muted);display:block; }
-
-    .config-modal-footer {
-      padding: 1rem 1.5rem; border-top: 1px solid var(--border);
-      display: flex; gap: 0.75rem; justify-content: flex-end;
-      background: rgba(0,0,0,0.2);
-    }
-    .btn {
-      padding: 0.65rem 1.4rem; border-radius: var(--radius-sm);
-      border: none; cursor: pointer; font-size: 0.88rem; font-weight: 600;
-      transition: all 0.2s; display: flex; align-items: center; gap: 0.4rem;
-    }
-    .btn-secondary { background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text); }
-    .btn-secondary:hover { background: rgba(255,255,255,0.1); }
-    .btn-primary { background: var(--accent); color: white; }
-    .btn-primary:hover { background: var(--accent-hover); }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    /* ── MODAL RUN ── */
-    .run-modal {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); width: 100%; max-width: 480px;
-      box-shadow: var(--shadow-lg);
-      animation: slide-in 0.3s cubic-bezier(0.34,1.56,0.64,1);
-      overflow: hidden; margin: auto;
-    }
-    .run-modal-header {
-      padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border);
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .run-modal-header h3 { font-size: 1rem; }
-    .run-modal-body { padding: 1.5rem; }
-    .run-status-box { text-align: center; padding: 1.5rem 1rem; }
-    .run-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
-    .run-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .run-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
-    .run-info-list { background:rgba(0,0,0,0.3);border-radius:var(--radius-sm);padding:1rem;margin-top:1rem; }
-    .run-info-item { display:flex;gap:0.75rem;align-items:flex-start;margin-bottom:0.6rem;font-size:0.8rem; }
-    .run-info-item:last-child { margin-bottom:0; }
-    .run-info-item .label { color:var(--text-muted);flex-shrink:0;min-width:70px; }
-    .run-info-item .value { color:var(--text);font-family:monospace;font-size:0.78rem;word-break:break-all; }
-    .progress-bar-wrap { background:rgba(255,255,255,0.06);border-radius:10px;height:6px;margin-top:1.5rem;overflow:hidden; }
-    .progress-bar {
-      height:100%;width:0%;
-      background:linear-gradient(90deg,var(--accent),var(--accent3));
-      border-radius:10px;transition:width 0.5s ease;
-    }
-    .actions-link {
-      display:inline-flex;align-items:center;gap:0.3rem;
-      color:var(--accent);text-decoration:none;font-size:0.8rem;margin-top:0.75rem;font-weight:600;
-    }
-    .actions-link:hover { text-decoration:underline; }
+    header{background:linear-gradient(135deg,#0f0f1a,#1a0a2e 50%,#0f1a2e);padding:1rem 1.5rem;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+    .hc{max-width:1800px;margin:0 auto;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+    .logo{display:flex;align-items:center;gap:.75rem;flex-shrink:0}
+    .logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),var(--accent3));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+    .logo h1{font-size:1.2rem;font-weight:700;background:linear-gradient(135deg,var(--text),#aaa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .logo .sub{font-size:.68rem;color:var(--text-muted);margin-top:.1rem}
+    .m3u-box{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--rs);padding:.45rem .75rem;flex:1;min-width:220px;max-width:500px}
+    .m3u-box label{font-size:.65rem;color:var(--text-muted);text-transform:uppercase;white-space:nowrap}
+    .m3u-box input{background:none;border:none;color:var(--accent);font-family:monospace;font-size:.75rem;flex:1;outline:none;cursor:pointer;min-width:0}
+    .stats-row{display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center}
+    .stat-item{text-align:center}
+    .stat-num{font-size:1.2rem;font-weight:700;line-height:1}
+    .stat-lbl{font-size:.62rem;color:var(--text-muted);text-transform:uppercase;margin-top:.1rem}
+    .h-actions{display:flex;gap:.5rem;align-items:center;margin-left:auto;flex-wrap:wrap}
+    .btn-i{background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text);padding:.5rem .9rem;border-radius:var(--rs);cursor:pointer;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:.4rem;transition:all .2s;white-space:nowrap}
+    .btn-i:hover{background:rgba(255,255,255,.1);border-color:var(--border-f)}
+    .btn-i.prim{background:var(--accent);border-color:var(--accent);color:#fff}
+    .btn-i.prim:hover{background:var(--accent-h)}
+    .cfg-badge{display:flex;align-items:center;gap:.4rem;padding:.35rem .75rem;border-radius:20px;font-size:.72rem;font-weight:600;border:1px solid}
+    .cfg-badge.ok{background:rgba(78,204,163,.1);border-color:rgba(78,204,163,.3);color:var(--success)}
+    .cfg-badge.no{background:rgba(233,69,96,.1);border-color:rgba(233,69,96,.3);color:var(--accent)}
+    .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+    .dot.pulse{animation:pdot 1.5s ease-in-out infinite}
+    @keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
 
     /* ── FILTROS ── */
-    .filters-section {
-      background: rgba(10,10,15,0.95);
-      border-bottom: 1px solid var(--border);
-      padding: 0.75rem 1.5rem;
-      position: sticky; top: 65px; z-index: 90;
-    }
-    .filters-content { max-width: 1800px; margin: 0 auto; }
-    .filters-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+    .filters{background:rgba(10,10,15,.96);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;position:sticky;top:65px;z-index:90}
+    .fc{max-width:1800px;margin:0 auto}
+    .fr{display:flex;align-items:flex-start;gap:.6rem;flex-wrap:wrap}
 
-    .search-box {
-      flex: 1; min-width: 180px;
-      background: var(--bg-input); border: 1px solid var(--border);
-      border-radius: var(--radius-sm); padding: 0.55rem 0.9rem;
-      color: var(--text); font-size: 0.88rem; outline: none; font-family: inherit;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(233,69,96,0.1); }
+    .search-box{flex:1;min-width:180px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--rs);padding:.55rem .9rem;color:var(--text);font-size:.88rem;outline:none;font-family:inherit;transition:border-color .2s,box-shadow .2s}
+    .search-box:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(233,69,96,.1)}
 
-    .type-filters { display: flex; gap: 0.4rem; }
-    .type-btn {
-      padding: 0.48rem 0.9rem; border-radius: 20px;
-      border: 1px solid var(--border); cursor: pointer;
-      font-size: 0.78rem; font-weight: 600; transition: all 0.2s;
-      background: rgba(255,255,255,0.03); color: var(--text-muted); white-space: nowrap;
-    }
-    .type-btn:hover { border-color: var(--border-focus); color: var(--text); }
-    .type-btn.active { color: white; border-color: transparent; }
-    .type-btn.active[data-type="all"]    { background: var(--accent); }
-    .type-btn.active[data-type="live"]   { background: var(--badge-live); }
-    .type-btn.active[data-type="movie"]  { background: var(--badge-movie); color: #000; }
-    .type-btn.active[data-type="series"] { background: var(--badge-series); color: #000; }
+    /* Type pills */
+    .type-pills{display:flex;gap:.4rem;flex-wrap:wrap}
+    .type-pill{padding:.42rem .85rem;border-radius:20px;border:1px solid var(--border);cursor:pointer;font-size:.78rem;font-weight:600;transition:all .2s;background:rgba(255,255,255,.03);color:var(--text-muted);white-space:nowrap;user-select:none}
+    .type-pill:hover{border-color:var(--border-f);color:var(--text)}
+    .type-pill.sel{color:#fff;border-color:transparent}
+    .type-pill[data-t="live"].sel{background:var(--bl)}
+    .type-pill[data-t="movie"].sel{background:var(--bm);color:#000}
+    .type-pill[data-t="series"].sel{background:var(--bs);color:#000}
 
-    .filter-select {
-      background: var(--bg-input); border: 1px solid var(--border);
-      border-radius: var(--radius-sm); padding: 0.5rem 0.7rem;
-      color: var(--text); font-size: 0.8rem; cursor: pointer; outline: none; font-family: inherit;
-    }
-    .filter-select option, .filter-select optgroup { background: #1a1a2e; }
+    /* Multi-select dropdown */
+    .ms-wrap{position:relative}
+    .ms-btn{background:var(--bg-input);border:1px solid var(--border);border-radius:var(--rs);padding:.5rem .8rem;color:var(--text);font-size:.8rem;cursor:pointer;outline:none;font-family:inherit;display:flex;align-items:center;gap:.5rem;white-space:nowrap;min-width:130px;user-select:none;transition:border-color .2s}
+    .ms-btn:hover,.ms-btn.open{border-color:var(--accent)}
+    .ms-btn .arrow{margin-left:auto;font-size:.6rem;transition:transform .2s}
+    .ms-btn.open .arrow{transform:rotate(180deg)}
+    .ms-count{background:var(--accent);color:#fff;border-radius:10px;font-size:.6rem;font-weight:700;padding:.1rem .35rem;min-width:18px;text-align:center}
+    .ms-dropdown{position:absolute;top:calc(100% + 4px);left:0;z-index:200;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rs);box-shadow:var(--shadow);min-width:200px;max-height:320px;overflow-y:auto;display:none}
+    .ms-dropdown.open{display:block;animation:ms-in .15s ease}
+    @keyframes ms-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+    .ms-search{padding:.5rem .7rem;border-bottom:1px solid var(--border)}
+    .ms-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.78rem;padding:.3rem .5rem;outline:none}
+    .ms-actions{display:flex;gap:.4rem;padding:.4rem .7rem;border-bottom:1px solid var(--border)}
+    .ms-action-btn{font-size:.7rem;color:var(--accent);background:none;border:none;cursor:pointer;padding:.15rem .3rem;border-radius:4px}
+    .ms-action-btn:hover{background:rgba(233,69,96,.1)}
+    .ms-opt{display:flex;align-items:center;gap:.6rem;padding:.45rem .7rem;cursor:pointer;transition:background .15s;font-size:.82rem}
+    .ms-opt:hover{background:rgba(255,255,255,.05)}
+    .ms-opt input[type=checkbox]{accent-color:var(--accent);width:14px;height:14px;cursor:pointer;flex-shrink:0}
+    .ms-opt label{cursor:pointer;flex:1;white-space:nowrap}
+    .ms-opt .count-badge{font-size:.65rem;color:var(--text-muted);margin-left:auto}
+    .ms-group-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);padding:.5rem .7rem .2rem;border-top:1px solid var(--border);margin-top:.2rem}
 
-    .results-count { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; margin-left: auto; }
+    /* Pills seleccionadas */
+    .active-pills{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.4rem;max-width:100%}
+    .active-pill{display:flex;align-items:center;gap:.3rem;background:rgba(233,69,96,.12);border:1px solid rgba(233,69,96,.3);border-radius:20px;padding:.2rem .5rem;font-size:.7rem;color:var(--accent)}
+    .active-pill .rm{background:none;border:none;color:var(--accent);cursor:pointer;font-size:.75rem;padding:0;line-height:1}
+    .active-pill .rm:hover{color:#fff}
+
+    .res-count{font-size:.75rem;color:var(--text-muted);white-space:nowrap;margin-left:auto;align-self:center}
+
+    /* ── OVERLAYS ── */
+    .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:1000;justify-content:center;align-items:flex-start;padding:2rem 1rem;overflow-y:auto}
+    .overlay.open{display:flex}
+    @keyframes slide-in{from{opacity:0;transform:translateY(-25px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+    /* ── CONFIG MODAL ── */
+    .cfg-modal{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);width:100%;max-width:720px;box-shadow:var(--shadow-lg);animation:slide-in .3s cubic-bezier(.34,1.56,.64,1);overflow:hidden;margin:auto}
+    .cfg-mh{background:linear-gradient(135deg,var(--accent2),var(--accent3));padding:1.5rem;display:flex;justify-content:space-between;align-items:flex-start}
+    .cfg-mh h2{font-size:1.15rem;font-weight:700}
+    .cfg-mh p{font-size:.78rem;color:rgba(255,255,255,.65);margin-top:.3rem;line-height:1.4}
+    .mcl{background:rgba(255,255,255,.1);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:1rem;transition:background .2s}
+    .mcl:hover{background:rgba(255,255,255,.25)}
+    .cfg-mb{padding:1.5rem}
+    .cfg-sec{margin-bottom:1.5rem;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:var(--rs);padding:1.2rem}
+    .cfg-sec-t{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:1rem}
+    .fg{margin-bottom:1rem}
+    .fg:last-child{margin-bottom:0}
+    .fg label{display:block;font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:.4rem}
+    .fg label span{font-size:.68rem;font-weight:400;color:var(--text-muted);margin-left:.4rem}
+    .fi{width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);padding:.65rem .9rem;font-size:.88rem;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s}
+    .fi:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(233,69,96,.12)}
+    .fi::placeholder{color:var(--text-muted)}
+    .fi.mono{font-family:'Courier New',monospace;font-size:.85rem}
+    .fr2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+    .iw{position:relative}
+    .iw .fi{padding-right:2.5rem}
+    .eye{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:.9rem}
+    .hint{font-size:.72rem;color:var(--text-muted);margin-top:.3rem;line-height:1.4}
+    .hint a{color:var(--accent);text-decoration:none}
+    .hint a:hover{text-decoration:underline}
+    .mac-prev{display:flex;gap:.4rem;margin-top:.5rem;flex-wrap:wrap}
+    .mac-o{background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.3);border-radius:4px;padding:.15rem .4rem;font-family:monospace;font-size:.75rem;color:var(--accent);min-width:28px;text-align:center}
+    .test-btn{width:100%;padding:.6rem;background:rgba(255,255,255,.04);border:1px dashed var(--border);border-radius:var(--rs);color:var(--text-muted);cursor:pointer;font-size:.82rem;font-weight:600;transition:all .2s;margin-top:.75rem;display:flex;align-items:center;justify-content:center;gap:.5rem}
+    .test-btn:hover{background:rgba(78,204,163,.08);border-color:var(--success);color:var(--success)}
+    .cr{margin-top:.75rem;padding:.65rem .9rem;border-radius:var(--rs);font-size:.8rem;display:none;line-height:1.4}
+    .cr.ok{background:rgba(78,204,163,.1);border:1px solid rgba(78,204,163,.3);color:var(--success);display:block}
+    .cr.err{background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.3);color:var(--accent);display:block}
+    .cr.load{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text-muted);display:block}
+    .cfg-mf{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;gap:.75rem;justify-content:flex-end;background:rgba(0,0,0,.2)}
+    .btn{padding:.65rem 1.4rem;border-radius:var(--rs);border:none;cursor:pointer;font-size:.88rem;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:.4rem}
+    .btn-sec{background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text)}
+    .btn-sec:hover{background:rgba(255,255,255,.1)}
+    .btn-prim{background:var(--accent);color:#fff}
+    .btn-prim:hover{background:var(--accent-h)}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+
+    /* ── PORTALES MANAGER ── */
+    .portals-list{display:flex;flex-direction:column;gap:.6rem}
+    .portal-item{display:flex;align-items:center;gap:.75rem;background:rgba(0,0,0,.2);border:1px solid var(--border);border-radius:var(--rs);padding:.7rem 1rem;transition:border-color .2s}
+    .portal-item.active-p{border-color:var(--success)}
+    .portal-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+    .portal-info{flex:1;min-width:0}
+    .portal-name{font-size:.85rem;font-weight:600}
+    .portal-url{font-size:.7rem;color:var(--text-muted);font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .portal-mac{font-size:.7rem;color:var(--text-muted);margin-top:.1rem}
+    .portal-actions{display:flex;gap:.4rem;align-items:center}
+    .p-toggle{background:none;border:1px solid var(--border);border-radius:6px;padding:.25rem .6rem;font-size:.72rem;cursor:pointer;color:var(--text-muted);transition:all .2s}
+    .p-toggle.on{background:rgba(78,204,163,.1);border-color:var(--success);color:var(--success)}
+    .p-toggle.off{background:rgba(233,69,96,.08);border-color:rgba(233,69,96,.3);color:var(--accent)}
+    .p-edit{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:.25rem .6rem;font-size:.72rem;cursor:pointer;color:var(--text);transition:all .2s}
+    .p-edit:hover{background:rgba(255,255,255,.12)}
+    .add-portal-btn{width:100%;padding:.6rem;background:rgba(78,204,163,.06);border:1px dashed rgba(78,204,163,.3);border-radius:var(--rs);color:var(--success);cursor:pointer;font-size:.82rem;font-weight:600;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:.5rem}
+    .add-portal-btn:hover{background:rgba(78,204,163,.12)}
+
+    /* ── RUN MODAL ── */
+    .run-modal{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);width:100%;max-width:500px;box-shadow:var(--shadow-lg);animation:slide-in .3s cubic-bezier(.34,1.56,.64,1);overflow:hidden;margin:auto}
+    .run-mh{padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+    .run-mh h3{font-size:1rem}
+    .run-mb{padding:1.5rem}
+    .run-box{text-align:center;padding:1.5rem 1rem}
+    .run-icon{font-size:2.5rem;margin-bottom:.75rem}
+    .run-title{font-size:1.1rem;font-weight:700;margin-bottom:.5rem}
+    .run-desc{font-size:.82rem;color:var(--text-muted);line-height:1.5}
+    .run-info{background:rgba(0,0,0,.3);border-radius:var(--rs);padding:1rem;margin-top:1rem}
+    .run-row{display:flex;gap:.75rem;align-items:flex-start;margin-bottom:.5rem;font-size:.8rem}
+    .run-row:last-child{margin-bottom:0}
+    .run-row .lbl{color:var(--text-muted);flex-shrink:0;min-width:80px}
+    .run-row .val{color:var(--text);font-family:monospace;font-size:.78rem;word-break:break-all}
+    .pb-wrap{background:rgba(255,255,255,.06);border-radius:10px;height:6px;margin-top:1.5rem;overflow:hidden}
+    .pb{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent3));border-radius:10px;transition:width .5s ease}
+    .alink{display:inline-flex;align-items:center;gap:.3rem;color:var(--accent);text-decoration:none;font-size:.8rem;margin-top:.75rem;font-weight:600}
+    .alink:hover{text-decoration:underline}
 
     /* ── BANNER BIENVENIDA ── */
-    .setup-banner { max-width: 1800px; margin: 2rem auto; padding: 0 1.5rem; display: none; }
-    .setup-banner.visible { display: block; }
-    .setup-banner-inner {
-      background: linear-gradient(135deg,rgba(233,69,96,0.08),rgba(83,52,131,0.08));
-      border: 1px solid rgba(233,69,96,0.25); border-radius: var(--radius);
-      padding: 2rem; display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;
-    }
-    .setup-banner-icon { font-size: 3.5rem; flex-shrink: 0; }
-    .setup-banner-text { flex: 1; min-width: 200px; }
-    .setup-banner-text h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
-    .setup-banner-text p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem; }
-    .setup-steps { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .setup-step {
-      display: flex; align-items: center; gap: 0.5rem;
-      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-      border-radius: var(--radius-sm); padding: 0.5rem 0.75rem; font-size: 0.78rem;
-    }
-    .step-num {
-      background: var(--accent); color: white;
-      width: 20px; height: 20px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.68rem; font-weight: 700; flex-shrink: 0;
-    }
+    .setup-banner{max-width:1800px;margin:2rem auto;padding:0 1.5rem;display:none}
+    .setup-banner.vis{display:block}
+    .sbi{background:linear-gradient(135deg,rgba(233,69,96,.08),rgba(83,52,131,.08));border:1px solid rgba(233,69,96,.25);border-radius:var(--r);padding:2rem;display:flex;gap:2rem;align-items:center;flex-wrap:wrap}
+    .sb-icon{font-size:3.5rem;flex-shrink:0}
+    .sb-text{flex:1;min-width:200px}
+    .sb-text h2{font-size:1.2rem;margin-bottom:.5rem}
+    .sb-text p{font-size:.85rem;color:var(--text-muted);line-height:1.5;margin-bottom:1rem}
+    .sb-steps{display:flex;gap:.5rem;flex-wrap:wrap}
+    .sb-step{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--rs);padding:.5rem .75rem;font-size:.78rem}
+    .sn{background:var(--accent);color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;flex-shrink:0}
 
     /* ── GRID ── */
-    .main-content { max-width: 1800px; margin: 0 auto; padding: 1.5rem; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-      gap: 1rem;
-    }
-    .card {
-      background: var(--bg-card); border-radius: var(--radius);
-      overflow: hidden; border: 1px solid var(--border);
-      cursor: pointer; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-      position: relative;
-    }
-    .card:hover { transform: translateY(-6px) scale(1.025); box-shadow: var(--shadow); border-color: var(--accent); z-index: 2; }
-    .card-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; background: var(--bg-input); }
-    .card-poster.landscape { aspect-ratio: 16/9; }
-    .card-info { padding: 0.65rem; }
-    .card-title {
-      font-size: 0.8rem; font-weight: 600; line-height: 1.3; margin-bottom: 0.35rem;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-    }
-    .card-meta { display: flex; gap: 0.3rem; flex-wrap: wrap; align-items: center; }
-    .badge { font-size: 0.6rem; padding: 0.1rem 0.35rem; border-radius: 4px; font-weight: 700; text-transform: uppercase; }
-    .badge-live   { background: var(--badge-live);   color: white; }
-    .badge-movie  { background: var(--badge-movie);  color: #000; }
-    .badge-series { background: var(--badge-series); color: #000; }
-    .badge-lang { background: rgba(15,52,96,0.8); border: 1px solid rgba(79,129,196,0.3); color: #7ab3f0; }
-    .badge-country { background: rgba(83,52,131,0.6); border: 1px solid rgba(150,100,200,0.3); color: #c8a0f0; }
-    .card-year   { font-size: 0.65rem; color: var(--text-muted); }
-    .card-rating { font-size: 0.65rem; color: var(--warning); }
-    .live-dot {
-      display: inline-block; width: 6px; height: 6px; background: var(--badge-live);
-      border-radius: 50%; animation: pulse-dot 1.5s ease-in-out infinite;
-      margin-right: 3px; vertical-align: middle;
-    }
+    .main-c{max-width:1800px;margin:0 auto;padding:1.5rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:1rem}
+    .card{background:var(--bg-card);border-radius:var(--r);overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;position:relative}
+    .card:hover{transform:translateY(-6px) scale(1.025);box-shadow:var(--shadow);border-color:var(--accent);z-index:2}
+    .card-img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;background:var(--bg-input)}
+    .card-img.land{aspect-ratio:16/9}
+    .card-body{padding:.65rem}
+    .card-title{font-size:.8rem;font-weight:600;line-height:1.3;margin-bottom:.35rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .card-meta{display:flex;gap:.3rem;flex-wrap:wrap;align-items:center}
+    .badge{font-size:.6rem;padding:.1rem .35rem;border-radius:4px;font-weight:700;text-transform:uppercase}
+    .bl{background:var(--bl);color:#fff}
+    .bm{background:var(--bm);color:#000}
+    .bs{background:var(--bs);color:#000}
+    .b-lang{background:rgba(15,52,96,.8);border:1px solid rgba(79,129,196,.3);color:#7ab3f0}
+    .b-country{background:rgba(83,52,131,.6);border:1px solid rgba(150,100,200,.3);color:#c8a0f0}
+    .b-portal{border-radius:4px;font-size:.58rem;padding:.1rem .3rem;font-weight:700;color:#fff;opacity:.9}
+    .card-yr{font-size:.65rem;color:var(--text-muted)}
+    .card-rt{font-size:.65rem;color:var(--warning)}
+    .live-dot{display:inline-block;width:6px;height:6px;background:var(--bl);border-radius:50%;animation:pdot 1.5s ease-in-out infinite;margin-right:3px;vertical-align:middle}
 
-    /* ── MODAL DETALLE ── */
-    .detail-modal {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); max-width: 780px; width: 100%;
-      max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg);
-      animation: slide-in 0.25s ease; margin: auto;
-    }
-    .detail-header { position: relative; background: linear-gradient(to bottom,rgba(0,0,0,0.1),var(--bg-card)); }
-    .detail-backdrop { width: 100%; height: 220px; object-fit: cover; opacity: 0.35; filter: blur(4px); display: block; }
-    .detail-poster-wrap {
-      position: absolute; bottom: -45px; left: 1.5rem;
-      width: 100px; border-radius: 8px; overflow: hidden;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.8); border: 2px solid var(--border);
-    }
-    .detail-poster { width: 100%; display: block; }
-    .detail-close {
-      position: absolute; top: 1rem; right: 1rem;
-      background: rgba(0,0,0,0.65); border: none; color: white;
-      width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
-      font-size: 1rem; display: flex; align-items: center; justify-content: center;
-    }
-    .detail-close:hover { background: rgba(0,0,0,0.9); }
-    .detail-body { padding: 3.5rem 1.5rem 1.5rem; }
-    .detail-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .detail-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
-    .detail-meta-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 0.5rem 1.5rem; margin-bottom: 1rem; }
-    .meta-item label { font-size: 0.67rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 0.1rem; }
-    .meta-item span { font-size: 0.83rem; line-height: 1.4; }
-    .detail-desc {
-      font-size: 0.83rem; line-height: 1.6; color: #bbb;
-      background: rgba(0,0,0,0.25); border-radius: var(--radius-sm);
-      padding: 0.85rem; margin-bottom: 1rem; max-height: 130px; overflow-y: auto;
-    }
-    .stream-url-box {
-      background: rgba(0,0,0,0.35); border: 1px solid var(--border);
-      border-radius: var(--radius-sm); padding: 0.7rem;
-      display: flex; align-items: center; gap: 0.5rem;
-    }
-    .stream-url-box input {
-      flex: 1; background: none; border: none; color: var(--accent);
-      font-family: monospace; font-size: 0.72rem; outline: none; min-width: 0;
-    }
-    .btn-play {
-      background: var(--accent); color: white; border: none;
-      padding: 0.45rem 0.85rem; border-radius: 6px; cursor: pointer;
-      font-weight: 700; text-decoration: none; font-size: 0.82rem;
-      display: inline-flex; align-items: center; gap: 0.3rem; white-space: nowrap; flex-shrink: 0;
-    }
-    .btn-play:hover { background: var(--accent-hover); }
-    .episodes-section { margin-top: 1.2rem; }
-    .episodes-section h3 { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .season-group { margin-bottom: 0.75rem; }
-    .season-title { font-size: 0.75rem; font-weight: 700; color: var(--accent); padding: 0.35rem 0.6rem; background: rgba(233,69,96,0.08); border-radius: 4px; margin-bottom: 0.4rem; }
-    .episode-list { display: flex; flex-direction: column; gap: 0.3rem; max-height: 280px; overflow-y: auto; }
-    .episode-item {
-      display: flex; justify-content: space-between; align-items: center;
-      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-      border-radius: 6px; padding: 0.5rem 0.7rem; font-size: 0.78rem; cursor: pointer;
-      transition: all 0.15s;
-    }
-    .episode-item:hover { background: rgba(233,69,96,0.1); border-color: var(--accent); }
-    .ep-info { flex: 1; min-width: 0; }
-    .ep-num { font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.15rem; }
-    .ep-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .btn-ep { background: var(--accent); color: white; border: none; padding: 0.2rem 0.55rem; border-radius: 4px; cursor: pointer; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; margin-left: 0.5rem; }
+    /* ── DETAIL MODAL ── */
+    .det-modal{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);max-width:780px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);animation:slide-in .25s ease;margin:auto}
+    .det-hd{position:relative;background:linear-gradient(to bottom,rgba(0,0,0,.1),var(--bg-card))}
+    .det-bg{width:100%;height:220px;object-fit:cover;opacity:.35;filter:blur(4px);display:block}
+    .det-pw{position:absolute;bottom:-45px;left:1.5rem;width:100px;border-radius:8px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.8);border:2px solid var(--border)}
+    .det-p{width:100%;display:block}
+    .det-cls{position:absolute;top:1rem;right:1rem;background:rgba(0,0,0,.65);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+    .det-cls:hover{background:rgba(0,0,0,.9)}
+    .det-bd{padding:3.5rem 1.5rem 1.5rem}
+    .det-title{font-size:1.3rem;font-weight:700;margin-bottom:.5rem}
+    .det-badges{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+    .det-mg{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem 1.5rem;margin-bottom:1rem}
+    .mi label{font-size:.67rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:.1rem}
+    .mi span{font-size:.83rem;line-height:1.4}
+    .det-desc{font-size:.83rem;line-height:1.6;color:#bbb;background:rgba(0,0,0,.25);border-radius:var(--rs);padding:.85rem;margin-bottom:1rem;max-height:130px;overflow-y:auto}
+    .su-box{background:rgba(0,0,0,.35);border:1px solid var(--border);border-radius:var(--rs);padding:.7rem;display:flex;align-items:center;gap:.5rem}
+    .su-box input{flex:1;background:none;border:none;color:var(--accent);font-family:monospace;font-size:.72rem;outline:none;min-width:0}
+    .btn-play{background:var(--accent);color:#fff;border:none;padding:.45rem .85rem;border-radius:6px;cursor:pointer;font-weight:700;text-decoration:none;font-size:.82rem;display:inline-flex;align-items:center;gap:.3rem;white-space:nowrap;flex-shrink:0}
+    .btn-play:hover{background:var(--accent-h)}
+    .eps-sec{margin-top:1.2rem}
+    .eps-sec h3{font-size:.75rem;color:var(--text-muted);margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.08em}
+    .seas-g{margin-bottom:.75rem}
+    .seas-t{font-size:.75rem;font-weight:700;color:var(--accent);padding:.35rem .6rem;background:rgba(233,69,96,.08);border-radius:4px;margin-bottom:.4rem}
+    .ep-list{display:flex;flex-direction:column;gap:.3rem;max-height:280px;overflow-y:auto}
+    .ep-item{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:6px;padding:.5rem .7rem;font-size:.78rem;cursor:pointer;transition:all .15s}
+    .ep-item:hover{background:rgba(233,69,96,.1);border-color:var(--accent)}
+    .ep-info{flex:1;min-width:0}
+    .ep-num{font-size:.65rem;color:var(--text-muted);margin-bottom:.15rem}
+    .ep-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .btn-ep{background:var(--accent);color:#fff;border:none;padding:.2rem .55rem;border-radius:4px;cursor:pointer;font-size:.7rem;font-weight:700;flex-shrink:0;margin-left:.5rem}
 
-    /* ── LOADING / EMPTY ── */
-    .loading-state { text-align: center; padding: 5rem 2rem; }
-    .spinner { width: 48px; height: 48px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
-    @keyframes spin { to{transform:rotate(360deg)} }
-    .loading-state p { color: var(--text-muted); font-size: 0.88rem; }
-    .empty-state { text-align: center; padding: 5rem 2rem; color: var(--text-muted); }
-    .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+    /* ── LOADING/EMPTY ── */
+    .load-st{text-align:center;padding:5rem 2rem}
+    .spinner{width:48px;height:48px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1rem}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .load-st p{color:var(--text-muted);font-size:.88rem}
+    .empty-st{text-align:center;padding:5rem 2rem;color:var(--text-muted)}
+    .empty-st .icon{font-size:3rem;margin-bottom:1rem}
 
     /* ── TOAST ── */
-    #toast-container { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; display: flex; flex-direction: column; gap: 0.5rem; }
-    .toast {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius-sm); padding: 0.75rem 1.2rem;
-      font-size: 0.85rem; font-weight: 600; box-shadow: var(--shadow);
-      animation: toast-in 0.3s ease; display: flex; align-items: center; gap: 0.5rem; min-width: 200px;
-    }
-    .toast.success { border-left: 3px solid var(--success); }
-    .toast.error   { border-left: 3px solid var(--accent); }
-    .toast.info    { border-left: 3px solid var(--accent2); }
-    @keyframes toast-in { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
+    #toast-c{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:.5rem}
+    .toast{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rs);padding:.75rem 1.2rem;font-size:.85rem;font-weight:600;box-shadow:var(--shadow);animation:ti .3s ease;display:flex;align-items:center;gap:.5rem;min-width:200px}
+    .toast.success{border-left:3px solid var(--success)}
+    .toast.error{border-left:3px solid var(--accent)}
+    .toast.info{border-left:3px solid var(--accent2)}
+    @keyframes ti{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
 
-    @media (max-width: 768px) {
-      header { padding: 0.75rem 1rem; position: static; }
-      .filters-section { position: static; padding: 0.6rem 1rem; }
-      .main-content { padding: 1rem; }
-      .grid { grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); gap: 0.75rem; }
-      .form-row { grid-template-columns: 1fr; }
-      .detail-meta-grid { grid-template-columns: 1fr; }
-      .setup-banner-inner { flex-direction: column; text-align: center; }
+    @media(max-width:768px){
+      header{padding:.75rem 1rem;position:static}
+      .filters{position:static;padding:.6rem 1rem}
+      .main-c{padding:1rem}
+      .grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.75rem}
+      .fr2{grid-template-columns:1fr}
+      .det-mg{grid-template-columns:1fr}
+      .sbi{flex-direction:column;text-align:center}
     }
   </style>
 </head>
@@ -469,1025 +271,1065 @@
 
 <!-- HEADER -->
 <header>
-  <div class="header-content">
+  <div class="hc">
     <div class="logo">
       <div class="logo-icon">📡</div>
       <div>
         <h1>Mi IPTV Dashboard</h1>
-        <div class="subtitle" id="last-update">Sin datos todavía</div>
+        <div class="sub" id="last-update">Sin datos todavía</div>
       </div>
     </div>
-
-    <div class="m3u-url-box">
+    <div class="m3u-box">
       <label>M3U</label>
-      <input id="m3u-url-display" type="text" readonly
-             onclick="this.select()" placeholder="Configura el portal primero" />
-      <button class="btn-icon primary" style="padding:0.35rem 0.7rem;font-size:0.75rem" onclick="copyM3uUrl()">📋</button>
+      <input id="m3u-url" type="text" readonly onclick="this.select()" placeholder="Configura el portal primero"/>
+      <button class="btn-i prim" style="padding:.35rem .7rem;font-size:.75rem" onclick="copyM3u()">📋</button>
     </div>
-
     <div class="stats-row" id="stats-row" style="display:none">
-      <div class="stat-item">
-        <div class="stat-num" id="stat-total">—</div>
-        <div class="stat-label">Total</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num" id="stat-live" style="color:var(--badge-live)">—</div>
-        <div class="stat-label">En Vivo</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num" id="stat-movies" style="color:var(--badge-movie)">—</div>
-        <div class="stat-label">Películas</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num" id="stat-series" style="color:var(--badge-series)">—</div>
-        <div class="stat-label">Series</div>
-      </div>
+      <div class="stat-item"><div class="stat-num" id="s-total">—</div><div class="stat-lbl">Total</div></div>
+      <div class="stat-item"><div class="stat-num" id="s-live" style="color:var(--bl)">—</div><div class="stat-lbl">En Vivo</div></div>
+      <div class="stat-item"><div class="stat-num" id="s-movies" style="color:var(--bm)">—</div><div class="stat-lbl">Películas</div></div>
+      <div class="stat-item"><div class="stat-num" id="s-series" style="color:var(--bs)">—</div><div class="stat-lbl">Series</div></div>
     </div>
-
-    <div class="header-actions">
-      <div class="config-status not-configured" id="config-status-badge">
-        <div class="status-dot pulse"></div>
-        <span id="config-status-text">Sin configurar</span>
-      </div>
-      <button class="btn-icon" onclick="openRunModal()">🔄 Actualizar</button>
-      <button class="btn-icon primary" onclick="openConfigModal()">⚙️ Configuración</button>
+    <div class="h-actions">
+      <div class="cfg-badge no" id="cfg-badge"><div class="dot pulse"></div><span id="cfg-txt">Sin configurar</span></div>
+      <button class="btn-i" onclick="openRunModal()">🔄 Actualizar</button>
+      <button class="btn-i prim" onclick="openCfgModal()">⚙️ Configuración</button>
     </div>
   </div>
 </header>
 
 <!-- FILTROS -->
-<div class="filters-section">
-  <div class="filters-content">
-    <div class="filters-row">
-      <input class="search-box" id="search" type="text"
-             placeholder="🔍 Buscar por nombre, actor, director..." />
+<div class="filters">
+  <div class="fc">
+    <div class="fr">
+      <input class="search-box" id="search" type="text" placeholder="🔍 Buscar nombre, actor, director..."/>
 
-      <div class="type-filters">
-        <button class="type-btn active" data-type="all"    onclick="setType('all')">🌐 Todo</button>
-        <button class="type-btn"        data-type="live"   onclick="setType('live')">📡 En Vivo</button>
-        <button class="type-btn"        data-type="movie"  onclick="setType('movie')">🎬 Películas</button>
-        <button class="type-btn"        data-type="series" onclick="setType('series')">📺 Series</button>
+      <!-- Tipo (multi-pill) -->
+      <div class="type-pills">
+        <div class="type-pill sel" data-t="live"   onclick="toggleType('live')">📡 En Vivo</div>
+        <div class="type-pill sel" data-t="movie"  onclick="toggleType('movie')">🎬 Películas</div>
+        <div class="type-pill sel" data-t="series" onclick="toggleType('series')">📺 Series</div>
       </div>
 
-      <!-- Filtro Idioma -->
-      <select class="filter-select" id="lang-filter" onchange="applyFilters()">
-        <option value="all">🌍 Idioma</option>
-        <option value="ES">🇪🇸 Español</option>
-        <option value="FR">🇫🇷 Francés</option>
-        <option value="EN">🇬🇧 Inglés</option>
-        <option value="DE">🇩🇪 Alemán</option>
-        <option value="IT">🇮🇹 Italiano</option>
-        <option value="PT">🇵🇹 Portugués</option>
-        <option value="AR">🇸🇦 Árabe</option>
-        <option value="NL">🇳🇱 Holandés</option>
-        <option value="PL">🇵🇱 Polaco</option>
-        <option value="RU">🇷🇺 Ruso</option>
-        <option value="TR">🇹🇷 Turco</option>
-        <option value="OTHER">🌐 Otros</option>
-      </select>
+      <!-- Idioma (multi-select) -->
+      <div class="ms-wrap" id="lang-wrap">
+        <div class="ms-btn" id="lang-btn" onclick="toggleMs('lang')">
+          <span>🌍 Idioma</span>
+          <span class="ms-count" id="lang-count" style="display:none">0</span>
+          <span class="arrow">▾</span>
+        </div>
+        <div class="ms-dropdown" id="lang-dd">
+          <div class="ms-search"><input type="text" placeholder="Buscar idioma..." oninput="filterMsOpts('lang',this.value)"/></div>
+          <div class="ms-actions">
+            <button class="ms-action-btn" onclick="selectAllMs('lang')">Todos</button>
+            <button class="ms-action-btn" onclick="clearMs('lang')">Ninguno</button>
+          </div>
+          <div id="lang-opts"></div>
+        </div>
+      </div>
 
-      <!-- Filtro País -->
-      <select class="filter-select" id="country-filter" onchange="applyFilters()">
-        <option value="all">🌍 País</option>
-        <optgroup label="── Europa ──">
-          <option value="ES">🇪🇸 España</option>
-          <option value="FR">🇫🇷 Francia</option>
-          <option value="GB">🇬🇧 Reino Unido</option>
-          <option value="DE">🇩🇪 Alemania</option>
-          <option value="IT">🇮🇹 Italia</option>
-          <option value="PT">🇵🇹 Portugal</option>
-          <option value="NL">🇳🇱 Países Bajos</option>
-          <option value="BE">🇧🇪 Bélgica</option>
-          <option value="CH">🇨🇭 Suiza</option>
-          <option value="PL">🇵🇱 Polonia</option>
-          <option value="RU">🇷🇺 Rusia</option>
-          <option value="TR">🇹🇷 Turquía</option>
-          <option value="RO">🇷🇴 Rumanía</option>
-          <option value="GR">🇬🇷 Grecia</option>
-          <option value="SE">🇸🇪 Suecia</option>
-          <option value="NO">🇳🇴 Noruega</option>
-          <option value="DK">🇩🇰 Dinamarca</option>
-          <option value="FI">🇫🇮 Finlandia</option>
-          <option value="CZ">🇨🇿 Rep. Checa</option>
-          <option value="HU">🇭🇺 Hungría</option>
-          <option value="HR">🇭🇷 Croacia</option>
-          <option value="RS">🇷🇸 Serbia</option>
-          <option value="UA">🇺🇦 Ucrania</option>
-        </optgroup>
-        <optgroup label="── Américas ──">
-          <option value="US">🇺🇸 USA</option>
-          <option value="MX">🇲🇽 México</option>
-          <option value="AR">🇦🇷 Argentina</option>
-          <option value="CO">🇨🇴 Colombia</option>
-          <option value="CL">🇨🇱 Chile</option>
-          <option value="PE">🇵🇪 Perú</option>
-          <option value="VE">🇻🇪 Venezuela</option>
-          <option value="BR">🇧🇷 Brasil</option>
-          <option value="EC">🇪🇨 Ecuador</option>
-          <option value="BO">🇧🇴 Bolivia</option>
-          <option value="UY">🇺🇾 Uruguay</option>
-          <option value="PY">🇵🇾 Paraguay</option>
-          <option value="CA">🇨🇦 Canadá</option>
-        </optgroup>
-        <optgroup label="── Oriente Medio y N. África ──">
-          <option value="MA">🇲🇦 Marruecos</option>
-          <option value="DZ">🇩🇿 Argelia</option>
-          <option value="TN">🇹🇳 Túnez</option>
-          <option value="LY">🇱🇾 Libia</option>
-          <option value="EG">🇪🇬 Egipto</option>
-          <option value="SA">🇸🇦 Arabia Saudí</option>
-          <option value="AE">🇦🇪 Emiratos</option>
-          <option value="QA">🇶🇦 Qatar</option>
-          <option value="KW">🇰🇼 Kuwait</option>
-          <option value="LB">🇱🇧 Líbano</option>
-          <option value="IQ">🇮🇶 Irak</option>
-          <option value="IR">🇮🇷 Irán</option>
-        </optgroup>
-        <optgroup label="── Asia ──">
-          <option value="IN">🇮🇳 India</option>
-          <option value="PK">🇵🇰 Pakistán</option>
-          <option value="CN">🇨🇳 China</option>
-          <option value="JP">🇯🇵 Japón</option>
-          <option value="KR">🇰🇷 Corea del Sur</option>
-          <option value="BD">🇧🇩 Bangladesh</option>
-          <option value="AF">🇦🇫 Afganistán</option>
-        </optgroup>
-        <optgroup label="── África ──">
-          <option value="NG">🇳🇬 Nigeria</option>
-          <option value="GH">🇬🇭 Ghana</option>
-          <option value="SN">🇸🇳 Senegal</option>
-          <option value="ZA">🇿🇦 Sudáfrica</option>
-          <option value="CM">🇨🇲 Camerún</option>
-          <option value="CI">🇨🇮 Costa de Marfil</option>
-        </optgroup>
-        <optgroup label="── Otros ──">
-          <option value="INTL">🌍 Internacional</option>
-          <option value="OTHER">❓ Sin detectar</option>
-        </optgroup>
-      </select>
+      <!-- País (multi-select) -->
+      <div class="ms-wrap" id="country-wrap">
+        <div class="ms-btn" id="country-btn" onclick="toggleMs('country')">
+          <span>🌍 País</span>
+          <span class="ms-count" id="country-count" style="display:none">0</span>
+          <span class="arrow">▾</span>
+        </div>
+        <div class="ms-dropdown" id="country-dd">
+          <div class="ms-search"><input type="text" placeholder="Buscar país..." oninput="filterMsOpts('country',this.value)"/></div>
+          <div class="ms-actions">
+            <button class="ms-action-btn" onclick="selectAllMs('country')">Todos</button>
+            <button class="ms-action-btn" onclick="clearMs('country')">Ninguno</button>
+          </div>
+          <div id="country-opts"></div>
+        </div>
+      </div>
 
-      <!-- Filtro Ordenar -->
-      <select class="filter-select" id="sort-filter" onchange="applyFilters()">
+      <!-- Portal (multi-select) -->
+      <div class="ms-wrap" id="portal-wrap" style="display:none">
+        <div class="ms-btn" id="portal-btn" onclick="toggleMs('portal')">
+          <span>📡 Portal</span>
+          <span class="ms-count" id="portal-count" style="display:none">0</span>
+          <span class="arrow">▾</span>
+        </div>
+        <div class="ms-dropdown" id="portal-dd">
+          <div class="ms-actions">
+            <button class="ms-action-btn" onclick="selectAllMs('portal')">Todos</button>
+            <button class="ms-action-btn" onclick="clearMs('portal')">Ninguno</button>
+          </div>
+          <div id="portal-opts"></div>
+        </div>
+      </div>
+
+      <!-- Ordenar -->
+      <select class="ms-btn" id="sort-f" onchange="applyFilters()" style="cursor:pointer">
         <option value="name">📋 A-Z</option>
         <option value="year">📅 Año</option>
         <option value="rating">⭐ Rating</option>
-        <option value="type">🏷️ Tipo</option>
       </select>
 
-      <span class="results-count" id="results-count"></span>
+      <span class="res-count" id="res-count"></span>
     </div>
+
+    <!-- Pills activas -->
+    <div class="active-pills" id="active-pills"></div>
   </div>
 </div>
 
 <!-- BANNER BIENVENIDA -->
 <div class="setup-banner" id="setup-banner">
-  <div class="setup-banner-inner">
-    <div class="setup-banner-icon">📡</div>
-    <div class="setup-banner-text">
-      <h2>¡Bienvenido a tu IPTV Dashboard!</h2>
-      <p>Configura tu portal MAC Stalker en 3 pasos. Todo funciona en la nube mediante GitHub Actions — sin servidores propios, sin coste.</p>
-      <div class="setup-steps">
-        <div class="setup-step"><div class="step-num">1</div><span>Abre <strong>⚙️ Configuración</strong></span></div>
-        <div class="setup-step"><div class="step-num">2</div><span>Introduce <strong>Portal URL + MAC</strong></span></div>
-        <div class="setup-step"><div class="step-num">3</div><span>Pulsa <strong>🔄 Actualizar</strong></span></div>
+  <div class="sbi">
+    <div class="sb-icon">📡</div>
+    <div class="sb-text">
+      <h2>¡Bienvenido a tu IPTV Dashboard Multi-Portal!</h2>
+      <p>Configura uno o varios portales MAC Stalker. Todo funciona en la nube con GitHub Actions.</p>
+      <div class="sb-steps">
+        <div class="sb-step"><div class="sn">1</div><span>Abre <strong>⚙️ Configuración</strong></span></div>
+        <div class="sb-step"><div class="sn">2</div><span>Añade tus <strong>portales MAC</strong></span></div>
+        <div class="sb-step"><div class="sn">3</div><span>Pulsa <strong>🔄 Actualizar</strong></span></div>
       </div>
     </div>
-    <button class="btn btn-primary" onclick="openConfigModal()">⚙️ Abrir Configuración</button>
+    <button class="btn btn-prim" onclick="openCfgModal()">⚙️ Abrir Configuración</button>
   </div>
 </div>
 
 <!-- CONTENIDO -->
-<div class="main-content">
-  <div id="loading-state" class="loading-state" style="display:none">
+<div class="main-c">
+  <div id="load-st" class="load-st" style="display:none">
     <div class="spinner"></div>
     <p>Cargando tu biblioteca IPTV...</p>
-    <p style="font-size:0.75rem;margin-top:0.4rem">Leyendo metadata.json</p>
   </div>
   <div id="grid" class="grid" style="display:none"></div>
-  <div id="empty-state" class="empty-state" style="display:none">
+  <div id="empty-st" class="empty-st" style="display:none">
     <div class="icon">🔍</div>
-    <p>No se encontraron resultados.</p>
-    <p style="font-size:0.8rem;margin-top:0.4rem">Prueba a cambiar los filtros.</p>
+    <p>No se encontraron resultados con los filtros actuales.</p>
   </div>
 </div>
 
 <!-- MODAL CONFIGURACIÓN -->
-<div class="overlay" id="config-overlay" onclick="closeOnOverlay(event,'config-overlay')">
-  <div class="config-modal" onclick="event.stopPropagation()">
-    <div class="config-modal-header">
-      <div>
-        <h2>⚙️ Configuración del Portal</h2>
-        <p>Introduce los datos de tu portal MAC Stalker y las credenciales de GitHub.</p>
-      </div>
-      <button class="modal-close-btn" onclick="closeConfigModal()">✕</button>
+<div class="overlay" id="cfg-overlay" onclick="closeOvl(event,'cfg-overlay')">
+  <div class="cfg-modal" onclick="event.stopPropagation()">
+    <div class="cfg-mh">
+      <div><h2>⚙️ Configuración</h2><p>Gestiona tus portales MAC y credenciales de GitHub.</p></div>
+      <button class="mcl" onclick="closeCfgModal()">✕</button>
     </div>
-    <div class="config-modal-body">
+    <div class="cfg-mb">
 
-      <div class="config-section">
-        <div class="config-section-title">📡 Credenciales del Portal MAC</div>
-        <div class="form-group">
-          <label>Portal URL <span>(dirección del servidor)</span></label>
-          <input class="form-input mono" id="cfg-portal-url" type="url"
-                 placeholder="http://mag.greatott.me:80" oninput="updatePreview()" />
-          <div class="form-hint">La URL que viene en tus datos de acceso IPTV. Incluye el puerto.</div>
-        </div>
-        <div class="form-group">
-          <label>Dirección MAC <span>(de tu dispositivo o suscripción)</span></label>
-          <div class="input-wrapper">
-            <input class="form-input mono" id="cfg-mac" type="text"
-                   placeholder="00:1A:79:00:00:00" maxlength="17"
-                   oninput="formatMac(this);updatePreview()" />
-          </div>
-          <div class="mac-preview" id="mac-preview"></div>
-          <div class="form-hint">Formato: XX:XX:XX:XX:XX:XX</div>
-        </div>
-        <button class="test-connection-btn" id="test-btn" onclick="testConnection()">
-          🔌 Probar conexión con el portal
-        </button>
-        <div class="connection-result" id="connection-result"></div>
+      <!-- PORTALES -->
+      <div class="cfg-sec">
+        <div class="cfg-sec-t">📡 Portales MAC</div>
+        <div class="portals-list" id="portals-list"></div>
+        <button class="add-portal-btn" onclick="addPortal()">➕ Añadir nuevo portal</button>
       </div>
 
-      <div class="config-section">
-        <div class="config-section-title">🐱 Credenciales de GitHub</div>
-        <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.5">
-          Necesarias para disparar el workflow de GitHub Actions desde este dashboard.
-        </p>
-        <div class="form-row">
-          <div class="form-group">
+      <!-- GITHUB -->
+      <div class="cfg-sec">
+        <div class="cfg-sec-t">🐱 GitHub</div>
+        <div class="fr2">
+          <div class="fg">
             <label>Usuario de GitHub</label>
-            <input class="form-input" id="cfg-gh-user" type="text"
-                   placeholder="naimmeliana-prog" oninput="updatePreview()" />
+            <input class="fi" id="cfg-gh-user" type="text" placeholder="naimmeliana-prog" oninput="updatePrev()"/>
           </div>
-          <div class="form-group">
-            <label>Nombre del repositorio</label>
-            <input class="form-input" id="cfg-gh-repo" type="text"
-                   placeholder="conversor_metrico" oninput="updatePreview()" />
+          <div class="fg">
+            <label>Repositorio</label>
+            <input class="fi" id="cfg-gh-repo" type="text" placeholder="conversor_metrico" oninput="updatePrev()"/>
           </div>
         </div>
-        <div class="form-group">
-          <label>Personal Access Token (PAT) <span>(scopes: repo + workflow)</span></label>
-          <div class="input-wrapper">
-            <input class="form-input mono" id="cfg-gh-token" type="password"
-                   placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
-            <button class="toggle-eye" onclick="toggleEye('cfg-gh-token',this)">👁️</button>
+        <div class="fg">
+          <label>Personal Access Token <span>(scopes: repo + workflow)</span></label>
+          <div class="iw">
+            <input class="fi mono" id="cfg-gh-token" type="password" placeholder="ghp_xxxx"/>
+            <button class="eye" onclick="toggleEye('cfg-gh-token',this)">👁️</button>
           </div>
-          <div class="form-hint">
-            Genera uno en
+          <div class="hint">
             <a href="https://github.com/settings/tokens/new?scopes=repo,workflow&description=IPTV-Dashboard" target="_blank">
-              GitHub → Settings → Developer Settings → Personal Access Tokens
-            </a>
-            → Scopes: <strong>repo</strong> + <strong>workflow</strong>.
-            <br>⚠️ Se guarda solo en tu navegador (localStorage).
+              Generar token en GitHub
+            </a> → Scopes: <strong>repo</strong> + <strong>workflow</strong>
           </div>
         </div>
       </div>
 
-      <div class="config-section">
-        <div class="config-section-title">🔗 URLs generadas</div>
-        <div class="form-group">
-          <label>Dashboard (GitHub Pages)</label>
-          <input class="form-input mono" id="preview-dashboard" type="text" readonly
-                 style="font-size:0.78rem;color:var(--success)" />
+      <!-- PREVIEW URLs -->
+      <div class="cfg-sec">
+        <div class="cfg-sec-t">🔗 URLs generadas</div>
+        <div class="fg">
+          <label>Dashboard</label>
+          <input class="fi mono" id="prev-dashboard" type="text" readonly style="font-size:.78rem;color:var(--success)"/>
         </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>URL del archivo M3U (Raw)</label>
-          <input class="form-input mono" id="preview-m3u" type="text" readonly
-                 style="font-size:0.78rem;color:var(--accent)" />
+        <div class="fg" style="margin-bottom:0">
+          <label>M3U Raw</label>
+          <input class="fi mono" id="prev-m3u" type="text" readonly style="font-size:.78rem;color:var(--accent)"/>
         </div>
       </div>
 
     </div>
-    <div class="config-modal-footer">
-      <button class="btn btn-secondary" onclick="clearConfig()">🗑️ Borrar todo</button>
-      <button class="btn btn-secondary" onclick="closeConfigModal()">Cancelar</button>
-      <button class="btn btn-primary" onclick="saveConfig()">💾 Guardar configuración</button>
+    <div class="cfg-mf">
+      <button class="btn btn-sec" onclick="clearAllCfg()">🗑️ Borrar todo</button>
+      <button class="btn btn-sec" onclick="closeCfgModal()">Cancelar</button>
+      <button class="btn btn-prim" onclick="saveCfg()">💾 Guardar</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL EJECUTAR -->
-<div class="overlay" id="run-overlay" onclick="closeOnOverlay(event,'run-overlay')">
+<!-- MODAL PORTAL EDITOR -->
+<div class="overlay" id="portal-editor-overlay" onclick="closeOvl(event,'portal-editor-overlay')">
+  <div class="cfg-modal" style="max-width:480px" onclick="event.stopPropagation()">
+    <div class="cfg-mh">
+      <div><h2 id="pe-title">➕ Añadir Portal</h2><p>Configura los datos del portal MAC Stalker.</p></div>
+      <button class="mcl" onclick="closePortalEditor()">✕</button>
+    </div>
+    <div class="cfg-mb">
+      <div class="fg">
+        <label>Nombre del portal <span>(para identificarlo)</span></label>
+        <input class="fi" id="pe-name" type="text" placeholder="Mi Portal Principal"/>
+      </div>
+      <div class="fg">
+        <label>Portal URL</label>
+        <input class="fi mono" id="pe-url" type="url" placeholder="http://mag.example.com:80"/>
+      </div>
+      <div class="fg">
+        <label>Dirección MAC</label>
+        <input class="fi mono" id="pe-mac" type="text" placeholder="00:1A:79:00:00:00" maxlength="17" oninput="formatMac(this)"/>
+        <div class="mac-prev" id="pe-mac-prev"></div>
+      </div>
+      <div class="fg">
+        <label>Color identificativo</label>
+        <div style="display:flex;gap:.5rem;align-items:center">
+          <input type="color" id="pe-color" value="#e94560" style="width:40px;height:36px;border:none;border-radius:6px;cursor:pointer;background:none"/>
+          <span style="font-size:.78rem;color:var(--text-muted)">Se muestra en las tarjetas del dashboard</span>
+        </div>
+      </div>
+      <button class="test-btn" onclick="testPortalConnection()">🔌 Probar formato</button>
+      <div class="cr" id="pe-cr"></div>
+    </div>
+    <div class="cfg-mf">
+      <button class="btn btn-sec" onclick="closePortalEditor()">Cancelar</button>
+      <button class="btn btn-prim" onclick="savePortalEditor()">💾 Guardar portal</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL RUN -->
+<div class="overlay" id="run-overlay" onclick="closeOvl(event,'run-overlay')">
   <div class="run-modal" onclick="event.stopPropagation()">
-    <div class="run-modal-header">
-      <h3>🔄 Ejecutar Actualización</h3>
-      <button class="modal-close-btn" onclick="closeRunModal()">✕</button>
-    </div>
-    <div class="run-modal-body">
-      <div id="run-status-box" class="run-status-box"></div>
-    </div>
-    <div class="config-modal-footer" id="run-footer"></div>
+    <div class="run-mh"><h3>🔄 Ejecutar Actualización</h3><button class="mcl" onclick="closeRunModal()">✕</button></div>
+    <div class="run-mb"><div id="run-box" class="run-box"></div></div>
+    <div class="cfg-mf" id="run-footer"></div>
   </div>
 </div>
 
 <!-- MODAL DETALLE -->
-<div class="overlay" id="detail-overlay" onclick="closeOnOverlay(event,'detail-overlay')">
-  <div class="detail-modal" onclick="event.stopPropagation()">
-    <div class="detail-header">
-      <img class="detail-backdrop" id="det-backdrop" src="" alt="" />
-      <div class="detail-poster-wrap">
-        <img class="detail-poster" id="det-poster" src="" alt="" />
-      </div>
-      <button class="detail-close" onclick="closeDetailModal()">✕</button>
+<div class="overlay" id="det-overlay" onclick="closeOvl(event,'det-overlay')">
+  <div class="det-modal" onclick="event.stopPropagation()">
+    <div class="det-hd">
+      <img class="det-bg" id="d-bg" src="" alt=""/>
+      <div class="det-pw"><img class="det-p" id="d-poster" src="" alt=""/></div>
+      <button class="det-cls" onclick="closeDetModal()">✕</button>
     </div>
-    <div class="detail-body">
-      <div class="detail-title"  id="det-title"></div>
-      <div class="detail-badges" id="det-badges"></div>
-      <div class="detail-meta-grid" id="det-meta"></div>
-      <div class="detail-desc"   id="det-desc" style="display:none"></div>
-      <div class="stream-url-box" id="det-url-box">
-        <input id="det-url-input" type="text" readonly placeholder="URL del stream" />
-        <button class="btn-play" onclick="copyDetailUrl()">📋</button>
-        <a class="btn-play" id="det-vlc" href="#" target="_blank">▶ VLC</a>
+    <div class="det-bd">
+      <div class="det-title" id="d-title"></div>
+      <div class="det-badges" id="d-badges"></div>
+      <div class="det-mg" id="d-meta"></div>
+      <div class="det-desc" id="d-desc" style="display:none"></div>
+      <div class="su-box">
+        <input id="d-url" type="text" readonly placeholder="URL del stream"/>
+        <button class="btn-play" onclick="copyDetUrl()">📋</button>
+        <a class="btn-play" id="d-vlc" href="#" target="_blank">▶ VLC</a>
       </div>
-      <div class="episodes-section" id="det-episodes" style="display:none">
-        <h3>📌 Episodios <span id="det-ep-count" style="color:var(--text-muted);font-weight:400"></span></h3>
-        <div id="det-season-list"></div>
+      <div class="eps-sec" id="d-eps" style="display:none">
+        <h3>📌 Episodios <span id="d-ep-count" style="color:var(--text-muted);font-weight:400"></span></h3>
+        <div id="d-seasons"></div>
       </div>
     </div>
   </div>
 </div>
 
-<div id="toast-container"></div>
+<div id="toast-c"></div>
+
 <script>
 'use strict';
 
-const LS_KEY   = 'iptv_config_v2';
-const FALLBACK = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI3MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI3MCIgZmlsbD0iIzEyMTIxZSIvPjx0ZXh0IHg9IjkwIiB5PSIxNDUiIGZpbGw9IiMzMzMzNTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iNTAiPvCfm4Q8L3RleHQ+PC9zdmc+";
+// ═══════════════════════════════════════
+//  CONSTANTES
+// ═══════════════════════════════════════
+const LS_KEY  = 'iptv_cfg_v3';
+const FALLBACK= "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI3MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI3MCIgZmlsbD0iIzEyMTIxZSIvPjx0ZXh0IHg9IjkwIiB5PSIxNDUiIGZpbGw9IiMzMzMzNTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iNTAiPvCfm4Q8L3RleHQ+PC9zdmc+";
 
-// ════════════════════════════════════════
-//  MAPA DE BANDERAS Y NOMBRES
-// ════════════════════════════════════════
-const COUNTRY_INFO = {
-  ES:{flag:'🇪🇸',name:'España'},       FR:{flag:'🇫🇷',name:'Francia'},
-  GB:{flag:'🇬🇧',name:'Reino Unido'},   DE:{flag:'🇩🇪',name:'Alemania'},
-  IT:{flag:'🇮🇹',name:'Italia'},        PT:{flag:'🇵🇹',name:'Portugal'},
-  NL:{flag:'🇳🇱',name:'Países Bajos'}, BE:{flag:'🇧🇪',name:'Bélgica'},
-  CH:{flag:'🇨🇭',name:'Suiza'},         PL:{flag:'🇵🇱',name:'Polonia'},
-  RU:{flag:'🇷🇺',name:'Rusia'},         TR:{flag:'🇹🇷',name:'Turquía'},
-  RO:{flag:'🇷🇴',name:'Rumanía'},       GR:{flag:'🇬🇷',name:'Grecia'},
-  SE:{flag:'🇸🇪',name:'Suecia'},        NO:{flag:'🇳🇴',name:'Noruega'},
-  DK:{flag:'🇩🇰',name:'Dinamarca'},     FI:{flag:'🇫🇮',name:'Finlandia'},
-  CZ:{flag:'🇨🇿',name:'Rep. Checa'},    HU:{flag:'🇭🇺',name:'Hungría'},
-  HR:{flag:'🇭🇷',name:'Croacia'},       RS:{flag:'🇷🇸',name:'Serbia'},
-  UA:{flag:'🇺🇦',name:'Ucrania'},
-  US:{flag:'🇺🇸',name:'USA'},           MX:{flag:'🇲🇽',name:'México'},
-  AR:{flag:'🇦🇷',name:'Argentina'},     CO:{flag:'🇨🇴',name:'Colombia'},
-  CL:{flag:'🇨🇱',name:'Chile'},         PE:{flag:'🇵🇪',name:'Perú'},
-  VE:{flag:'🇻🇪',name:'Venezuela'},     BR:{flag:'🇧🇷',name:'Brasil'},
-  EC:{flag:'🇪🇨',name:'Ecuador'},       BO:{flag:'🇧🇴',name:'Bolivia'},
-  UY:{flag:'🇺🇾',name:'Uruguay'},       PY:{flag:'🇵🇾',name:'Paraguay'},
-  CA:{flag:'🇨🇦',name:'Canadá'},
-  MA:{flag:'🇲🇦',name:'Marruecos'},     DZ:{flag:'🇩🇿',name:'Argelia'},
-  TN:{flag:'🇹🇳',name:'Túnez'},         LY:{flag:'🇱🇾',name:'Libia'},
-  EG:{flag:'🇪🇬',name:'Egipto'},        SA:{flag:'🇸🇦',name:'Arabia Saudí'},
-  AE:{flag:'🇦🇪',name:'Emiratos'},      QA:{flag:'🇶🇦',name:'Qatar'},
-  KW:{flag:'🇰🇼',name:'Kuwait'},        LB:{flag:'🇱🇧',name:'Líbano'},
-  IQ:{flag:'🇮🇶',name:'Irak'},          IR:{flag:'🇮🇷',name:'Irán'},
-  IN:{flag:'🇮🇳',name:'India'},         PK:{flag:'🇵🇰',name:'Pakistán'},
-  CN:{flag:'🇨🇳',name:'China'},         JP:{flag:'🇯🇵',name:'Japón'},
-  KR:{flag:'🇰🇷',name:'Corea del Sur'}, BD:{flag:'🇧🇩',name:'Bangladesh'},
-  AF:{flag:'🇦🇫',name:'Afganistán'},
-  NG:{flag:'🇳🇬',name:'Nigeria'},       GH:{flag:'🇬🇭',name:'Ghana'},
-  SN:{flag:'🇸🇳',name:'Senegal'},       ZA:{flag:'🇿🇦',name:'Sudáfrica'},
-  CM:{flag:'🇨🇲',name:'Camerún'},       CI:{flag:'🇨🇮',name:'Costa de Marfil'},
-  INTL:{flag:'🌍',name:'Internacional'},
-  OTHER:{flag:'🌐',name:'Sin detectar'},
+const CI = {
+  ES:{f:'🇪🇸',n:'España'},FR:{f:'🇫🇷',n:'Francia'},GB:{f:'🇬🇧',n:'Reino Unido'},
+  DE:{f:'🇩🇪',n:'Alemania'},IT:{f:'🇮🇹',n:'Italia'},PT:{f:'🇵🇹',n:'Portugal'},
+  NL:{f:'🇳🇱',n:'Países Bajos'},BE:{f:'🇧🇪',n:'Bélgica'},CH:{f:'🇨🇭',n:'Suiza'},
+  PL:{f:'🇵🇱',n:'Polonia'},RU:{f:'🇷🇺',n:'Rusia'},TR:{f:'🇹🇷',n:'Turquía'},
+  RO:{f:'🇷🇴',n:'Rumanía'},GR:{f:'🇬🇷',n:'Grecia'},SE:{f:'🇸🇪',n:'Suecia'},
+  NO:{f:'🇳🇴',n:'Noruega'},DK:{f:'🇩🇰',n:'Dinamarca'},FI:{f:'🇫🇮',n:'Finlandia'},
+  CZ:{f:'🇨🇿',n:'Rep. Checa'},HU:{f:'🇭🇺',n:'Hungría'},HR:{f:'🇭🇷',n:'Croacia'},
+  RS:{f:'🇷🇸',n:'Serbia'},UA:{f:'🇺🇦',n:'Ucrania'},
+  US:{f:'🇺🇸',n:'USA'},MX:{f:'🇲🇽',n:'México'},AR:{f:'🇦🇷',n:'Argentina'},
+  CO:{f:'🇨🇴',n:'Colombia'},CL:{f:'🇨🇱',n:'Chile'},PE:{f:'🇵🇪',n:'Perú'},
+  VE:{f:'🇻🇪',n:'Venezuela'},BR:{f:'🇧🇷',n:'Brasil'},CA:{f:'🇨🇦',n:'Canadá'},
+  MA:{f:'🇲🇦',n:'Marruecos'},DZ:{f:'🇩🇿',n:'Argelia'},TN:{f:'🇹🇳',n:'Túnez'},
+  EG:{f:'🇪🇬',n:'Egipto'},SA:{f:'🇸🇦',n:'Arabia Saudí'},AE:{f:'🇦🇪',n:'Emiratos'},
+  QA:{f:'🇶🇦',n:'Qatar'},LB:{f:'🇱🇧',n:'Líbano'},IQ:{f:'🇮🇶',n:'Irak'},IR:{f:'🇮🇷',n:'Irán'},
+  IN:{f:'🇮🇳',n:'India'},PK:{f:'🇵🇰',n:'Pakistán'},CN:{f:'🇨🇳',n:'China'},
+  JP:{f:'🇯🇵',n:'Japón'},KR:{f:'🇰🇷',n:'Corea del Sur'},NG:{f:'🇳🇬',n:'Nigeria'},
+  ZA:{f:'🇿🇦',n:'Sudáfrica'},INTL:{f:'🌍',n:'Internacional'},OTHER:{f:'🌐',n:'Sin detectar'},
+};
+const LI = {
+  ES:{f:'🇪🇸',n:'Español'},FR:{f:'🇫🇷',n:'Francés'},EN:{f:'🇬🇧',n:'Inglés'},
+  DE:{f:'🇩🇪',n:'Alemán'},IT:{f:'🇮🇹',n:'Italiano'},PT:{f:'🇵🇹',n:'Portugués'},
+  AR:{f:'🇸🇦',n:'Árabe'},NL:{f:'🇳🇱',n:'Holandés'},PL:{f:'🇵🇱',n:'Polaco'},
+  RU:{f:'🇷🇺',n:'Ruso'},TR:{f:'🇹🇷',n:'Turco'},OTHER:{f:'🌐',n:'Otros'},
 };
 
-function getFlag(code)  { return (COUNTRY_INFO[code]||{}).flag || '🌐'; }
-function getName(code)  { return (COUNTRY_INFO[code]||{}).name || code; }
-
-// ════════════════════════════════════════
+// ═══════════════════════════════════════
 //  ESTADO
-// ════════════════════════════════════════
+// ═══════════════════════════════════════
 let cfg           = {};
 let allItems      = [];
 let filteredItems = [];
-let currentType   = 'all';
+let editPortalIdx = -1; // índice del portal en edición (-1 = nuevo)
 
-// ════════════════════════════════════════
+// Multi-select state
+const msState = {
+  lang:    new Set(), // vacío = todos
+  country: new Set(),
+  portal:  new Set(),
+};
+// Tipos activos
+let activeTypes = new Set(['live','movie','series']);
+
+// ═══════════════════════════════════════
 //  INIT
-// ════════════════════════════════════════
+// ═══════════════════════════════════════
 function init() {
-  loadConfig();
-  updateHeaderFromConfig();
+  loadCfg();
+  updateHeader();
+  // Cerrar dropdowns al hacer clic fuera
+  document.addEventListener('click', e => {
+    ['lang','country','portal'].forEach(id => {
+      if (!document.getElementById(`${id}-wrap`).contains(e.target)) {
+        closeMsDropdown(id);
+      }
+    });
+  });
   if (cfg.ghUser && cfg.ghRepo) {
     loadMetadata();
   } else {
-    document.getElementById('setup-banner').classList.add('visible');
+    document.getElementById('setup-banner').classList.add('vis');
   }
 }
 
-// ════════════════════════════════════════
+// ═══════════════════════════════════════
 //  CONFIG
-// ════════════════════════════════════════
-function loadConfig() {
-  try { cfg = JSON.parse(localStorage.getItem(LS_KEY)||'{}'); }
-  catch(e) { cfg = {}; }
+// ═══════════════════════════════════════
+function loadCfg() {
+  try { cfg = JSON.parse(localStorage.getItem(LS_KEY)||'{}'); } catch(e) { cfg = {}; }
+  if (!cfg.portals) cfg.portals = [];
 }
 
-function saveConfig() {
-  const portalUrl = document.getElementById('cfg-portal-url').value.trim();
-  const mac       = document.getElementById('cfg-mac').value.trim().toUpperCase();
-  const ghUser    = document.getElementById('cfg-gh-user').value.trim();
-  const ghRepo    = document.getElementById('cfg-gh-repo').value.trim();
-  const ghToken   = document.getElementById('cfg-gh-token').value.trim();
-
-  if (!portalUrl) { toast('⚠️ Introduce la URL del portal','error'); return; }
-  if (!portalUrl.startsWith('http')) { toast('⚠️ URL debe empezar por http://','error'); return; }
-  if (!mac || !/^([0-9A-F]{2}:){5}[0-9A-F]{2}$/.test(mac)) { toast('⚠️ MAC inválida (XX:XX:XX:XX:XX:XX)','error'); return; }
+function saveCfg() {
+  const ghUser  = document.getElementById('cfg-gh-user').value.trim();
+  const ghRepo  = document.getElementById('cfg-gh-repo').value.trim();
+  const ghToken = document.getElementById('cfg-gh-token').value.trim();
   if (!ghUser || !ghRepo) { toast('⚠️ Introduce usuario y repo de GitHub','error'); return; }
-
-  cfg = { portalUrl, mac, ghUser, ghRepo, ghToken };
+  cfg.ghUser  = ghUser;
+  cfg.ghRepo  = ghRepo;
+  cfg.ghToken = ghToken;
   localStorage.setItem(LS_KEY, JSON.stringify(cfg));
   toast('✅ Configuración guardada','success');
-  closeConfigModal();
-  updateHeaderFromConfig();
-  document.getElementById('setup-banner').classList.remove('visible');
+  closeCfgModal();
+  updateHeader();
+  document.getElementById('setup-banner').classList.remove('vis');
   loadMetadata();
 }
 
-function clearConfig() {
+function clearAllCfg() {
   if (!confirm('¿Borrar toda la configuración?')) return;
-  cfg = {};
+  cfg = { portals: [] };
   localStorage.removeItem(LS_KEY);
-  fillConfigForm();
-  updateHeaderFromConfig();
+  fillCfgForm();
+  updateHeader();
   toast('🗑️ Configuración borrada','info');
 }
 
-function fillConfigForm() {
-  document.getElementById('cfg-portal-url').value = cfg.portalUrl || '';
-  document.getElementById('cfg-mac').value        = cfg.mac       || '';
-  document.getElementById('cfg-gh-user').value    = cfg.ghUser    || '';
-  document.getElementById('cfg-gh-repo').value    = cfg.ghRepo    || '';
-  document.getElementById('cfg-gh-token').value   = cfg.ghToken   || '';
-  updatePreview();
-  updateMacPreview(cfg.mac || '');
+function fillCfgForm() {
+  document.getElementById('cfg-gh-user').value  = cfg.ghUser  || '';
+  document.getElementById('cfg-gh-repo').value  = cfg.ghRepo  || '';
+  document.getElementById('cfg-gh-token').value = cfg.ghToken || '';
+  updatePrev();
+  renderPortalsList();
 }
 
-function updateHeaderFromConfig() {
-  const badge  = document.getElementById('config-status-badge');
-  const text   = document.getElementById('config-status-text');
-  const m3uInp = document.getElementById('m3u-url-display');
+function updatePrev() {
+  const u = document.getElementById('cfg-gh-user').value.trim() || 'usuario';
+  const r = document.getElementById('cfg-gh-repo').value.trim() || 'repositorio';
+  document.getElementById('prev-dashboard').value = `https://${u}.github.io/${r}/`;
+  document.getElementById('prev-m3u').value = `https://raw.githubusercontent.com/${u}/${r}/main/playlist.m3u`;
+}
+
+function updateHeader() {
+  const badge = document.getElementById('cfg-badge');
+  const txt   = document.getElementById('cfg-txt');
+  const m3u   = document.getElementById('m3u-url');
+  const portalsCount = (cfg.portals||[]).filter(p=>p.enabled).length;
   if (cfg.ghUser && cfg.ghRepo) {
-    badge.className = 'config-status configured';
-    badge.querySelector('.status-dot').classList.remove('pulse');
-    text.textContent = cfg.mac ? `MAC: ${cfg.mac}` : 'Configurado';
-    m3uInp.value = `https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/playlist.m3u`;
+    badge.className = 'cfg-badge ok';
+    badge.querySelector('.dot').classList.remove('pulse');
+    txt.textContent = `${portalsCount} portal${portalsCount!==1?'es':''} activo${portalsCount!==1?'s':''}`;
+    m3u.value = `https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/playlist.m3u`;
   } else {
-    badge.className = 'config-status not-configured';
-    badge.querySelector('.status-dot').classList.add('pulse');
-    text.textContent = 'Sin configurar';
-    m3uInp.value = '';
+    badge.className = 'cfg-badge no';
+    badge.querySelector('.dot').classList.add('pulse');
+    txt.textContent = 'Sin configurar';
+    m3u.value = '';
   }
 }
 
-function openConfigModal() {
-  fillConfigForm();
-  document.getElementById('connection-result').className = 'connection-result';
-  document.getElementById('config-overlay').classList.add('open');
+// ═══════════════════════════════════════
+//  PORTALES MANAGER
+// ═══════════════════════════════════════
+function renderPortalsList() {
+  const list = document.getElementById('portals-list');
+  if (!cfg.portals || cfg.portals.length === 0) {
+    list.innerHTML = `<div style="text-align:center;padding:1rem;color:var(--text-muted);font-size:.82rem">
+      No hay portales configurados. Añade uno con el botón de abajo.
+    </div>`;
+    return;
+  }
+  list.innerHTML = cfg.portals.map((p, i) => `
+    <div class="portal-item ${p.enabled?'active-p':''}">
+      <div class="portal-dot" style="background:${h(p.color||'#e94560')}"></div>
+      <div class="portal-info">
+        <div class="portal-name">${h(p.name||'Portal '+i)}</div>
+        <div class="portal-url">${h(p.url||'—')}</div>
+        <div class="portal-mac">MAC: ${h(p.mac||'—')}</div>
+      </div>
+      <div class="portal-actions">
+        <button class="p-toggle ${p.enabled?'on':'off'}" onclick="togglePortal(${i})">
+          ${p.enabled?'✅ Activo':'⏸ Pausado'}
+        </button>
+        <button class="p-edit" onclick="editPortal(${i})">✏️ Editar</button>
+        <button class="p-edit" style="color:var(--accent)" onclick="deletePortal(${i})">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+function togglePortal(idx) {
+  cfg.portals[idx].enabled = !cfg.portals[idx].enabled;
+  renderPortalsList();
+}
+
+function deletePortal(idx) {
+  if (!confirm(`¿Eliminar el portal "${cfg.portals[idx].name}"?`)) return;
+  cfg.portals.splice(idx, 1);
+  renderPortalsList();
+}
+
+function addPortal() {
+  editPortalIdx = -1;
+  document.getElementById('pe-title').textContent = '➕ Añadir Portal';
+  document.getElementById('pe-name').value  = '';
+  document.getElementById('pe-url').value   = '';
+  document.getElementById('pe-mac').value   = '';
+  document.getElementById('pe-color').value = '#e94560';
+  document.getElementById('pe-mac-prev').innerHTML = '';
+  document.getElementById('pe-cr').className = 'cr';
+  document.getElementById('portal-editor-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-function closeConfigModal() {
-  document.getElementById('config-overlay').classList.remove('open');
+
+function editPortal(idx) {
+  editPortalIdx = idx;
+  const p = cfg.portals[idx];
+  document.getElementById('pe-title').textContent = '✏️ Editar Portal';
+  document.getElementById('pe-name').value  = p.name  || '';
+  document.getElementById('pe-url').value   = p.url   || '';
+  document.getElementById('pe-mac').value   = p.mac   || '';
+  document.getElementById('pe-color').value = p.color || '#e94560';
+  updateMacPrev('pe-mac-prev', p.mac||'');
+  document.getElementById('pe-cr').className = 'cr';
+  document.getElementById('portal-editor-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePortalEditor() {
+  document.getElementById('portal-editor-overlay').classList.remove('open');
   document.body.style.overflow = '';
 }
 
-function formatMac(input) {
-  let val = input.value.replace(/[^0-9a-fA-F]/g,'').toUpperCase();
-  let fmt = '';
-  for (let i=0; i<val.length && i<12; i++) {
-    if (i>0 && i%2===0) fmt += ':';
-    fmt += val[i];
-  }
-  input.value = fmt;
-  updateMacPreview(fmt);
-}
-function updateMacPreview(mac) {
-  const parts = mac.split(':');
-  const el = document.getElementById('mac-preview');
-  el.innerHTML = (parts.length===6 && parts.every(p=>p.length===2))
-    ? parts.map(p=>`<span class="mac-octet">${p}</span>`).join('') : '';
-}
-function updatePreview() {
-  const user = document.getElementById('cfg-gh-user').value.trim() || 'usuario';
-  const repo = document.getElementById('cfg-gh-repo').value.trim() || 'repositorio';
-  document.getElementById('preview-dashboard').value = `https://${user}.github.io/${repo}/`;
-  document.getElementById('preview-m3u').value = `https://raw.githubusercontent.com/${user}/${repo}/main/playlist.m3u`;
-}
-function toggleEye(id, btn) {
-  const inp = document.getElementById(id);
-  inp.type = inp.type==='password' ? 'text' : 'password';
-  btn.textContent = inp.type==='password' ? '👁️' : '🙈';
-}
+function savePortalEditor() {
+  const name  = document.getElementById('pe-name').value.trim();
+  const url   = document.getElementById('pe-url').value.trim();
+  const mac   = document.getElementById('pe-mac').value.trim().toUpperCase();
+  const color = document.getElementById('pe-color').value;
 
-async function testConnection() {
-  const url = document.getElementById('cfg-portal-url').value.trim();
-  const mac = document.getElementById('cfg-mac').value.trim();
-  const res = document.getElementById('connection-result');
-  const btn = document.getElementById('test-btn');
-  if (!url || !mac) { res.className='connection-result error'; res.textContent='⚠️ Introduce URL y MAC primero.'; return; }
-  btn.disabled=true; btn.textContent='⏳ Verificando...';
-  res.className='connection-result loading'; res.textContent='🔌 Verificando formato...';
-  await new Promise(r=>setTimeout(r,1200));
-  const ok = /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/.test(mac) && url.startsWith('http') && url.includes('.');
-  btn.disabled=false; btn.textContent='🔌 Probar conexión con el portal';
-  if (ok) {
-    res.className='connection-result success';
-    res.innerHTML='✅ <strong>Formato válido.</strong><br><span style="font-size:0.78rem">La conexión real se hará cuando ejecutes el workflow.</span>';
+  if (!name) { toast('⚠️ Introduce un nombre para el portal','error'); return; }
+  if (!url || !url.startsWith('http')) { toast('⚠️ URL inválida','error'); return; }
+  if (!/^([0-9A-F]{2}:){5}[0-9A-F]{2}$/.test(mac)) { toast('⚠️ MAC inválida (XX:XX:XX:XX:XX:XX)','error'); return; }
+
+  const portalData = { id: `portal_${Date.now()}`, name, url, mac, color, enabled: true };
+
+  if (editPortalIdx >= 0) {
+    portalData.id = cfg.portals[editPortalIdx].id; // mantener el ID
+    cfg.portals[editPortalIdx] = portalData;
+    toast('✅ Portal actualizado','success');
   } else {
-    res.className='connection-result error';
-    res.innerHTML='❌ <strong>Formato inválido.</strong> Revisa la URL y la MAC.';
+    cfg.portals.push(portalData);
+    toast('✅ Portal añadido','success');
   }
+
+  closePortalEditor();
+  renderPortalsList();
 }
 
-// ════════════════════════════════════════
-//  RUN MODAL
-// ════════════════════════════════════════
+function testPortalConnection() {
+  const url = document.getElementById('pe-url').value.trim();
+  const mac = document.getElementById('pe-mac').value.trim();
+  const cr  = document.getElementById('pe-cr');
+  cr.className = 'cr load'; cr.textContent = '🔌 Verificando formato...';
+  setTimeout(() => {
+    const ok = /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/.test(mac) && url.startsWith('http') && url.includes('.');
+    if (ok) {
+      cr.className='cr ok';
+      cr.innerHTML='✅ <strong>Formato válido.</strong> La conexión real se hará en GitHub Actions.';
+    } else {
+      cr.className='cr err'; cr.textContent='❌ Formato inválido. Revisa URL y MAC.';
+    }
+  }, 1000);
+}
+
+// ═══════════════════════════════════════
+//  MODAL CONFIG
+// ═══════════════════════════════════════
+function openCfgModal() {
+  fillCfgForm();
+  document.getElementById('cfg-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCfgModal() {
+  document.getElementById('cfg-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ═══════════════════════════════════════
+//  MODAL RUN
+// ═══════════════════════════════════════
 function openRunModal() {
-  const box    = document.getElementById('run-status-box');
+  const box    = document.getElementById('run-box');
   const footer = document.getElementById('run-footer');
-  if (!cfg.ghUser || !cfg.ghRepo) { toast('⚠️ Configura GitHub primero','error'); openConfigModal(); return; }
+  if (!cfg.ghUser || !cfg.ghRepo) { toast('⚠️ Configura GitHub primero','error'); openCfgModal(); return; }
   if (!cfg.ghToken) {
     box.innerHTML=`<div class="run-icon">⚠️</div><div class="run-title">Token requerido</div>
       <div class="run-desc">Necesitas un PAT con scopes <code>repo</code> + <code>workflow</code>.</div>
-      <a class="actions-link" href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions" target="_blank">🔗 Abrir Actions</a>`;
-    footer.innerHTML=`<button class="btn btn-secondary" onclick="closeRunModal()">Cerrar</button>
-      <button class="btn btn-primary" onclick="closeRunModal();openConfigModal()">⚙️ Añadir Token</button>`;
+      <a class="alink" href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions" target="_blank">🔗 Abrir Actions</a>`;
+    footer.innerHTML=`<button class="btn btn-sec" onclick="closeRunModal()">Cerrar</button>
+      <button class="btn btn-prim" onclick="closeRunModal();openCfgModal()">⚙️ Añadir Token</button>`;
     document.getElementById('run-overlay').classList.add('open');
     document.body.style.overflow='hidden'; return;
   }
-  box.innerHTML=`<div class="run-icon">🚀</div><div class="run-title">¿Ejecutar actualización?</div>
-    <div class="run-desc">Tardará entre <strong>5 y 60 minutos</strong>.</div>
-    <div class="run-info-list">
-      <div class="run-info-item"><span class="label">📡 Portal</span><span class="value">${h(cfg.portalUrl||'—')}</span></div>
-      <div class="run-info-item"><span class="label">🔑 MAC</span><span class="value">${h(cfg.mac||'—')}</span></div>
-      <div class="run-info-item"><span class="label">📦 Repo</span><span class="value">${h(cfg.ghUser)}/${h(cfg.ghRepo)}</span></div>
+
+  const enabledPortals = (cfg.portals||[]).filter(p=>p.enabled);
+  box.innerHTML=`
+    <div class="run-icon">🚀</div>
+    <div class="run-title">¿Ejecutar actualización?</div>
+    <div class="run-desc">Se ejecutará el scraper para <strong>${enabledPortals.length} portal${enabledPortals.length!==1?'es':''}</strong>.<br>Puede tardar <strong>5-90 minutos</strong>.</div>
+    <div class="run-info">
+      ${enabledPortals.map(p=>`
+        <div class="run-row">
+          <span class="lbl"><span style="color:${h(p.color)};font-weight:700">●</span> ${h(p.name)}</span>
+          <span class="val">${h(p.mac)} @ ${h(p.url)}</span>
+        </div>`).join('')}
+      <div class="run-row"><span class="lbl">📦 Repo</span><span class="val">${h(cfg.ghUser)}/${h(cfg.ghRepo)}</span></div>
     </div>`;
-  footer.innerHTML=`<button class="btn btn-secondary" onclick="closeRunModal()">Cancelar</button>
-    <button class="btn btn-primary" id="btn-trigger" onclick="triggerWorkflow()">🚀 Disparar Workflow</button>`;
+
+  footer.innerHTML=`<button class="btn btn-sec" onclick="closeRunModal()">Cancelar</button>
+    <button class="btn btn-prim" id="btn-trigger" onclick="triggerWf()">🚀 Disparar Workflow</button>`;
   document.getElementById('run-overlay').classList.add('open');
   document.body.style.overflow='hidden';
 }
+
 function closeRunModal() {
   document.getElementById('run-overlay').classList.remove('open');
   document.body.style.overflow='';
 }
-async function triggerWorkflow() {
+
+async function triggerWf() {
   const btn = document.getElementById('btn-trigger');
   if (!btn) return;
   btn.disabled=true; btn.textContent='⏳ Disparando...';
-  const box = document.getElementById('run-status-box');
+  const box = document.getElementById('run-box');
+
+  // Antes de disparar, guardar los portales en el repo
+  await syncPortalsJson();
+
   const api = `https://api.github.com/repos/${cfg.ghUser}/${cfg.ghRepo}/actions/workflows/update.yml/dispatches`;
   try {
     const resp = await fetch(api, {
       method:'POST',
       headers:{'Authorization':`Bearer ${cfg.ghToken}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body: JSON.stringify({ref:'main', inputs:{portal_url:cfg.portalUrl||'', mac_address:cfg.mac||''}})
+      body: JSON.stringify({ref:'main'})
     });
     if (resp.status===204) {
       box.innerHTML=`<div class="run-icon">✅</div><div class="run-title">¡Workflow disparado!</div>
-        <div class="run-desc">GitHub Actions está ejecutando el scraper.<br>Tardará <strong>5-60 minutos</strong>.</div>
-        <div class="progress-bar-wrap"><div class="progress-bar" id="prog-bar"></div></div>
-        <a class="actions-link" href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions" target="_blank">🔗 Ver progreso</a>`;
-      document.getElementById('run-footer').innerHTML=`<button class="btn btn-secondary" onclick="closeRunModal()">Cerrar</button>`;
-      let pct=0;
-      const iv=setInterval(()=>{pct=Math.min(pct+Math.random()*3,85);const b=document.getElementById('prog-bar');if(b)b.style.width=pct+'%';else clearInterval(iv);},800);
+        <div class="run-desc">GitHub Actions está procesando <strong>${(cfg.portals||[]).filter(p=>p.enabled).length} portal(es)</strong>.<br>Tardará <strong>5-90 minutos</strong>.</div>
+        <div class="pb-wrap"><div class="pb" id="prog-bar"></div></div>
+        <a class="alink" href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions" target="_blank">🔗 Ver progreso en GitHub Actions</a>`;
+      document.getElementById('run-footer').innerHTML=`<button class="btn btn-sec" onclick="closeRunModal()">Cerrar</button>`;
+      let pct=0; const iv=setInterval(()=>{pct=Math.min(pct+Math.random()*2,85);const b=document.getElementById('prog-bar');if(b)b.style.width=pct+'%';else clearInterval(iv);},900);
       toast('🚀 Workflow iniciado','success');
     } else if (resp.status===401) throw new Error('Token inválido. Verifica scopes repo + workflow.');
-    else if (resp.status===404) throw new Error('Repo no encontrado o update.yml no existe.');
+    else if (resp.status===404) throw new Error('update.yml no encontrado en .github/workflows/');
     else if (resp.status===422) throw new Error('El workflow no tiene workflow_dispatch.');
     else { const d=await resp.json().catch(()=>({})); throw new Error(d.message||`HTTP ${resp.status}`); }
   } catch(err) {
     box.innerHTML=`<div class="run-icon">❌</div><div class="run-title">Error</div>
       <div class="run-desc" style="color:var(--accent)">${h(err.message)}</div>
-      <a class="actions-link" href="https://github.com/${h(cfg.ghUser||'')}/${h(cfg.ghRepo||'')}/actions" target="_blank">🔗 Abrir Actions</a>`;
+      <a class="alink" href="https://github.com/${h(cfg.ghUser||'')}/${h(cfg.ghRepo||'')}/actions" target="_blank">🔗 Abrir Actions</a>`;
     document.getElementById('run-footer').innerHTML=`
-      <button class="btn btn-secondary" onclick="closeRunModal()">Cerrar</button>
-      <button class="btn btn-primary" onclick="closeRunModal();openConfigModal()">⚙️ Revisar token</button>`;
+      <button class="btn btn-sec" onclick="closeRunModal()">Cerrar</button>
+      <button class="btn btn-prim" onclick="closeRunModal();openCfgModal()">⚙️ Revisar token</button>`;
     toast('❌ '+err.message,'error');
   }
 }
 
-// ════════════════════════════════════════
-//  CARGAR METADATA + CONSTRUIR FILTROS
-// ════════════════════════════════════════
+// Sincronizar portals.json al repositorio vía API GitHub
+async function syncPortalsJson() {
+  if (!cfg.ghToken || !cfg.portals || cfg.portals.length===0) return;
+
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(cfg.portals, null, 2))));
+  const apiUrl  = `https://api.github.com/repos/${cfg.ghUser}/${cfg.ghRepo}/contents/portals.json`;
+
+  try {
+    // Obtener SHA actual del archivo (si existe)
+    let sha = '';
+    const existing = await fetch(apiUrl, {
+      headers:{'Authorization':`Bearer ${cfg.ghToken}`,'Accept':'application/vnd.github.v3+json'}
+    }).then(r=>r.ok?r.json():null);
+    if (existing && existing.sha) sha = existing.sha;
+
+    // Crear o actualizar el archivo
+    const body = {
+      message: `🔄 Update portals.json via dashboard (${new Date().toISOString()})`,
+      content,
+      ...(sha ? {sha} : {})
+    };
+    await fetch(apiUrl, {
+      method:'PUT',
+      headers:{'Authorization':`Bearer ${cfg.ghToken}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+    toast('📡 portals.json sincronizado con GitHub','success');
+  } catch(e) {
+    console.warn('No se pudo sincronizar portals.json:', e);
+  }
+}
+
+// ═══════════════════════════════════════
+//  CARGAR METADATA
+// ═══════════════════════════════════════
 async function loadMetadata() {
   if (!cfg.ghUser || !cfg.ghRepo) return;
-  document.getElementById('setup-banner').classList.remove('visible');
-  document.getElementById('grid').style.display          = 'none';
-  document.getElementById('empty-state').style.display   = 'none';
-  document.getElementById('loading-state').style.display = 'block';
+  document.getElementById('setup-banner').classList.remove('vis');
+  document.getElementById('grid').style.display='none';
+  document.getElementById('empty-st').style.display='none';
+  document.getElementById('load-st').style.display='block';
 
-  const metaUrl = `https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/metadata.json`;
+  const url = `https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/metadata.json`;
   try {
-    const resp = await fetch(metaUrl + '?t=' + Date.now());
-    if (!resp.ok) throw new Error('No se pudo cargar metadata.json — ¿ya ejecutaste el workflow?');
+    const resp = await fetch(url+'?t='+Date.now());
+    if (!resp.ok) throw new Error('metadata.json no encontrado — ejecuta el workflow primero.');
     const data = await resp.json();
     allItems = data.items || [];
 
-    // ── Normalizar campo country ──────────────────────────
-    // Si el campo no existe en los datos antiguos, lo detectamos
-    // en el cliente usando el nombre y grupo del item
-    allItems.forEach(item => {
-      if (!item.country) {
-        item.country = detectCountryClient(
-          item.serie_name || item.name || '',
-          item.group || ''
-        );
-      }
-    });
-
-    document.getElementById('last-update').textContent = '🕐 ' + (data.generated||'—');
-    document.getElementById('stats-row').style.display = 'flex';
+    // Normalizar country si falta
+    allItems.forEach(i => { if (!i.country) i.country = detectCtryClient(i.serie_name||i.name||'', i.group||''); });
 
     const live   = allItems.filter(i=>i.type==='live').length;
     const movies = allItems.filter(i=>i.type==='movie').length;
     const series = new Set(allItems.filter(i=>i.type==='series').map(i=>i.serie_name)).size;
-    document.getElementById('stat-total').textContent  = allItems.length.toLocaleString();
-    document.getElementById('stat-live').textContent   = live.toLocaleString();
-    document.getElementById('stat-movies').textContent = movies.toLocaleString();
-    document.getElementById('stat-series').textContent = series.toLocaleString();
 
-    // ── Construir filtro de países DINÁMICO ───────────────
-    buildCountryFilter();
+    document.getElementById('last-update').textContent = '🕐 '+(data.generated||'—');
+    document.getElementById('stats-row').style.display = 'flex';
+    document.getElementById('s-total').textContent  = allItems.length.toLocaleString();
+    document.getElementById('s-live').textContent   = live.toLocaleString();
+    document.getElementById('s-movies').textContent = movies.toLocaleString();
+    document.getElementById('s-series').textContent = series.toLocaleString();
 
-    // ── Construir filtro de idiomas DINÁMICO ──────────────
-    buildLangFilter();
-
-    document.getElementById('loading-state').style.display = 'none';
+    buildDynamicFilters();
+    document.getElementById('load-st').style.display='none';
     applyFilters();
 
   } catch(err) {
-    document.getElementById('loading-state').innerHTML = `
+    document.getElementById('load-st').innerHTML=`
       <div style="font-size:2.5rem;margin-bottom:1rem">📭</div>
-      <p style="font-weight:700;margin-bottom:0.5rem">${h(err.message)}</p>
-      <p style="font-size:0.8rem;color:var(--text-muted)">Ejecuta el workflow en GitHub Actions primero.</p>
-      <div style="margin-top:1.5rem;display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
-        <button class="btn btn-primary" onclick="openRunModal()">🚀 Ejecutar ahora</button>
-        <a class="btn btn-secondary" href="https://github.com/${h(cfg.ghUser||'')}/${h(cfg.ghRepo||'')}/actions"
-           target="_blank" style="text-decoration:none">🔗 Ver en GitHub</a>
+      <p style="font-weight:700;margin-bottom:.5rem">${h(err.message)}</p>
+      <p style="font-size:.8rem;color:var(--text-muted)">Ejecuta el workflow en GitHub Actions.</p>
+      <div style="margin-top:1.5rem;display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-prim" onclick="openRunModal()">🚀 Ejecutar ahora</button>
+        <a class="btn btn-sec" href="https://github.com/${h(cfg.ghUser||'')}/${h(cfg.ghRepo||'')}/actions" target="_blank" style="text-decoration:none">🔗 Ver en GitHub</a>
       </div>`;
   }
 }
 
-// ════════════════════════════════════════
-//  DETECCIÓN DE PAÍS EN EL CLIENTE
-//  (fallback cuando el JSON no tiene country)
-// ════════════════════════════════════════
-const CLIENT_COUNTRY_RULES = [
-  // Formato: [regex, código_país]
-  // Más específicos primero para evitar falsos positivos
-  [/\bESPAÑA\b|\bSPAIN\b|\bTVE\b|\bANTENA 3\b|\bLASEXTA\b|\bTELECINCO\b|\bCUATRO\b|\bTV3\b|\bTELEMADRID\b/i, 'ES'],
-  [/\bFRANCE\b|\bFRANÇAIS\b|\bTF1\b|\bFRANCE 2\b|\bM6\b|\bBFMTV\b|\bCANAL\+\b/i, 'FR'],
-  [/\b(UK|UNITED KINGDOM|BRITAIN|BBC|ITV|SKY|BT SPORT|CHANNEL 4|CHANNEL 5)\b/i, 'GB'],
-  [/\bGERMANY\b|\bDEUTSCH\b|\bARD\b|\bZDF\b|\bRTL\b|\bSAT\.?1\b|\bPROSIEBEN\b/i, 'DE'],
-  [/\bITALIA\b|\bITALY\b|\bRAI\b|\bCANALE 5\b|\bMEDIASET\b/i, 'IT'],
-  [/\bPORTUGAL\b|\bRTP\b|\bSIC\b|\bTVI\b/i, 'PT'],
-  [/\bNETHERLANDS\b|\bDUTCH\b|\bHOLLAND\b|\bNPO\b/i, 'NL'],
-  [/\bBELGIUM\b|\bBELGIQUE\b|\bVRT\b|\bRTBF\b/i, 'BE'],
-  [/\bSWISS\b|\bSUISSE\b|\bSRF\b|\bRTS\b/i, 'CH'],
-  [/\bPOLAND\b|\bPOLSKA\b|\bTVP\b|\bPOLSAT\b/i, 'PL'],
-  [/\bRUSSIA\b|\bRUSSIEN\b|\bRUSSIAN\b/i, 'RU'],
-  [/\bUKRAINE\b|\bUKRAINA\b/i, 'UA'],
-  [/\bROMANIA\b|\bROMÂNIA\b|\bPRO TV\b/i, 'RO'],
-  [/\bTURKEY\b|\bTURKISH\b|\bTÜRKIYE\b|\bTRT\b/i, 'TR'],
-  [/\bGREECE\b|\bGREEK\b|\bGRECIA\b|\bERT\b/i, 'GR'],
-  [/\bSWEDEN\b|\bSVERIGE\b|\bSVT\b/i, 'SE'],
-  [/\bNORWAY\b|\bNORGE\b|\bNRK\b/i, 'NO'],
-  [/\bDENMARK\b|\bDANMARK\b|\b\bDR\s/i, 'DK'],
-  [/\bFINLAND\b|\bSUOMI\b|\bYLE\b/i, 'FI'],
-  [/\bCZECH\b|\bCESKA\b/i, 'CZ'],
-  [/\bHUNGARY\b|\bMAGYAR\b|\bDUNA\b/i, 'HU'],
-  [/\bSERBIA\b|\bSRBIJA\b|\bRTS\b/i, 'RS'],
-  [/\bCROATIA\b|\bHRVATSKA\b|\bHRT\b/i, 'HR'],
-  [/\bUSA\b|\bUNITED STATES\b|\bNBC\b|\bCBS\b|\bESPN\b|\bHBO\b|\bCNN\b|\bFOX NEWS\b/i, 'US'],
-  [/\bMEXICO\b|\bMÉXICO\b|\bTELEVISA\b|\bAZTECA\b/i, 'MX'],
-  [/\bARGENTINA\b|\bTELEFE\b|\bEL TRECE\b/i, 'AR'],
-  [/\bCOLOMBIA\b|\bRCN\b|\bCARACOL\b/i, 'CO'],
-  [/\bCHILE\b|\bTVN\b|\bCHV\b|\bMEGA\b/i, 'CL'],
-  [/\bBRAZIL\b|\bBRASIL\b|\bGLOBO\b|\bSBT\b/i, 'BR'],
-  [/\bMOROCCO\b|\bMAROC\b|\b2M\b|\bSNRT\b/i, 'MA'],
-  [/\bALGERIA\b|\bALGERIE\b|\bENTV\b/i, 'DZ'],
-  [/\bTUNISIA\b|\bTUNISIE\b/i, 'TN'],
-  [/\bEGYPT\b|\bNILE TV\b|\bMBC MASR\b/i, 'EG'],
-  [/\bSAUDI\b|\bKSA\b|\bMBC\b|\bROTANA\b/i, 'SA'],
-  [/\bDUBAI\b|\bABU DHABI\b|\bEMIRAT/i, 'AE'],
-  [/\bQATAR\b|\bAL JAZEERA\b|\bBEIN SPORT/i, 'QA'],
-  [/\bLEBANON\b|\bLIBAN\b|\bLBC\b/i, 'LB'],
-  [/\bINDIA\b|\bHINDI\b|\bSTAR PLUS\b|\bZEE TV\b|\bBOLLYWOOD\b/i, 'IN'],
-  [/\bPAKISTAN\b|\bURDU\b|\bGEO TV\b|\bARY\b/i, 'PK'],
-  [/\bCHINA\b|\bCCTV\b|\bMANDARIN\b/i, 'CN'],
-  [/\bJAPAN\b|\bJAPON\b|\bNHK\b|\bANIME\b/i, 'JP'],
-  [/\bKOREA\b|\bKDRAMA\b|\bK-DRAMA\b|\bARIRANG\b/i, 'KR'],
-  [/\bNIGERIA\b|\bNOLLYWOOD\b|\bCHANNELS TV\b/i, 'NG'],
-  [/\bINTERNATIONAL\b|\bINTERNACIONAL\b|\bEUROSPORT\b|\bEURONEWS\b/i, 'INTL'],
+// ═══════════════════════════════════════
+//  DETECCIÓN PAÍS EN CLIENTE (fallback)
+// ═══════════════════════════════════════
+const CR = [
+  [/\bESPAÑA\b|\bSPAIN\b|\bTVE\b|\bANTENA\b|\bTELECINCO\b/i,'ES'],
+  [/\bFRANCE\b|\bFRANÇAIS\b|\bTF1\b|\bM6\b|\bBFMTV\b/i,'FR'],
+  [/\b(UK|BBC|ITV|SKY|BT SPORT|CHANNEL 4)\b/i,'GB'],
+  [/\bDEUTSCH\b|\bARD\b|\bZDF\b|\bRTL\b|\bSAT\.?1\b/i,'DE'],
+  [/\bITALIA\b|\bRAI\b|\bCANALE 5\b|\bMEDIASET\b/i,'IT'],
+  [/\bPORTUGAL\b|\bRTP\b|\bSIC\b|\bTVI\b/i,'PT'],
+  [/\bNETHERLANDS\b|\bDUTCH\b|\bNPO\b/i,'NL'],
+  [/\bBELGIUM\b|\bVRT\b|\bRTBF\b/i,'BE'],
+  [/\bUSA\b|\bUNITED STATES\b|\bNBC\b|\bCBS\b|\bESPN\b|\bHBO\b/i,'US'],
+  [/\bMEXICO\b|\bTELEVISA\b|\bAZTECA\b/i,'MX'],
+  [/\bARGENTINA\b|\bTELEFE\b/i,'AR'],
+  [/\bBRAZIL\b|\bBRASIL\b|\bGLOBO\b/i,'BR'],
+  [/\bMOROCCO\b|\bMAROC\b|\b2M\b|\bSNRT\b/i,'MA'],
+  [/\bSAUDI\b|\bMBC\b|\bROTANA\b/i,'SA'],
+  [/\bQATAR\b|\bAL JAZEERA\b|\bBEIN SPORT/i,'QA'],
+  [/\bINDIA\b|\bHINDI\b|\bBOLLYWOOD\b/i,'IN'],
+  [/\bCHINA\b|\bCCTV\b|\bMANDARIN\b/i,'CN'],
+  [/\bJAPAN\b|\bNHK\b|\bANIME\b/i,'JP'],
+  [/\bKOREA\b|\bKDRAMA\b|\bARIRANG\b/i,'KR'],
+  [/\bINTERNATIONAL\b|\bEUROSPORT\b|\bEURONEWS\b/i,'INTL'],
 ];
-
-function detectCountryClient(name, group) {
-  const text = `${name} ${group}`.toUpperCase();
-  for (const [regex, code] of CLIENT_COUNTRY_RULES) {
-    if (regex.test(text)) return code;
-  }
+function detectCtryClient(name, group) {
+  const t = `${name} ${group}`.toUpperCase();
+  for (const [rx,code] of CR) if (rx.test(t)) return code;
   return 'OTHER';
 }
 
-// ════════════════════════════════════════
-//  CONSTRUIR FILTRO DE PAÍSES DINÁMICO
-// ════════════════════════════════════════
-function buildCountryFilter() {
-  // Contar items por país (deduplicando series)
-  const counts = {};
-  const seenSeries = new Set();
+// ═══════════════════════════════════════
+//  CONSTRUIR FILTROS DINÁMICOS
+// ═══════════════════════════════════════
+function buildDynamicFilters() {
+  const seenS = new Set();
+  const langC={}, ctryC={}, portC={};
 
-  allItems.forEach(item => {
-    // Para series, contar solo una vez por serie
-    if (item.type === 'series') {
-      const key = `${item.serie_name}_${item.country}`;
-      if (seenSeries.has(key)) return;
-      seenSeries.add(key);
-    }
-    const c = item.country || 'OTHER';
-    counts[c] = (counts[c] || 0) + 1;
+  allItems.forEach(i => {
+    const key = i.type==='series' ? `${i.serie_name}_${i.lang}_${i.country}_${i.portal_id}` : i.id;
+    if (i.type==='series') { if (seenS.has(key)) return; seenS.add(key); }
+
+    const l=i.lang||'OTHER';    langC[l] =(langC[l] ||0)+1;
+    const c=i.country||'OTHER'; ctryC[c] =(ctryC[c] ||0)+1;
+    const p=i.portal_id||'?';   portC[p] =(portC[p] ||0)+1;
   });
 
-  // Ordenar por cantidad descendente
-  const sorted = Object.entries(counts)
-    .filter(([code]) => code !== 'OTHER')
-    .sort((a,b) => b[1] - a[1]);
+  // Idiomas
+  buildMsOpts('lang', Object.entries(langC).sort((a,b)=>b[1]-a[1]).map(([code,cnt])=>({
+    value:code, label:`${LI[code]?.f||'🌐'} ${LI[code]?.n||code}`, count:cnt
+  })));
 
-  const otherCount = counts['OTHER'] || 0;
+  // Países
+  buildMsOpts('country', Object.entries(ctryC).sort((a,b)=>b[1]-a[1]).map(([code,cnt])=>({
+    value:code, label:`${CI[code]?.f||'🌐'} ${CI[code]?.n||code}`, count:cnt
+  })));
 
-  // Construir el HTML del select
-  const select = document.getElementById('country-filter');
-  const currentVal = select.value;
-
-  let html = `<option value="all">🌍 País (${Object.keys(counts).length})</option>`;
-
-  if (sorted.length > 0) {
-    html += `<optgroup label="── Países detectados ──">`;
-    sorted.forEach(([code, count]) => {
-      const flag = getFlag(code);
-      const name = getName(code);
-      html += `<option value="${code}">${flag} ${name} (${count})</option>`;
-    });
-    html += `</optgroup>`;
-  }
-
-  if (otherCount > 0) {
-    html += `<option value="OTHER">🌐 Sin detectar (${otherCount})</option>`;
-  }
-
-  select.innerHTML = html;
-
-  // Restaurar selección anterior si todavía existe
-  if (counts[currentVal] !== undefined) {
-    select.value = currentVal;
+  // Portales (solo si hay más de uno)
+  const portEntries = Object.entries(portC);
+  if (portEntries.length > 1) {
+    const portalMap = {};
+    allItems.forEach(i=>{ if(i.portal_id) portalMap[i.portal_id]={name:i.portal_name||i.portal_id, color:i.portal_color||'#e94560'}; });
+    buildMsOpts('portal', portEntries.sort((a,b)=>b[1]-a[1]).map(([id,cnt])=>({
+      value:id, label:`● ${portalMap[id]?.name||id}`, count:cnt, color:portalMap[id]?.color
+    })));
+    document.getElementById('portal-wrap').style.display='block';
   }
 }
 
-// ════════════════════════════════════════
-//  CONSTRUIR FILTRO DE IDIOMAS DINÁMICO
-// ════════════════════════════════════════
-const LANG_INFO = {
-  ES:{flag:'🇪🇸',name:'Español'}, FR:{flag:'🇫🇷',name:'Francés'},
-  EN:{flag:'🇬🇧',name:'Inglés'},  DE:{flag:'🇩🇪',name:'Alemán'},
-  IT:{flag:'🇮🇹',name:'Italiano'},PT:{flag:'🇵🇹',name:'Portugués'},
-  AR:{flag:'🇸🇦',name:'Árabe'},   NL:{flag:'🇳🇱',name:'Holandés'},
-  PL:{flag:'🇵🇱',name:'Polaco'},  RU:{flag:'🇷🇺',name:'Ruso'},
-  TR:{flag:'🇹🇷',name:'Turco'},   OTHER:{flag:'🌐',name:'Otros'},
-};
-
-function buildLangFilter() {
-  const counts = {};
-  const seenSeries = new Set();
-
-  allItems.forEach(item => {
-    if (item.type === 'series') {
-      const key = `${item.serie_name}_${item.lang}`;
-      if (seenSeries.has(key)) return;
-      seenSeries.add(key);
-    }
-    const l = item.lang || 'OTHER';
-    counts[l] = (counts[l] || 0) + 1;
-  });
-
-  const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
-  const select = document.getElementById('lang-filter');
-  const currentVal = select.value;
-
-  let html = `<option value="all">🌍 Idioma (${sorted.length})</option>`;
-  sorted.forEach(([code, count]) => {
-    const info = LANG_INFO[code] || {flag:'🌐', name:code};
-    html += `<option value="${code}">${info.flag} ${info.name} (${count})</option>`;
-  });
-
-  select.innerHTML = html;
-  if (counts[currentVal] !== undefined) select.value = currentVal;
+function buildMsOpts(id, opts) {
+  const container = document.getElementById(`${id}-opts`);
+  container.innerHTML = opts.map(opt=>`
+    <div class="ms-opt" data-val="${h(opt.value)}">
+      <input type="checkbox" id="ms-${id}-${h(opt.value)}" value="${h(opt.value)}"
+             onchange="onMsChange('${id}','${h(opt.value)}',this.checked)"/>
+      <label for="ms-${id}-${h(opt.value)}" style="${opt.color?`color:${h(opt.color)}`:''}">
+        ${opt.label}
+      </label>
+      <span class="count-badge">${opt.count}</span>
+    </div>`).join('');
 }
 
-// ════════════════════════════════════════
-//  FILTROS
-// ════════════════════════════════════════
-function setType(type) {
-  currentType = type;
-  document.querySelectorAll('.type-btn').forEach(b =>
-    b.classList.toggle('active', b.dataset.type === type)
+// ═══════════════════════════════════════
+//  MULTI-SELECT LOGIC
+// ═══════════════════════════════════════
+function toggleMs(id) {
+  const dd  = document.getElementById(`${id}-dd`);
+  const btn = document.getElementById(`${id}-btn`);
+  const isOpen = dd.classList.contains('open');
+  // Cerrar todos primero
+  ['lang','country','portal'].forEach(x => closeMsDropdown(x));
+  if (!isOpen) { dd.classList.add('open'); btn.classList.add('open'); }
+}
+function closeMsDropdown(id) {
+  document.getElementById(`${id}-dd`)?.classList.remove('open');
+  document.getElementById(`${id}-btn`)?.classList.remove('open');
+}
+
+function onMsChange(id, val, checked) {
+  if (checked) msState[id].add(val);
+  else         msState[id].delete(val);
+  updateMsBtn(id);
+  applyFilters();
+  renderActivePills();
+}
+
+function selectAllMs(id) {
+  const checks = document.querySelectorAll(`#${id}-opts input[type=checkbox]`);
+  checks.forEach(c=>{ c.checked=false; }); // "todos" = ninguno seleccionado
+  msState[id].clear();
+  updateMsBtn(id);
+  applyFilters();
+  renderActivePills();
+}
+function clearMs(id) {
+  selectAllMs(id); // mismo comportamiento: limpiar = todos
+}
+
+function updateMsBtn(id) {
+  const count = msState[id].size;
+  const cEl   = document.getElementById(`${id}-count`);
+  if (count > 0) { cEl.style.display='inline'; cEl.textContent=count; }
+  else           { cEl.style.display='none'; }
+}
+
+function filterMsOpts(id, query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll(`#${id}-opts .ms-opt`).forEach(opt => {
+    const label = opt.querySelector('label').textContent.toLowerCase();
+    opt.style.display = label.includes(q) ? '' : 'none';
+  });
+}
+
+// ═══════════════════════════════════════
+//  TIPO (multi-toggle)
+// ═══════════════════════════════════════
+function toggleType(t) {
+  if (activeTypes.has(t)) {
+    if (activeTypes.size === 1) return; // al menos uno activo
+    activeTypes.delete(t);
+  } else {
+    activeTypes.add(t);
+  }
+  document.querySelectorAll('.type-pill').forEach(p =>
+    p.classList.toggle('sel', activeTypes.has(p.dataset.t))
   );
   applyFilters();
 }
 
+// ═══════════════════════════════════════
+//  PILLS ACTIVAS
+// ═══════════════════════════════════════
+function renderActivePills() {
+  const container = document.getElementById('active-pills');
+  const pills = [];
+
+  msState.lang.forEach(code => {
+    const info = LI[code]||{f:'🌐',n:code};
+    pills.push(`<div class="active-pill">${info.f} ${info.n}<button class="rm" onclick="removePill('lang','${h(code)}')">✕</button></div>`);
+  });
+  msState.country.forEach(code => {
+    const info = CI[code]||{f:'🌐',n:code};
+    pills.push(`<div class="active-pill">${info.f} ${info.n}<button class="rm" onclick="removePill('country','${h(code)}')">✕</button></div>`);
+  });
+  msState.portal.forEach(id => {
+    const item = allItems.find(i=>i.portal_id===id);
+    const name = item?.portal_name||id;
+    pills.push(`<div class="active-pill">📡 ${h(name)}<button class="rm" onclick="removePill('portal','${h(id)}')">✕</button></div>`);
+  });
+
+  container.innerHTML = pills.join('');
+}
+
+function removePill(id, val) {
+  msState[id].delete(val);
+  const cb = document.getElementById(`ms-${id}-${val}`);
+  if (cb) cb.checked = false;
+  updateMsBtn(id);
+  applyFilters();
+  renderActivePills();
+}
+
+// ═══════════════════════════════════════
+//  APLICAR FILTROS
+// ═══════════════════════════════════════
 function applyFilters() {
-  const q       = document.getElementById('search').value.toLowerCase().trim();
-  const lang    = document.getElementById('lang-filter').value;
-  const country = document.getElementById('country-filter').value;
-  const sortBy  = document.getElementById('sort-filter').value;
+  const q      = document.getElementById('search').value.toLowerCase().trim();
+  const sortBy = document.getElementById('sort-f').value;
 
-  let items = allItems;
+  // Deduplicar según tipo
+  let items = [];
+  const seenS=new Map(), seenO=new Set();
+  allItems.forEach(i => {
+    if (!activeTypes.has(i.type)) return;
+    if (i.type==='series') {
+      if (!seenS.has(i.serie_name)) { seenS.set(i.serie_name,i); items.push(i); }
+    } else {
+      if (!seenO.has(i.id)) { seenO.add(i.id); items.push(i); }
+    }
+  });
 
-  // Deduplicar
-  if (currentType === 'series') {
-    const seen = new Map();
-    items.forEach(i => { if(i.type==='series' && !seen.has(i.serie_name)) seen.set(i.serie_name,i); });
-    items = Array.from(seen.values());
-  } else if (currentType !== 'all') {
-    const seenIds = new Set();
-    items = items.filter(i => {
-      if(i.type!==currentType) return false;
-      if(seenIds.has(i.id)) return false;
-      seenIds.add(i.id); return true;
-    });
-  } else {
-    const seenS=new Map(), seenO=new Set(), out=[];
-    items.forEach(i => {
-      if(i.type==='series'){if(!seenS.has(i.serie_name)){seenS.set(i.serie_name,i);out.push(i);}}
-      else{if(!seenO.has(i.id)){seenO.add(i.id);out.push(i);}}
-    });
-    items = out;
-  }
-
-  // Filtro idioma
-  if (lang !== 'all') items = items.filter(i => (i.lang||'OTHER') === lang);
-
+  // Filtro idioma (si hay selección)
+  if (msState.lang.size>0) items=items.filter(i=>msState.lang.has(i.lang||'OTHER'));
   // Filtro país
-  if (country !== 'all') items = items.filter(i => (i.country||'OTHER') === country);
+  if (msState.country.size>0) items=items.filter(i=>msState.country.has(i.country||'OTHER'));
+  // Filtro portal
+  if (msState.portal.size>0) items=items.filter(i=>msState.portal.has(i.portal_id||'?'));
 
-  // Filtro búsqueda
-  if (q) {
-    items = items.filter(i =>
-      [i.name,i.serie_name,i.description,i.actors,i.director,i.group,i.genres]
-        .join(' ').toLowerCase().includes(q)
-    );
-  }
+  // Búsqueda
+  if (q) items=items.filter(i=>[i.name,i.serie_name,i.description,i.actors,i.director,i.group,i.genres].join(' ').toLowerCase().includes(q));
 
   // Ordenar
-  items = [...items].sort((a,b) => {
+  items=[...items].sort((a,b)=>{
     if(sortBy==='name')   return (a.name||'').localeCompare(b.name||'');
     if(sortBy==='year')   return (b.year||0)-(a.year||0);
     if(sortBy==='rating') return parseFloat(b.rating||0)-parseFloat(a.rating||0);
-    if(sortBy==='type')   return (a.type||'').localeCompare(b.type||'');
     return 0;
   });
 
-  filteredItems = items;
+  filteredItems=items;
   renderGrid(items);
-  document.getElementById('results-count').textContent = items.length.toLocaleString()+' resultados';
+  document.getElementById('res-count').textContent=items.length.toLocaleString()+' resultados';
 }
 
-let searchTO;
-document.getElementById('search').addEventListener('input', () => {
-  clearTimeout(searchTO);
-  searchTO = setTimeout(applyFilters, 300);
-});
+let sTO;
+document.getElementById('search').addEventListener('input',()=>{clearTimeout(sTO);sTO=setTimeout(applyFilters,300);});
 
-// ════════════════════════════════════════
+// ═══════════════════════════════════════
 //  RENDER GRID
-// ════════════════════════════════════════
+// ═══════════════════════════════════════
 function renderGrid(items) {
-  const grid  = document.getElementById('grid');
-  const empty = document.getElementById('empty-state');
-  if (!items.length) { grid.style.display='none'; empty.style.display='block'; return; }
-  empty.style.display='none'; grid.style.display='grid';
-  grid.innerHTML = items.map((item,i) => buildCard(item,i)).join('');
+  const grid =document.getElementById('grid');
+  const empty=document.getElementById('empty-st');
+  if (!items.length){grid.style.display='none';empty.style.display='block';return;}
+  empty.style.display='none';grid.style.display='grid';
+  grid.innerHTML=items.map((item,i)=>buildCard(item,i)).join('');
 }
 
-function buildCard(item, idx) {
-  const isLive  = item.type==='live';
-  const isMovie = item.type==='movie';
-  const name    = h(item.serie_name||item.name||'Sin nombre');
-  const logo    = item.logo||FALLBACK;
-  const badge   = isLive?'badge-live':isMovie?'badge-movie':'badge-series';
-  const badgeTxt= isLive?`<span class="live-dot"></span>En Vivo`:isMovie?'🎬 Película':'📺 Serie';
-  const year    = item.year   ? `<span class="card-year">${h(item.year)}</span>`:'';
-  const rating  = item.rating ? `<span class="card-rating">⭐${h(item.rating)}</span>`:'';
-  const flag    = getFlag(item.country||'OTHER');
+function buildCard(item,idx) {
+  const iL=item.type==='live', iM=item.type==='movie';
+  const name=h(item.serie_name||item.name||'Sin nombre');
+  const logo=item.logo||FALLBACK;
+  const bc=iL?'bl':iM?'bm':'bs';
+  const bt=iL?`<span class="live-dot"></span>En Vivo`:iM?'🎬 Película':'📺 Serie';
+  const yr=item.year?`<span class="card-yr">${h(item.year)}</span>`:'';
+  const rt=item.rating?`<span class="card-rt">⭐${h(item.rating)}</span>`:'';
+  const flag=CI[item.country]?.f||'🌐';
+  const pColor=item.portal_color||'#e94560';
+  const pName=item.portal_name||'';
 
   return `
-    <div class="card" onclick="openDetailModal(${idx})">
-      <img class="card-poster ${isLive?'landscape':''}"
-           src="${h(logo)}" onerror="this.src='${FALLBACK}'"
-           alt="${name}" loading="lazy" />
-      <div class="card-info">
+    <div class="card" onclick="openDet(${idx})">
+      <img class="card-img ${iL?'land':''}" src="${h(logo)}" onerror="this.src='${FALLBACK}'" alt="${name}" loading="lazy"/>
+      <div class="card-body">
         <div class="card-title">${name}</div>
         <div class="card-meta">
-          <span class="badge ${badge}">${badgeTxt}</span>
-          <span class="badge badge-lang">${h(item.lang||'?')}</span>
-          <span class="badge badge-country" title="${h(getName(item.country||'OTHER'))}">${flag}</span>
-          ${year}${rating}
+          <span class="badge ${bc}">${bt}</span>
+          <span class="badge b-lang">${h(item.lang||'?')}</span>
+          <span class="badge b-country" title="${CI[item.country]?.n||item.country||''}">${flag}</span>
+          ${pName?`<span class="badge b-portal" style="background:${h(pColor)}" title="${h(pName)}">●</span>`:''}
+          ${yr}${rt}
         </div>
       </div>
     </div>`;
 }
 
-// ════════════════════════════════════════
+// ═══════════════════════════════════════
 //  MODAL DETALLE
-// ════════════════════════════════════════
-function openDetailModal(idx) {
-  const item = filteredItems[idx];
+// ═══════════════════════════════════════
+function openDet(idx) {
+  const item=filteredItems[idx];
   if (!item) return;
-  const name   = item.serie_name||item.name||'Sin nombre';
-  const poster = item.logo||FALLBACK;
-  const flag   = getFlag(item.country||'OTHER');
-  const cname  = getName(item.country||'OTHER');
+  const name=item.serie_name||item.name||'Sin nombre';
+  const poster=item.logo||FALLBACK;
+  const flag=CI[item.country]?.f||'🌐';
+  const cname=CI[item.country]?.n||item.country||'OTHER';
+  const pColor=item.portal_color||'#e94560';
+  const pName=item.portal_name||'';
 
-  document.getElementById('det-title').textContent = name;
-  document.getElementById('det-backdrop').src = poster;
-  document.getElementById('det-poster').src   = poster;
+  document.getElementById('d-title').textContent=name;
+  document.getElementById('d-bg').src=poster;
+  document.getElementById('d-poster').src=poster;
 
-  const bCls = item.type==='live'?'badge-live':item.type==='movie'?'badge-movie':'badge-series';
-  const bTxt = item.type==='live'?'📡 En Vivo':item.type==='movie'?'🎬 Película':'📺 Serie';
-  document.getElementById('det-badges').innerHTML=`
-    <span class="badge ${bCls}">${bTxt}</span>
-    <span class="badge badge-lang">${h(item.lang||'?')}</span>
-    <span class="badge badge-country">${flag} ${h(item.country||'OTHER')}</span>
+  const bc=item.type==='live'?'bl':item.type==='movie'?'bm':'bs';
+  const bt=item.type==='live'?'📡 En Vivo':item.type==='movie'?'🎬 Película':'📺 Serie';
+  document.getElementById('d-badges').innerHTML=`
+    <span class="badge ${bc}">${bt}</span>
+    <span class="badge b-lang">${h(item.lang||'?')}</span>
+    <span class="badge b-country">${flag} ${h(item.country||'OTHER')}</span>
+    ${pName?`<span class="badge b-portal" style="background:${h(pColor)}">● ${h(pName)}</span>`:''}
     ${item.genres?`<span class="badge" style="background:#222;color:#aaa">${h(item.genres)}</span>`:''}`;
 
   const metas=[
-    ['Año',     item.year],
-    ['País',    item.country?`${flag} ${cname}`:''],
-    ['Rating',  item.rating?`⭐ ${item.rating}`:''],
-    ['Director',item.director],
-    ['Reparto', item.actors],
-    ['Duración',item.duration],
-    ['Grupo',   item.group],
+    ['Año',item.year],['País',item.country?`${flag} ${cname}`:''],
+    ['Portal',pName],['Rating',item.rating?`⭐ ${item.rating}`:''],
+    ['Director',item.director],['Reparto',item.actors],
+    ['Duración',item.duration],['Grupo',item.group],
   ].filter(([,v])=>v);
+  document.getElementById('d-meta').innerHTML=metas.map(([l,v])=>`
+    <div class="mi"><label>${l}</label><span>${h(String(v))}</span></div>`).join('');
 
-  document.getElementById('det-meta').innerHTML=metas.map(([l,v])=>`
-    <div class="meta-item"><label>${l}</label><span>${h(String(v))}</span></div>`).join('');
-
-  const descEl=document.getElementById('det-desc');
-  if(item.description){descEl.textContent=item.description;descEl.style.display='block';}
-  else{descEl.style.display='none';}
+  const dd=document.getElementById('d-desc');
+  if(item.description){dd.textContent=item.description;dd.style.display='block';}
+  else dd.style.display='none';
 
   const url=item.url||'';
-  document.getElementById('det-url-input').value=url;
-  document.getElementById('det-vlc').href=url?`vlc://${url}`:'#';
+  document.getElementById('d-url').value=url;
+  document.getElementById('d-vlc').href=url?`vlc://${url}`:'#';
 
-  const epsSec=document.getElementById('det-episodes');
+  const epSec=document.getElementById('d-eps');
   if(item.type==='series'&&item.serie_name){
-    const eps=allItems
-      .filter(i=>i.type==='series'&&i.serie_name===item.serie_name)
-      .sort((a,b)=>{const sd=parseInt(a.season||0)-parseInt(b.season||0);return sd!==0?sd:parseInt(a.episode||0)-parseInt(b.episode||0);});
-    document.getElementById('det-ep-count').textContent=`(${eps.length} episodios)`;
-    const seasons={};
-    eps.forEach(ep=>{const sk=ep.season_name||`Temporada ${ep.season||'?'}`;if(!seasons[sk])seasons[sk]=[];seasons[sk].push(ep);});
-    document.getElementById('det-season-list').innerHTML=Object.entries(seasons).map(([sName,eps])=>`
-      <div class="season-group">
-        <div class="season-title">🎬 ${h(sName)} <span style="color:var(--text-muted);font-weight:400">(${eps.length} ep.)</span></div>
-        <div class="episode-list">
+    const eps=allItems.filter(i=>i.type==='series'&&i.serie_name===item.serie_name&&i.portal_id===item.portal_id)
+      .sort((a,b)=>{const sd=parseInt(a.season||0)-parseInt(b.season||0);return sd?sd:parseInt(a.episode||0)-parseInt(b.episode||0);});
+    document.getElementById('d-ep-count').textContent=`(${eps.length} episodios)`;
+    const seas={};
+    eps.forEach(ep=>{const sk=ep.season_name||`Temporada ${ep.season||'?'}`;if(!seas[sk])seas[sk]=[];seas[sk].push(ep);});
+    document.getElementById('d-seasons').innerHTML=Object.entries(seas).map(([sn,eps])=>`
+      <div class="seas-g">
+        <div class="seas-t">🎬 ${h(sn)} <span style="color:var(--text-muted);font-weight:400">(${eps.length} ep.)</span></div>
+        <div class="ep-list">
           ${eps.map(ep=>`
-            <div class="episode-item" onclick="selectEpisode('${h(ep.url||'')}',event)">
+            <div class="ep-item" onclick="selEp('${h(ep.url||'')}',event)">
               <div class="ep-info">
-                <div class="ep-num">Episodio ${h(String(ep.episode||'?'))}</div>
+                <div class="ep-num">E${h(String(ep.episode||'?'))}</div>
                 <div class="ep-name">${h(ep.ep_name||ep.name||'Episodio')}</div>
               </div>
-              <button class="btn-ep" onclick="selectEpisode('${h(ep.url||'')}',event)">▶</button>
+              <button class="btn-ep" onclick="selEp('${h(ep.url||'')}',event)">▶</button>
             </div>`).join('')}
         </div>
       </div>`).join('');
-    epsSec.style.display=eps.length?'block':'none';
-  } else { epsSec.style.display='none'; }
+    epSec.style.display=eps.length?'block':'none';
+  } else epSec.style.display='none';
 
-  document.getElementById('detail-overlay').classList.add('open');
+  document.getElementById('det-overlay').classList.add('open');
   document.body.style.overflow='hidden';
 }
 
-function selectEpisode(url,event) {
-  event.stopPropagation();
-  document.getElementById('det-url-input').value=url;
-  document.getElementById('det-vlc').href=url?`vlc://${url}`:'#';
+function selEp(url,e){
+  e.stopPropagation();
+  document.getElementById('d-url').value=url;
+  document.getElementById('d-vlc').href=url?`vlc://${url}`:'#';
   navigator.clipboard.writeText(url).then(()=>toast('📋 URL copiada','success')).catch(()=>{});
 }
-function closeDetailModal(){document.getElementById('detail-overlay').classList.remove('open');document.body.style.overflow='';}
-function copyDetailUrl(){const url=document.getElementById('det-url-input').value;navigator.clipboard.writeText(url).then(()=>toast('📋 URL copiada','success')).catch(()=>{});}
-function copyM3uUrl(){const val=document.getElementById('m3u-url-display').value;if(!val){toast('⚠️ Configura el portal primero','error');return;}navigator.clipboard.writeText(val).then(()=>toast('📋 URL M3U copiada','success')).catch(()=>toast('⚠️ No se pudo copiar','error'));}
+function closeDetModal(){document.getElementById('det-overlay').classList.remove('open');document.body.style.overflow='';}
+function copyDetUrl(){navigator.clipboard.writeText(document.getElementById('d-url').value).then(()=>toast('📋 URL copiada','success')).catch(()=>{});}
+function copyM3u(){const v=document.getElementById('m3u-url').value;if(!v){toast('⚠️ Configura el portal primero','error');return;}navigator.clipboard.writeText(v).then(()=>toast('📋 URL M3U copiada','success')).catch(()=>toast('⚠️ No se pudo copiar','error'));}
 
-function closeOnOverlay(event,id){if(event.target.id===id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}}
-document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;['config-overlay','run-overlay','detail-overlay'].forEach(id=>{document.getElementById(id).classList.remove('open');});document.body.style.overflow='';});
+// ═══════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════
+function closeOvl(e,id){if(e.target.id===id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}}
+document.addEventListener('keydown',e=>{if(e.key!=='Escape'){return;}['cfg-overlay','portal-editor-overlay','run-overlay','det-overlay'].forEach(id=>{document.getElementById(id).classList.remove('open');});document.body.style.overflow='';});
 
-function toast(msg,type='info'){const el=document.createElement('div');el.className=`toast ${type}`;el.textContent=msg;document.getElementById('toast-container').appendChild(el);setTimeout(()=>el.remove(),3500);}
-function h(str){return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function formatMac(inp){let v=inp.value.replace(/[^0-9a-fA-F]/g,'').toUpperCase(),f='';for(let i=0;i<v.length&&i<12;i++){if(i>0&&i%2===0)f+=':';f+=v[i];}inp.value=f;updateMacPrev('pe-mac-prev',f);}
+function updateMacPrev(elId,mac){const p=mac.split(':');const el=document.getElementById(elId);el.innerHTML=(p.length===6&&p.every(x=>x.length===2))?p.map(x=>`<span class="mac-o">${x}</span>`).join(''):'';}
+function toggleEye(id,btn){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁️':'🙈';}
+
+function toast(msg,type='info'){const el=document.createElement('div');el.className=`toast ${type}`;el.textContent=msg;document.getElementById('toast-c').appendChild(el);setTimeout(()=>el.remove(),3500);}
+function h(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 init();
 </script>
