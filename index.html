@@ -549,13 +549,11 @@
 <script>
 'use strict';
 
-// ═══════════════════════════════════════
-//  CONSTANTES
-// ═══════════════════════════════════════
 const LS_KEY  = 'iptv_cfg_v3';
 const FALLBACK= "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI3MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI3MCIgZmlsbD0iIzEyMTIxZSIvPjx0ZXh0IHg9IjkwIiB5PSIxNDUiIGZpbGw9IiMzMzMzNTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iNTAiPvCfm4Q8L3RleHQ+PC9zdmc+";
 
-const CI = {
+// ── INFO PAÍSES ──
+const CI={
   ES:{f:'🇪🇸',n:'España'},FR:{f:'🇫🇷',n:'Francia'},GB:{f:'🇬🇧',n:'Reino Unido'},
   DE:{f:'🇩🇪',n:'Alemania'},IT:{f:'🇮🇹',n:'Italia'},PT:{f:'🇵🇹',n:'Portugal'},
   NL:{f:'🇳🇱',n:'Países Bajos'},BE:{f:'🇧🇪',n:'Bélgica'},CH:{f:'🇨🇭',n:'Suiza'},
@@ -574,81 +572,166 @@ const CI = {
   JP:{f:'🇯🇵',n:'Japón'},KR:{f:'🇰🇷',n:'Corea del Sur'},NG:{f:'🇳🇬',n:'Nigeria'},
   ZA:{f:'🇿🇦',n:'Sudáfrica'},INTL:{f:'🌍',n:'Internacional'},OTHER:{f:'🌐',n:'Sin detectar'},
 };
-const LI = {
+
+// ── INFO IDIOMAS ──
+const LI={
   ES:{f:'🇪🇸',n:'Español'},FR:{f:'🇫🇷',n:'Francés'},EN:{f:'🇬🇧',n:'Inglés'},
   DE:{f:'🇩🇪',n:'Alemán'},IT:{f:'🇮🇹',n:'Italiano'},PT:{f:'🇵🇹',n:'Portugués'},
   AR:{f:'🇸🇦',n:'Árabe'},NL:{f:'🇳🇱',n:'Holandés'},PL:{f:'🇵🇱',n:'Polaco'},
   RU:{f:'🇷🇺',n:'Ruso'},TR:{f:'🇹🇷',n:'Turco'},OTHER:{f:'🌐',n:'Otros'},
 };
 
-// ═══════════════════════════════════════
-//  ESTADO
-// ═══════════════════════════════════════
+// ── DETECCIÓN CLIENTE ──
+// Reglas de idioma
+const LANG_RULES = [
+  [/\bES\b|\bESP\b|\bESPAÑOL\b|\bSPANISH\b|\bSPAIN\b|\bLATINO\b|\bLAT\b|\bCAST\b/i, 'ES'],
+  [/\bFR\b|\bFRE\b|\bFRENCH\b|\bFRANCE\b|\bFRANÇAIS\b|\bFRANCAIS\b/i, 'FR'],
+  [/\bEN\b|\bENG\b|\bENGLISH\b|\bUK\b|\bUSA\b|\bGBR\b/i, 'EN'],
+  [/\bDE\b|\bDEU\b|\bGERMAN\b|\bDEUTSCH\b/i, 'DE'],
+  [/\bIT\b|\bITA\b|\bITALIAN\b|\bITALIANO\b/i, 'IT'],
+  [/\bPT\b|\bPOR\b|\bPORTUGUESE\b|\bPORTUGAL\b|\bBRASIL\b/i, 'PT'],
+  [/\bAR\b|\bARA\b|\bARABIC\b|\bARABE\b/i, 'AR'],
+  [/\bNL\b|\bNED\b|\bDUTCH\b|\bHOLLAND\b/i, 'NL'],
+  [/\bPL\b|\bPOL\b|\bPOLISH\b|\bPOLSKA\b/i, 'PL'],
+  [/\bRU\b|\bRUS\b|\bRUSSIAN\b/i, 'RU'],
+  [/\bTR\b|\bTUR\b|\bTURKISH\b/i, 'TR'],
+];
+
+// Reglas de país
+const CTRY_RULES = [
+  [/\bESPAÑA\b|\bSPAIN\b|\bTVE\b|\bANTENA 3\b|\bTELECINCO\b|\bLA SEXTA\b|\bCUATRO\b|\bTV3\b|\bTELEMADRID\b|\bCANAL SUR\b|\bGOL TV\b/i,'ES'],
+  [/\bFRANCE\b|\bFRANÇAIS\b|\bFRANCAIS\b|\bTF1\b|\bFRANCE 2\b|\bM6\b|\bBFMTV\b|\bLCI\b|\bCNEWS\b|\bARTE\b|\bRMC\b/i,'FR'],
+  [/\bBBC\b|\bITV\b|\bSKY ONE\b|\bSKY SPORTS\b|\bBT SPORT\b|\bCHANNEL 4\b|\bCHANNEL 5\b|\bUHD UK\b|\bDAVE\b|\bGOLD\b/i,'GB'],
+  [/\bUNITED KINGDOM\b|\bBRITAIN\b|\bBRITISH\b|\bENGLAND\b/i,'GB'],
+  [/\bDEUTSCHLAND\b|\bDEUTSCH\b|\bGERMANY\b|\bARD\b|\bZDF\b|\bSAT\.?1\b|\bPROSIEBEN\b|\bKABEL\b|\bRTL DE\b/i,'DE'],
+  [/\bITALIA\b|\bITALY\b|\bRAI 1\b|\bRAI 2\b|\bRAI 3\b|\bCANALE 5\b|\bMEDIASET\b|\bRete 4\b|\bLA7\b/i,'IT'],
+  [/\bPORTUGAL\b|\bRTP1\b|\bRTP2\b|\bSIC\b|\bTVI\b|\bCMTV\b|\bBENFICA TV\b|\bSPORTING TV\b/i,'PT'],
+  [/\bNETHERLANDS\b|\bHOLLAND\b|\bNPO 1\b|\bNPO 2\b|\bRTL 4\b|\bSBS6\b|\bVERONICA\b/i,'NL'],
+  [/\bBELGIQUE\b|\bBELGIUM\b|\bVRT\b|\bRTBF\b|\bVTM\b|\bCANVAS\b/i,'BE'],
+  [/\bPOLSKA\b|\bPOLAND\b|\bTVP1\b|\bTVP2\b|\bPOLSAT\b|\bTVN 24\b/i,'PL'],
+  [/\bROSSIA\b|\bRUSSIA\b|\bRUSSIAN\b|\bNTV RU\b|\bMATCH TV\b|\bRT \b|\bPERVY\b/i,'RU'],
+  [/\bTÜRKIYE\b|\bTURKEY\b|\bTRT 1\b|\bATV TR\b|\bFOX TR\b|\bSHOW TV\b|\bKANAL D\b/i,'TR'],
+  [/\bROMANIA\b|\bPRO TV\b|\bANTENA 1\b|\bDIGI24\b|\bTVR\b/i,'RO'],
+  [/\bGREECE\b|\bERT\b|\bANT1\b|\bMEGA GR\b|\bSTAR GR\b/i,'GR'],
+  [/\bSVERIGE\b|\bSWEDEN\b|\bSVT\b|\bTV4 SE\b/i,'SE'],
+  [/\bNORGE\b|\bNORWAY\b|\bNRK1\b|\bNRK2\b|\bTV 2 NO\b/i,'NO'],
+  [/\bDANMARK\b|\bDENMARK\b|\bDR1\b|\bDR2\b|\bTV2 DK\b/i,'DK'],
+  [/\bSUOMI\b|\bFINLAND\b|\bYLE 1\b|\bYLE 2\b|\bMTV3 FI\b/i,'FI'],
+  [/\bCZECH\b|\bCESKA\b|\bCT1\b|\bCT2\b|\bPRIMA\b|\bNOVA CZ\b/i,'CZ'],
+  [/\bHUNGARY\b|\bMAGYAR\b|\bDUNA\b|\bRTL HU\b|\bTV2 HU\b/i,'HU'],
+  [/\bHRVATSKA\b|\bCROATIA\b|\bHRT 1\b|\bHRT 2\b/i,'HR'],
+  [/\bSRBIJA\b|\bSERBIA\b|\bPINK TV\b|\bRTS\b|\bB92\b/i,'RS'],
+  [/\bUKRAINE\b|\b1\+1\b|\bINTER UA\b|\bSTB UA\b|\bICTV\b/i,'UA'],
+  [/\bUNITED STATES\b|\bAMERICAN\b|\bNBC\b|\bCBS\b|\bABC US\b|\bESPN\b|\bHBO\b|\bCNN\b|\bMSNBC\b|\bSHOWTIME\b|\bSTARZ\b|\bAMC\b/i,'US'],
+  [/\b USA \b|\bUSA\b/i,'US'],
+  [/\bMÉXICO\b|\bMEXICO\b|\bTELEVISA\b|\bAZTECA 7\b|\bAZTECA UNO\b|\bFORO TV\b/i,'MX'],
+  [/\bARGENTINA\b|\bTELEFE\b|\bEL TRECE\b|\bTN \b|\bC5N\b/i,'AR'],
+  [/\bCOLOMBIA\b|\bRCN\b|\bCARACOL\b|\bSEÑAL COLOMBIA\b/i,'CO'],
+  [/\bCHILE\b|\bTVN\b|\bCHV\b|\bMEGA CL\b/i,'CL'],
+  [/\bPERÚ\b|\bPERU\b|\bLATINA TV\b|\bATV PE\b/i,'PE'],
+  [/\bVENEZUELA\b|\bVENEVISION\b|\bTELEVEN\b|\bGLOBOVISION\b/i,'VE'],
+  [/\bBRASIL\b|\bBRAZIL\b|\bGLOBO\b|\bSBT\b|\bRECORD BR\b|\bBAND\b/i,'BR'],
+  [/\bCANADA\b|\bCANADÁ\b|\bCBC\b|\bCTV\b|\bTSN\b|\bSPORTSNET\b/i,'CA'],
+  [/\bMAROC\b|\bMOROCCO\b|\bMARRUECOS\b|\b2M\b|\bSNRT\b|\bAL AOULA\b|\bMEDI 1\b/i,'MA'],
+  [/\bALGERIE\b|\bALGERIA\b|\bENTV\b|\bDZAIR\b/i,'DZ'],
+  [/\bTUNISIE\b|\bTUNISIA\b|\bWATANIYA\b|\bHANNIBAL\b|\bNESSMA\b/i,'TN'],
+  [/\bEGYPT\b|\bNILE TV\b|\bMBC MASR\b|\bON TV\b|\bCBC EG\b/i,'EG'],
+  [/\bSAUDI\b|\bKSA\b|\bMBC 1\b|\bMBC 2\b|\bMBC 3\b|\bMBC 4\b|\bROTANA\b|\bAL ARABIYA\b/i,'SA'],
+  [/\bDUBAI\b|\bABU DHABI\b|\bSHARJAH\b|\bAD SPORTS\b/i,'AE'],
+  [/\bQATAR\b|\bAL JAZEERA\b|\bBEIN SPORT/i,'QA'],
+  [/\bLEBANON\b|\bLIBAN\b|\bLBC\b|\bMTV LIBAN\b|\bAL JADEED\b/i,'LB'],
+  [/\bIRAQ\b|\bIRAK\b|\bIRAQIA\b|\bKURDISTAN\b/i,'IQ'],
+  [/\bIRAN\b|\bIRIB\b|\bGEM TV\b/i,'IR'],
+  [/\bINDIA\b|\bHINDI\b|\bSTAR PLUS\b|\bZEE TV\b|\bCOLORS\b|\bBOLLYWOOD\b|\bSAB TV\b/i,'IN'],
+  [/\bPAKISTAN\b|\bURDU\b|\bGEO TV\b|\bARY DIGITAL\b|\bHUM TV\b/i,'PK'],
+  [/\bCHINA\b|\bCCTV 1\b|\bCCTV 4\b|\bMANDARIN\b|\bPHOENIX TV\b/i,'CN'],
+  [/\bJAPAN\b|\bJAPON\b|\bNHK\b|\bANIME\b|\bTV TOKYO\b/i,'JP'],
+  [/\bKOREA\b|\bKDRAMA\b|\bK-DRAMA\b|\bARIRANG\b|\bKBS\b/i,'KR'],
+  [/\bNIGERIA\b|\bNOLLYWOOD\b|\bCHANNELS TV\b|\bARISE TV\b/i,'NG'],
+  [/\bSOUTH AFRICA\b|\bSABC\b|\bDSTV\b/i,'ZA'],
+  [/\bINTERNATIONAL\b|\bINTERNACIONAL\b|\bEUROSPORT\b|\bEURONEWS\b|\bBBC WORLD\b|\bCNN INT/i,'INTL'],
+];
+
+function detectLang(text) {
+  const t = text.toUpperCase();
+  for (const [rx, code] of LANG_RULES) {
+    if (rx.test(t)) return code;
+  }
+  return 'OTHER';
+}
+
+function detectCtry(text) {
+  const t = text.toUpperCase();
+  for (const [rx, code] of CTRY_RULES) {
+    if (rx.test(t)) return code;
+  }
+  return 'OTHER';
+}
+
+// Normaliza UN item: asigna lang y country si faltan
+function normalizeItem(item) {
+  const searchText = [
+    item.name || '',
+    item.serie_name || '',
+    item.group || '',
+    item.epg_id || '',
+  ].join(' ');
+
+  if (!item.lang || item.lang === 'OTHER' || item.lang === '') {
+    item.lang = detectLang(searchText);
+  }
+  if (!item.country || item.country === 'OTHER' || item.country === '') {
+    item.country = detectCtry(searchText);
+  }
+  return item;
+}
+
+// ── ESTADO ──
 let cfg           = {};
 let allItems      = [];
 let filteredItems = [];
-let editPortalIdx = -1; // índice del portal en edición (-1 = nuevo)
+let editPortalIdx = -1;
 
-// Multi-select state
-const msState = {
-  lang:    new Set(), // vacío = todos
-  country: new Set(),
-  portal:  new Set(),
-};
-// Tipos activos
+const msState = { lang: new Set(), country: new Set(), portal: new Set() };
 let activeTypes = new Set(['live','movie','series']);
 
-// ═══════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════
+// ── INIT ──
 function init() {
   loadCfg();
   updateHeader();
-  // Cerrar dropdowns al hacer clic fuera
   document.addEventListener('click', e => {
     ['lang','country','portal'].forEach(id => {
-      if (!document.getElementById(`${id}-wrap`).contains(e.target)) {
-        closeMsDropdown(id);
-      }
+      const wrap = document.getElementById(`${id}-wrap`);
+      if (wrap && !wrap.contains(e.target)) closeMsDd(id);
     });
   });
-  if (cfg.ghUser && cfg.ghRepo) {
-    loadMetadata();
-  } else {
-    document.getElementById('setup-banner').classList.add('vis');
-  }
+  if (cfg.ghUser && cfg.ghRepo) loadMetadata();
+  else document.getElementById('setup-banner').classList.add('vis');
 }
 
-// ═══════════════════════════════════════
-//  CONFIG
-// ═══════════════════════════════════════
+// ── CONFIG ──
 function loadCfg() {
-  try { cfg = JSON.parse(localStorage.getItem(LS_KEY)||'{}'); } catch(e) { cfg = {}; }
+  try { cfg = JSON.parse(localStorage.getItem(LS_KEY)||'{}'); } catch(e) { cfg={}; }
   if (!cfg.portals) cfg.portals = [];
 }
 
 function saveCfg() {
-  const ghUser  = document.getElementById('cfg-gh-user').value.trim();
-  const ghRepo  = document.getElementById('cfg-gh-repo').value.trim();
-  const ghToken = document.getElementById('cfg-gh-token').value.trim();
-  if (!ghUser || !ghRepo) { toast('⚠️ Introduce usuario y repo de GitHub','error'); return; }
-  cfg.ghUser  = ghUser;
-  cfg.ghRepo  = ghRepo;
-  cfg.ghToken = ghToken;
+  const u = document.getElementById('cfg-gh-user').value.trim();
+  const r = document.getElementById('cfg-gh-repo').value.trim();
+  const t = document.getElementById('cfg-gh-token').value.trim();
+  if (!u||!r) { toast('⚠️ Introduce usuario y repo de GitHub','error'); return; }
+  cfg.ghUser=u; cfg.ghRepo=r; cfg.ghToken=t;
   localStorage.setItem(LS_KEY, JSON.stringify(cfg));
   toast('✅ Configuración guardada','success');
-  closeCfgModal();
-  updateHeader();
+  closeCfgModal(); updateHeader();
   document.getElementById('setup-banner').classList.remove('vis');
   loadMetadata();
 }
 
 function clearAllCfg() {
   if (!confirm('¿Borrar toda la configuración?')) return;
-  cfg = { portals: [] };
-  localStorage.removeItem(LS_KEY);
-  fillCfgForm();
-  updateHeader();
+  cfg={portals:[]}; localStorage.removeItem(LS_KEY);
+  fillCfgForm(); updateHeader();
   toast('🗑️ Configuración borrada','info');
 }
 
@@ -656,47 +739,42 @@ function fillCfgForm() {
   document.getElementById('cfg-gh-user').value  = cfg.ghUser  || '';
   document.getElementById('cfg-gh-repo').value  = cfg.ghRepo  || '';
   document.getElementById('cfg-gh-token').value = cfg.ghToken || '';
-  updatePrev();
-  renderPortalsList();
+  updatePrev(); renderPortalsList();
 }
 
 function updatePrev() {
-  const u = document.getElementById('cfg-gh-user').value.trim() || 'usuario';
-  const r = document.getElementById('cfg-gh-repo').value.trim() || 'repositorio';
-  document.getElementById('prev-dashboard').value = `https://${u}.github.io/${r}/`;
-  document.getElementById('prev-m3u').value = `https://raw.githubusercontent.com/${u}/${r}/main/playlist.m3u`;
+  const u = document.getElementById('cfg-gh-user').value.trim()||'usuario';
+  const r = document.getElementById('cfg-gh-repo').value.trim()||'repositorio';
+  document.getElementById('prev-dashboard').value=`https://${u}.github.io/${r}/`;
+  document.getElementById('prev-m3u').value=`https://raw.githubusercontent.com/${u}/${r}/main/playlist.m3u`;
 }
 
 function updateHeader() {
   const badge = document.getElementById('cfg-badge');
   const txt   = document.getElementById('cfg-txt');
   const m3u   = document.getElementById('m3u-url');
-  const portalsCount = (cfg.portals||[]).filter(p=>p.enabled).length;
+  const n = (cfg.portals||[]).filter(p=>p.enabled).length;
   if (cfg.ghUser && cfg.ghRepo) {
-    badge.className = 'cfg-badge ok';
+    badge.className='cfg-badge ok';
     badge.querySelector('.dot').classList.remove('pulse');
-    txt.textContent = `${portalsCount} portal${portalsCount!==1?'es':''} activo${portalsCount!==1?'s':''}`;
-    m3u.value = `https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/playlist.m3u`;
+    txt.textContent=`${n} portal${n!==1?'es':''} activo${n!==1?'s':''}`;
+    m3u.value=`https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/playlist.m3u`;
   } else {
-    badge.className = 'cfg-badge no';
+    badge.className='cfg-badge no';
     badge.querySelector('.dot').classList.add('pulse');
-    txt.textContent = 'Sin configurar';
-    m3u.value = '';
+    txt.textContent='Sin configurar'; m3u.value='';
   }
 }
 
-// ═══════════════════════════════════════
-//  PORTALES MANAGER
-// ═══════════════════════════════════════
+// ── PORTALES ──
 function renderPortalsList() {
   const list = document.getElementById('portals-list');
-  if (!cfg.portals || cfg.portals.length === 0) {
-    list.innerHTML = `<div style="text-align:center;padding:1rem;color:var(--text-muted);font-size:.82rem">
-      No hay portales configurados. Añade uno con el botón de abajo.
-    </div>`;
+  if (!cfg.portals||cfg.portals.length===0) {
+    list.innerHTML=`<div style="text-align:center;padding:1rem;color:var(--text-muted);font-size:.82rem">
+      No hay portales configurados. Añade uno abajo.</div>`;
     return;
   }
-  list.innerHTML = cfg.portals.map((p, i) => `
+  list.innerHTML=cfg.portals.map((p,i)=>`
     <div class="portal-item ${p.enabled?'active-p':''}">
       <div class="portal-dot" style="background:${h(p.color||'#e94560')}"></div>
       <div class="portal-info">
@@ -705,183 +783,141 @@ function renderPortalsList() {
         <div class="portal-mac">MAC: ${h(p.mac||'—')}</div>
       </div>
       <div class="portal-actions">
-        <button class="p-toggle ${p.enabled?'on':'off'}" onclick="togglePortal(${i})">
-          ${p.enabled?'✅ Activo':'⏸ Pausado'}
-        </button>
+        <button class="p-toggle ${p.enabled?'on':'off'}" onclick="togglePortal(${i})">${p.enabled?'✅ Activo':'⏸ Pausado'}</button>
         <button class="p-edit" onclick="editPortal(${i})">✏️ Editar</button>
         <button class="p-edit" style="color:var(--accent)" onclick="deletePortal(${i})">🗑️</button>
       </div>
     </div>`).join('');
 }
 
-function togglePortal(idx) {
-  cfg.portals[idx].enabled = !cfg.portals[idx].enabled;
-  renderPortalsList();
-}
+function togglePortal(i){cfg.portals[i].enabled=!cfg.portals[i].enabled;renderPortalsList();}
+function deletePortal(i){if(!confirm(`¿Eliminar "${cfg.portals[i].name}"?`))return;cfg.portals.splice(i,1);renderPortalsList();}
 
-function deletePortal(idx) {
-  if (!confirm(`¿Eliminar el portal "${cfg.portals[idx].name}"?`)) return;
-  cfg.portals.splice(idx, 1);
-  renderPortalsList();
-}
-
-function addPortal() {
-  editPortalIdx = -1;
-  document.getElementById('pe-title').textContent = '➕ Añadir Portal';
-  document.getElementById('pe-name').value  = '';
-  document.getElementById('pe-url').value   = '';
-  document.getElementById('pe-mac').value   = '';
-  document.getElementById('pe-color').value = '#e94560';
-  document.getElementById('pe-mac-prev').innerHTML = '';
-  document.getElementById('pe-cr').className = 'cr';
+function addPortal(){
+  editPortalIdx=-1;
+  document.getElementById('pe-title').textContent='➕ Añadir Portal';
+  document.getElementById('pe-name').value='';
+  document.getElementById('pe-url').value='';
+  document.getElementById('pe-mac').value='';
+  document.getElementById('pe-color').value='#e94560';
+  document.getElementById('pe-mac-prev').innerHTML='';
+  document.getElementById('pe-cr').className='cr';
   document.getElementById('portal-editor-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function editPortal(idx) {
-  editPortalIdx = idx;
-  const p = cfg.portals[idx];
-  document.getElementById('pe-title').textContent = '✏️ Editar Portal';
-  document.getElementById('pe-name').value  = p.name  || '';
-  document.getElementById('pe-url').value   = p.url   || '';
-  document.getElementById('pe-mac').value   = p.mac   || '';
-  document.getElementById('pe-color').value = p.color || '#e94560';
-  updateMacPrev('pe-mac-prev', p.mac||'');
-  document.getElementById('pe-cr').className = 'cr';
-  document.getElementById('portal-editor-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closePortalEditor() {
-  document.getElementById('portal-editor-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function savePortalEditor() {
-  const name  = document.getElementById('pe-name').value.trim();
-  const url   = document.getElementById('pe-url').value.trim();
-  const mac   = document.getElementById('pe-mac').value.trim().toUpperCase();
-  const color = document.getElementById('pe-color').value;
-
-  if (!name) { toast('⚠️ Introduce un nombre para el portal','error'); return; }
-  if (!url || !url.startsWith('http')) { toast('⚠️ URL inválida','error'); return; }
-  if (!/^([0-9A-F]{2}:){5}[0-9A-F]{2}$/.test(mac)) { toast('⚠️ MAC inválida (XX:XX:XX:XX:XX:XX)','error'); return; }
-
-  const portalData = { id: `portal_${Date.now()}`, name, url, mac, color, enabled: true };
-
-  if (editPortalIdx >= 0) {
-    portalData.id = cfg.portals[editPortalIdx].id; // mantener el ID
-    cfg.portals[editPortalIdx] = portalData;
-    toast('✅ Portal actualizado','success');
-  } else {
-    cfg.portals.push(portalData);
-    toast('✅ Portal añadido','success');
-  }
-
-  closePortalEditor();
-  renderPortalsList();
-}
-
-function testPortalConnection() {
-  const url = document.getElementById('pe-url').value.trim();
-  const mac = document.getElementById('pe-mac').value.trim();
-  const cr  = document.getElementById('pe-cr');
-  cr.className = 'cr load'; cr.textContent = '🔌 Verificando formato...';
-  setTimeout(() => {
-    const ok = /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/.test(mac) && url.startsWith('http') && url.includes('.');
-    if (ok) {
-      cr.className='cr ok';
-      cr.innerHTML='✅ <strong>Formato válido.</strong> La conexión real se hará en GitHub Actions.';
-    } else {
-      cr.className='cr err'; cr.textContent='❌ Formato inválido. Revisa URL y MAC.';
-    }
-  }, 1000);
-}
-
-// ═══════════════════════════════════════
-//  MODAL CONFIG
-// ═══════════════════════════════════════
-function openCfgModal() {
-  fillCfgForm();
-  document.getElementById('cfg-overlay').classList.add('open');
   document.body.style.overflow='hidden';
 }
-function closeCfgModal() {
-  document.getElementById('cfg-overlay').classList.remove('open');
+
+function editPortal(i){
+  editPortalIdx=i; const p=cfg.portals[i];
+  document.getElementById('pe-title').textContent='✏️ Editar Portal';
+  document.getElementById('pe-name').value=p.name||'';
+  document.getElementById('pe-url').value=p.url||'';
+  document.getElementById('pe-mac').value=p.mac||'';
+  document.getElementById('pe-color').value=p.color||'#e94560';
+  updateMacPrev('pe-mac-prev',p.mac||'');
+  document.getElementById('pe-cr').className='cr';
+  document.getElementById('portal-editor-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closePortalEditor(){
+  document.getElementById('portal-editor-overlay').classList.remove('open');
   document.body.style.overflow='';
 }
 
-// ═══════════════════════════════════════
-//  MODAL RUN
-// ═══════════════════════════════════════
-function openRunModal() {
-  const box    = document.getElementById('run-box');
-  const footer = document.getElementById('run-footer');
-  if (!cfg.ghUser || !cfg.ghRepo) { toast('⚠️ Configura GitHub primero','error'); openCfgModal(); return; }
-  if (!cfg.ghToken) {
+function savePortalEditor(){
+  const name=document.getElementById('pe-name').value.trim();
+  const url=document.getElementById('pe-url').value.trim();
+  const mac=document.getElementById('pe-mac').value.trim().toUpperCase();
+  const color=document.getElementById('pe-color').value;
+  if(!name){toast('⚠️ Introduce un nombre','error');return;}
+  if(!url||!url.startsWith('http')){toast('⚠️ URL inválida','error');return;}
+  if(!/^([0-9A-F]{2}:){5}[0-9A-F]{2}$/.test(mac)){toast('⚠️ MAC inválida','error');return;}
+  const data={id:editPortalIdx>=0?cfg.portals[editPortalIdx].id:`portal_${Date.now()}`,name,url,mac,color,enabled:true};
+  if(editPortalIdx>=0){cfg.portals[editPortalIdx]=data;toast('✅ Portal actualizado','success');}
+  else{cfg.portals.push(data);toast('✅ Portal añadido','success');}
+  closePortalEditor(); renderPortalsList();
+}
+
+function testPortalConnection(){
+  const url=document.getElementById('pe-url').value.trim();
+  const mac=document.getElementById('pe-mac').value.trim();
+  const cr=document.getElementById('pe-cr');
+  cr.className='cr load'; cr.textContent='🔌 Verificando formato...';
+  setTimeout(()=>{
+    const ok=/^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/.test(mac)&&url.startsWith('http')&&url.includes('.');
+    if(ok){cr.className='cr ok';cr.innerHTML='✅ <strong>Formato válido.</strong> La conexión real se hará en GitHub Actions.';}
+    else{cr.className='cr err';cr.textContent='❌ Formato inválido. Revisa URL y MAC.';}
+  },1000);
+}
+
+// ── MODALES ──
+function openCfgModal(){fillCfgForm();document.getElementById('cfg-overlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeCfgModal(){document.getElementById('cfg-overlay').classList.remove('open');document.body.style.overflow='';}
+
+function openRunModal(){
+  const box=document.getElementById('run-box');
+  const footer=document.getElementById('run-footer');
+  if(!cfg.ghUser||!cfg.ghRepo){toast('⚠️ Configura GitHub primero','error');openCfgModal();return;}
+  if(!cfg.ghToken){
     box.innerHTML=`<div class="run-icon">⚠️</div><div class="run-title">Token requerido</div>
-      <div class="run-desc">Necesitas un PAT con scopes <code>repo</code> + <code>workflow</code>.</div>
-      <a class="alink" href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions" target="_blank">🔗 Abrir Actions</a>`;
+      <div class="run-desc">Necesitas un PAT con scopes <code>repo</code> + <code>workflow</code>.</div>`;
     footer.innerHTML=`<button class="btn btn-sec" onclick="closeRunModal()">Cerrar</button>
       <button class="btn btn-prim" onclick="closeRunModal();openCfgModal()">⚙️ Añadir Token</button>`;
     document.getElementById('run-overlay').classList.add('open');
-    document.body.style.overflow='hidden'; return;
+    document.body.style.overflow='hidden';return;
   }
-
-  const enabledPortals = (cfg.portals||[]).filter(p=>p.enabled);
-  box.innerHTML=`
-    <div class="run-icon">🚀</div>
+  const en=(cfg.portals||[]).filter(p=>p.enabled);
+  box.innerHTML=`<div class="run-icon">🚀</div>
     <div class="run-title">¿Ejecutar actualización?</div>
-    <div class="run-desc">Se ejecutará el scraper para <strong>${enabledPortals.length} portal${enabledPortals.length!==1?'es':''}</strong>.<br>Puede tardar <strong>5-90 minutos</strong>.</div>
+    <div class="run-desc">Se procesarán <strong>${en.length} portal${en.length!==1?'es':''}</strong>. Tardará <strong>5-90 min</strong>.</div>
     <div class="run-info">
-      ${enabledPortals.map(p=>`
-        <div class="run-row">
-          <span class="lbl"><span style="color:${h(p.color)};font-weight:700">●</span> ${h(p.name)}</span>
-          <span class="val">${h(p.mac)} @ ${h(p.url)}</span>
-        </div>`).join('')}
+      ${en.map(p=>`<div class="run-row"><span class="lbl"><span style="color:${h(p.color)};font-weight:700">●</span> ${h(p.name)}</span><span class="val">${h(p.mac)}</span></div>`).join('')}
       <div class="run-row"><span class="lbl">📦 Repo</span><span class="val">${h(cfg.ghUser)}/${h(cfg.ghRepo)}</span></div>
     </div>`;
-
   footer.innerHTML=`<button class="btn btn-sec" onclick="closeRunModal()">Cancelar</button>
     <button class="btn btn-prim" id="btn-trigger" onclick="triggerWf()">🚀 Disparar Workflow</button>`;
   document.getElementById('run-overlay').classList.add('open');
   document.body.style.overflow='hidden';
 }
 
-function closeRunModal() {
-  document.getElementById('run-overlay').classList.remove('open');
-  document.body.style.overflow='';
+function closeRunModal(){document.getElementById('run-overlay').classList.remove('open');document.body.style.overflow='';}
+
+async function syncPortalsJson(){
+  if(!cfg.ghToken||!cfg.portals||cfg.portals.length===0)return;
+  const content=btoa(unescape(encodeURIComponent(JSON.stringify(cfg.portals,null,2))));
+  const apiUrl=`https://api.github.com/repos/${cfg.ghUser}/${cfg.ghRepo}/contents/portals.json`;
+  try{
+    let sha='';
+    const ex=await fetch(apiUrl,{headers:{'Authorization':`Bearer ${cfg.ghToken}`,'Accept':'application/vnd.github.v3+json'}}).then(r=>r.ok?r.json():null);
+    if(ex&&ex.sha)sha=ex.sha;
+    await fetch(apiUrl,{method:'PUT',headers:{'Authorization':`Bearer ${cfg.ghToken}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({message:`Update portals.json`,content,...(sha?{sha}:{})})});
+    toast('📡 portals.json sincronizado','success');
+  }catch(e){console.warn('sync error:',e);}
 }
 
-async function triggerWf() {
-  const btn = document.getElementById('btn-trigger');
-  if (!btn) return;
-  btn.disabled=true; btn.textContent='⏳ Disparando...';
-  const box = document.getElementById('run-box');
-
-  // Antes de disparar, guardar los portales en el repo
+async function triggerWf(){
+  const btn=document.getElementById('btn-trigger');
+  if(!btn)return;
+  btn.disabled=true;btn.textContent='⏳ Disparando...';
+  const box=document.getElementById('run-box');
   await syncPortalsJson();
-
-  const api = `https://api.github.com/repos/${cfg.ghUser}/${cfg.ghRepo}/actions/workflows/update.yml/dispatches`;
-  try {
-    const resp = await fetch(api, {
-      method:'POST',
-      headers:{'Authorization':`Bearer ${cfg.ghToken}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body: JSON.stringify({ref:'main'})
-    });
-    if (resp.status===204) {
+  const api=`https://api.github.com/repos/${cfg.ghUser}/${cfg.ghRepo}/actions/workflows/update.yml/dispatches`;
+  try{
+    const resp=await fetch(api,{method:'POST',headers:{'Authorization':`Bearer ${cfg.ghToken}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({ref:'main'})});
+    if(resp.status===204){
       box.innerHTML=`<div class="run-icon">✅</div><div class="run-title">¡Workflow disparado!</div>
-        <div class="run-desc">GitHub Actions está procesando <strong>${(cfg.portals||[]).filter(p=>p.enabled).length} portal(es)</strong>.<br>Tardará <strong>5-90 minutos</strong>.</div>
+        <div class="run-desc">Procesando <strong>${(cfg.portals||[]).filter(p=>p.enabled).length} portal(es)</strong>. Tardará <strong>5-90 min</strong>.</div>
         <div class="pb-wrap"><div class="pb" id="prog-bar"></div></div>
-        <a class="alink" href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions" target="_blank">🔗 Ver progreso en GitHub Actions</a>`;
+        <a class="alink" href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions" target="_blank">🔗 Ver progreso</a>`;
       document.getElementById('run-footer').innerHTML=`<button class="btn btn-sec" onclick="closeRunModal()">Cerrar</button>`;
-      let pct=0; const iv=setInterval(()=>{pct=Math.min(pct+Math.random()*2,85);const b=document.getElementById('prog-bar');if(b)b.style.width=pct+'%';else clearInterval(iv);},900);
+      let pct=0;const iv=setInterval(()=>{pct=Math.min(pct+Math.random()*2,85);const b=document.getElementById('prog-bar');if(b)b.style.width=pct+'%';else clearInterval(iv);},900);
       toast('🚀 Workflow iniciado','success');
-    } else if (resp.status===401) throw new Error('Token inválido. Verifica scopes repo + workflow.');
-    else if (resp.status===404) throw new Error('update.yml no encontrado en .github/workflows/');
-    else if (resp.status===422) throw new Error('El workflow no tiene workflow_dispatch.');
-    else { const d=await resp.json().catch(()=>({})); throw new Error(d.message||`HTTP ${resp.status}`); }
-  } catch(err) {
+    }else{
+      const d=await resp.json().catch(()=>({}));
+      throw new Error(d.message||`HTTP ${resp.status}`);
+    }
+  }catch(err){
     box.innerHTML=`<div class="run-icon">❌</div><div class="run-title">Error</div>
       <div class="run-desc" style="color:var(--accent)">${h(err.message)}</div>
       <a class="alink" href="https://github.com/${h(cfg.ghUser||'')}/${h(cfg.ghRepo||'')}/actions" target="_blank">🔗 Abrir Actions</a>`;
@@ -892,74 +928,77 @@ async function triggerWf() {
   }
 }
 
-// Sincronizar portals.json al repositorio vía API GitHub
-async function syncPortalsJson() {
-  if (!cfg.ghToken || !cfg.portals || cfg.portals.length===0) return;
-
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify(cfg.portals, null, 2))));
-  const apiUrl  = `https://api.github.com/repos/${cfg.ghUser}/${cfg.ghRepo}/contents/portals.json`;
-
-  try {
-    // Obtener SHA actual del archivo (si existe)
-    let sha = '';
-    const existing = await fetch(apiUrl, {
-      headers:{'Authorization':`Bearer ${cfg.ghToken}`,'Accept':'application/vnd.github.v3+json'}
-    }).then(r=>r.ok?r.json():null);
-    if (existing && existing.sha) sha = existing.sha;
-
-    // Crear o actualizar el archivo
-    const body = {
-      message: `🔄 Update portals.json via dashboard (${new Date().toISOString()})`,
-      content,
-      ...(sha ? {sha} : {})
-    };
-    await fetch(apiUrl, {
-      method:'PUT',
-      headers:{'Authorization':`Bearer ${cfg.ghToken}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body: JSON.stringify(body)
-    });
-    toast('📡 portals.json sincronizado con GitHub','success');
-  } catch(e) {
-    console.warn('No se pudo sincronizar portals.json:', e);
-  }
-}
-
-// ═══════════════════════════════════════
-//  CARGAR METADATA
-// ═══════════════════════════════════════
-async function loadMetadata() {
-  if (!cfg.ghUser || !cfg.ghRepo) return;
+// ── CARGAR METADATA ──
+async function loadMetadata(){
+  if(!cfg.ghUser||!cfg.ghRepo)return;
   document.getElementById('setup-banner').classList.remove('vis');
   document.getElementById('grid').style.display='none';
   document.getElementById('empty-st').style.display='none';
   document.getElementById('load-st').style.display='block';
 
-  const url = `https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/metadata.json`;
-  try {
-    const resp = await fetch(url+'?t='+Date.now());
-    if (!resp.ok) throw new Error('metadata.json no encontrado — ejecuta el workflow primero.');
-    const data = await resp.json();
-    allItems = data.items || [];
+  const url=`https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/metadata.json`;
+  try{
+    const resp=await fetch(url+'?t='+Date.now());
+    if(!resp.ok)throw new Error('metadata.json no encontrado — ejecuta el workflow primero.');
+    const data=await resp.json();
+    allItems=data.items||[];
 
-    // Normalizar country si falta
-    allItems.forEach(i => { if (!i.country) i.country = detectCtryClient(i.serie_name||i.name||'', i.group||''); });
+    // ══════════════════════════════════════════════
+    //  NORMALIZACIÓN COMPLETA ANTES DE FILTRAR
+    //  Esta es la parte crítica que faltaba:
+    //  detectamos lang y country para TODOS los items
+    //  incluso si ya tienen valor (para corregir 'OTHER')
+    // ══════════════════════════════════════════════
+    console.log(`📊 Normalizando ${allItems.length} items...`);
 
-    const live   = allItems.filter(i=>i.type==='live').length;
-    const movies = allItems.filter(i=>i.type==='movie').length;
-    const series = new Set(allItems.filter(i=>i.type==='series').map(i=>i.serie_name)).size;
+    allItems = allItems.map(item => {
+      const searchText = [
+        item.name       || '',
+        item.serie_name || '',
+        item.group      || '',
+        item.epg_id     || '',
+      ].join(' ');
 
-    document.getElementById('last-update').textContent = '🕐 '+(data.generated||'—');
-    document.getElementById('stats-row').style.display = 'flex';
-    document.getElementById('s-total').textContent  = allItems.length.toLocaleString();
-    document.getElementById('s-live').textContent   = live.toLocaleString();
-    document.getElementById('s-movies').textContent = movies.toLocaleString();
-    document.getElementById('s-series').textContent = series.toLocaleString();
+      // Asignar lang si falta o es OTHER
+      if (!item.lang || item.lang === 'OTHER') {
+        item.lang = detectLang(searchText);
+      }
 
+      // Asignar country si falta o es OTHER
+      if (!item.country || item.country === 'OTHER') {
+        item.country = detectCtry(searchText);
+      }
+
+      return item;
+    });
+
+    // Debug: mostrar distribución
+    const langDist={}, ctryDist={};
+    allItems.forEach(i=>{
+      langDist[i.lang]=(langDist[i.lang]||0)+1;
+      ctryDist[i.country]=(ctryDist[i.country]||0)+1;
+    });
+    console.log('Idiomas detectados:', langDist);
+    console.log('Países detectados:', ctryDist);
+
+    const live  =allItems.filter(i=>i.type==='live').length;
+    const movies=allItems.filter(i=>i.type==='movie').length;
+    const series=new Set(allItems.filter(i=>i.type==='series').map(i=>i.serie_name)).size;
+
+    document.getElementById('last-update').textContent='🕐 '+(data.generated||'—');
+    document.getElementById('stats-row').style.display='flex';
+    document.getElementById('s-total').textContent =allItems.length.toLocaleString();
+    document.getElementById('s-live').textContent  =live.toLocaleString();
+    document.getElementById('s-movies').textContent=movies.toLocaleString();
+    document.getElementById('s-series').textContent=series.toLocaleString();
+
+    // Construir filtros DESPUÉS de normalizar
     buildDynamicFilters();
+
     document.getElementById('load-st').style.display='none';
     applyFilters();
 
-  } catch(err) {
+  }catch(err){
     document.getElementById('load-st').innerHTML=`
       <div style="font-size:2.5rem;margin-bottom:1rem">📭</div>
       <p style="font-weight:700;margin-bottom:.5rem">${h(err.message)}</p>
@@ -971,216 +1010,189 @@ async function loadMetadata() {
   }
 }
 
-// ═══════════════════════════════════════
-//  DETECCIÓN PAÍS EN CLIENTE (fallback)
-// ═══════════════════════════════════════
-const CR = [
-  [/\bESPAÑA\b|\bSPAIN\b|\bTVE\b|\bANTENA\b|\bTELECINCO\b/i,'ES'],
-  [/\bFRANCE\b|\bFRANÇAIS\b|\bTF1\b|\bM6\b|\bBFMTV\b/i,'FR'],
-  [/\b(UK|BBC|ITV|SKY|BT SPORT|CHANNEL 4)\b/i,'GB'],
-  [/\bDEUTSCH\b|\bARD\b|\bZDF\b|\bRTL\b|\bSAT\.?1\b/i,'DE'],
-  [/\bITALIA\b|\bRAI\b|\bCANALE 5\b|\bMEDIASET\b/i,'IT'],
-  [/\bPORTUGAL\b|\bRTP\b|\bSIC\b|\bTVI\b/i,'PT'],
-  [/\bNETHERLANDS\b|\bDUTCH\b|\bNPO\b/i,'NL'],
-  [/\bBELGIUM\b|\bVRT\b|\bRTBF\b/i,'BE'],
-  [/\bUSA\b|\bUNITED STATES\b|\bNBC\b|\bCBS\b|\bESPN\b|\bHBO\b/i,'US'],
-  [/\bMEXICO\b|\bTELEVISA\b|\bAZTECA\b/i,'MX'],
-  [/\bARGENTINA\b|\bTELEFE\b/i,'AR'],
-  [/\bBRAZIL\b|\bBRASIL\b|\bGLOBO\b/i,'BR'],
-  [/\bMOROCCO\b|\bMAROC\b|\b2M\b|\bSNRT\b/i,'MA'],
-  [/\bSAUDI\b|\bMBC\b|\bROTANA\b/i,'SA'],
-  [/\bQATAR\b|\bAL JAZEERA\b|\bBEIN SPORT/i,'QA'],
-  [/\bINDIA\b|\bHINDI\b|\bBOLLYWOOD\b/i,'IN'],
-  [/\bCHINA\b|\bCCTV\b|\bMANDARIN\b/i,'CN'],
-  [/\bJAPAN\b|\bNHK\b|\bANIME\b/i,'JP'],
-  [/\bKOREA\b|\bKDRAMA\b|\bARIRANG\b/i,'KR'],
-  [/\bINTERNATIONAL\b|\bEUROSPORT\b|\bEURONEWS\b/i,'INTL'],
-];
-function detectCtryClient(name, group) {
-  const t = `${name} ${group}`.toUpperCase();
-  for (const [rx,code] of CR) if (rx.test(t)) return code;
-  return 'OTHER';
-}
-
-// ═══════════════════════════════════════
-//  CONSTRUIR FILTROS DINÁMICOS
-// ═══════════════════════════════════════
-function buildDynamicFilters() {
-  const seenS = new Set();
+// ── CONSTRUIR FILTROS DINÁMICOS ──
+function buildDynamicFilters(){
+  // Contamos por series deduplicadas para no inflar los números
+  const seenS=new Set();
   const langC={}, ctryC={}, portC={};
 
-  allItems.forEach(i => {
-    const key = i.type==='series' ? `${i.serie_name}_${i.lang}_${i.country}_${i.portal_id}` : i.id;
-    if (i.type==='series') { if (seenS.has(key)) return; seenS.add(key); }
-
-    const l=i.lang||'OTHER';    langC[l] =(langC[l] ||0)+1;
-    const c=i.country||'OTHER'; ctryC[c] =(ctryC[c] ||0)+1;
-    const p=i.portal_id||'?';   portC[p] =(portC[p] ||0)+1;
+  allItems.forEach(i=>{
+    // Para series: contar solo 1 vez por nombre de serie
+    if(i.type==='series'){
+      const key=i.serie_name+'|'+i.lang+'|'+i.country+'|'+i.portal_id;
+      if(seenS.has(key))return;
+      seenS.add(key);
+    }
+    const l=i.lang    ||'OTHER'; langC[l]=(langC[l]||0)+1;
+    const c=i.country ||'OTHER'; ctryC[c]=(ctryC[c]||0)+1;
+    const p=i.portal_id||'?';   portC[p]=(portC[p]||0)+1;
   });
 
-  // Idiomas
-  buildMsOpts('lang', Object.entries(langC).sort((a,b)=>b[1]-a[1]).map(([code,cnt])=>({
-    value:code, label:`${LI[code]?.f||'🌐'} ${LI[code]?.n||code}`, count:cnt
-  })));
+  console.log('Opciones idioma para el filtro:', langC);
+  console.log('Opciones país para el filtro:',   ctryC);
 
-  // Países
-  buildMsOpts('country', Object.entries(ctryC).sort((a,b)=>b[1]-a[1]).map(([code,cnt])=>({
-    value:code, label:`${CI[code]?.f||'🌐'} ${CI[code]?.n||code}`, count:cnt
-  })));
+  // ── IDIOMAS ──
+  const langOpts = Object.entries(langC)
+    .sort((a,b)=>b[1]-a[1])
+    .map(([code,cnt])=>({
+      value: code,
+      label: `${LI[code]?.f||'🌐'} ${LI[code]?.n||code}`,
+      count: cnt,
+    }));
+  buildMsOpts('lang', langOpts);
 
-  // Portales (solo si hay más de uno)
-  const portEntries = Object.entries(portC);
-  if (portEntries.length > 1) {
-    const portalMap = {};
-    allItems.forEach(i=>{ if(i.portal_id) portalMap[i.portal_id]={name:i.portal_name||i.portal_id, color:i.portal_color||'#e94560'}; });
-    buildMsOpts('portal', portEntries.sort((a,b)=>b[1]-a[1]).map(([id,cnt])=>({
-      value:id, label:`● ${portalMap[id]?.name||id}`, count:cnt, color:portalMap[id]?.color
-    })));
+  // ── PAÍSES ──
+  const ctryOpts = Object.entries(ctryC)
+    .sort((a,b)=>b[1]-a[1])
+    .map(([code,cnt])=>({
+      value: code,
+      label: `${CI[code]?.f||'🌐'} ${CI[code]?.n||code}`,
+      count: cnt,
+    }));
+  buildMsOpts('country', ctryOpts);
+
+  // ── PORTALES (solo si hay > 1) ──
+  const portEntries=Object.entries(portC);
+  if(portEntries.length>1){
+    const pMap={};
+    allItems.forEach(i=>{if(i.portal_id)pMap[i.portal_id]={name:i.portal_name||i.portal_id,color:i.portal_color||'#e94560'};});
+    const portOpts=portEntries.sort((a,b)=>b[1]-a[1]).map(([id,cnt])=>({
+      value:id, label:`● ${pMap[id]?.name||id}`, count:cnt, color:pMap[id]?.color,
+    }));
+    buildMsOpts('portal',portOpts);
     document.getElementById('portal-wrap').style.display='block';
   }
 }
 
-function buildMsOpts(id, opts) {
-  const container = document.getElementById(`${id}-opts`);
-  container.innerHTML = opts.map(opt=>`
+// ── RENDERIZAR OPCIONES DEL DROPDOWN ──
+function buildMsOpts(id, opts){
+  const container=document.getElementById(`${id}-opts`);
+  if(!container){console.warn(`No se encontró #${id}-opts`);return;}
+
+  if(opts.length===0){
+    container.innerHTML=`<div style="padding:.75rem;text-align:center;color:var(--text-muted);font-size:.78rem">Sin datos disponibles</div>`;
+    return;
+  }
+
+  container.innerHTML=opts.map(opt=>`
     <div class="ms-opt" data-val="${h(opt.value)}">
-      <input type="checkbox" id="ms-${id}-${h(opt.value)}" value="${h(opt.value)}"
-             onchange="onMsChange('${id}','${h(opt.value)}',this.checked)"/>
-      <label for="ms-${id}-${h(opt.value)}" style="${opt.color?`color:${h(opt.color)}`:''}">
+      <input type="checkbox"
+             id="ms-${id}-${h(opt.value)}"
+             value="${h(opt.value)}"
+             onchange="onMsChange('${id}','${h(opt.value)}',this.checked)"
+             ${msState[id].has(opt.value)?'checked':''}/>
+      <label for="ms-${id}-${h(opt.value)}"
+             style="${opt.color?`color:${h(opt.color)}`:''}">
         ${opt.label}
       </label>
-      <span class="count-badge">${opt.count}</span>
+      <span class="count-badge">${opt.count.toLocaleString()}</span>
     </div>`).join('');
 }
 
-// ═══════════════════════════════════════
-//  MULTI-SELECT LOGIC
-// ═══════════════════════════════════════
-function toggleMs(id) {
-  const dd  = document.getElementById(`${id}-dd`);
-  const btn = document.getElementById(`${id}-btn`);
-  const isOpen = dd.classList.contains('open');
-  // Cerrar todos primero
-  ['lang','country','portal'].forEach(x => closeMsDropdown(x));
-  if (!isOpen) { dd.classList.add('open'); btn.classList.add('open'); }
+// ── MULTI-SELECT LOGIC ──
+function toggleMs(id){
+  const dd =document.getElementById(`${id}-dd`);
+  const btn=document.getElementById(`${id}-btn`);
+  const wasOpen=dd.classList.contains('open');
+  ['lang','country','portal'].forEach(x=>closeMsDd(x));
+  if(!wasOpen){dd.classList.add('open');btn.classList.add('open');}
 }
-function closeMsDropdown(id) {
+function closeMsDd(id){
   document.getElementById(`${id}-dd`)?.classList.remove('open');
   document.getElementById(`${id}-btn`)?.classList.remove('open');
 }
 
-function onMsChange(id, val, checked) {
-  if (checked) msState[id].add(val);
-  else         msState[id].delete(val);
-  updateMsBtn(id);
-  applyFilters();
-  renderActivePills();
+function onMsChange(id,val,checked){
+  if(checked)msState[id].add(val);
+  else msState[id].delete(val);
+  updateMsBtn(id); applyFilters(); renderActivePills();
 }
 
-function selectAllMs(id) {
-  const checks = document.querySelectorAll(`#${id}-opts input[type=checkbox]`);
-  checks.forEach(c=>{ c.checked=false; }); // "todos" = ninguno seleccionado
+function selectAllMs(id){
+  // "Todos" = limpiar selección (sin filtro = muestra todo)
+  document.querySelectorAll(`#${id}-opts input[type=checkbox]`)
+    .forEach(c=>{c.checked=false;});
   msState[id].clear();
-  updateMsBtn(id);
-  applyFilters();
-  renderActivePills();
+  updateMsBtn(id); applyFilters(); renderActivePills();
 }
-function clearMs(id) {
-  selectAllMs(id); // mismo comportamiento: limpiar = todos
+function clearMs(id){selectAllMs(id);}
+
+function updateMsBtn(id){
+  const n=msState[id].size;
+  const el=document.getElementById(`${id}-count`);
+  if(!el)return;
+  if(n>0){el.style.display='inline';el.textContent=n;}
+  else el.style.display='none';
 }
 
-function updateMsBtn(id) {
-  const count = msState[id].size;
-  const cEl   = document.getElementById(`${id}-count`);
-  if (count > 0) { cEl.style.display='inline'; cEl.textContent=count; }
-  else           { cEl.style.display='none'; }
-}
-
-function filterMsOpts(id, query) {
-  const q = query.toLowerCase();
-  document.querySelectorAll(`#${id}-opts .ms-opt`).forEach(opt => {
-    const label = opt.querySelector('label').textContent.toLowerCase();
-    opt.style.display = label.includes(q) ? '' : 'none';
+function filterMsOpts(id,q){
+  q=q.toLowerCase();
+  document.querySelectorAll(`#${id}-opts .ms-opt`).forEach(opt=>{
+    const lbl=opt.querySelector('label').textContent.toLowerCase();
+    opt.style.display=lbl.includes(q)?'':'none';
   });
 }
 
-// ═══════════════════════════════════════
-//  TIPO (multi-toggle)
-// ═══════════════════════════════════════
-function toggleType(t) {
-  if (activeTypes.has(t)) {
-    if (activeTypes.size === 1) return; // al menos uno activo
-    activeTypes.delete(t);
-  } else {
-    activeTypes.add(t);
-  }
-  document.querySelectorAll('.type-pill').forEach(p =>
-    p.classList.toggle('sel', activeTypes.has(p.dataset.t))
-  );
+// ── TIPO (multi-toggle) ──
+function toggleType(t){
+  if(activeTypes.has(t)){if(activeTypes.size===1)return;activeTypes.delete(t);}
+  else activeTypes.add(t);
+  document.querySelectorAll('.type-pill').forEach(p=>p.classList.toggle('sel',activeTypes.has(p.dataset.t)));
   applyFilters();
 }
 
-// ═══════════════════════════════════════
-//  PILLS ACTIVAS
-// ═══════════════════════════════════════
-function renderActivePills() {
-  const container = document.getElementById('active-pills');
-  const pills = [];
-
-  msState.lang.forEach(code => {
-    const info = LI[code]||{f:'🌐',n:code};
+// ── PILLS ACTIVAS ──
+function renderActivePills(){
+  const c=document.getElementById('active-pills');
+  const pills=[];
+  msState.lang.forEach(code=>{
+    const info=LI[code]||{f:'🌐',n:code};
     pills.push(`<div class="active-pill">${info.f} ${info.n}<button class="rm" onclick="removePill('lang','${h(code)}')">✕</button></div>`);
   });
-  msState.country.forEach(code => {
-    const info = CI[code]||{f:'🌐',n:code};
+  msState.country.forEach(code=>{
+    const info=CI[code]||{f:'🌐',n:code};
     pills.push(`<div class="active-pill">${info.f} ${info.n}<button class="rm" onclick="removePill('country','${h(code)}')">✕</button></div>`);
   });
-  msState.portal.forEach(id => {
-    const item = allItems.find(i=>i.portal_id===id);
-    const name = item?.portal_name||id;
-    pills.push(`<div class="active-pill">📡 ${h(name)}<button class="rm" onclick="removePill('portal','${h(id)}')">✕</button></div>`);
+  msState.portal.forEach(id=>{
+    const item=allItems.find(i=>i.portal_id===id);
+    pills.push(`<div class="active-pill">📡 ${h(item?.portal_name||id)}<button class="rm" onclick="removePill('portal','${h(id)}')">✕</button></div>`);
   });
-
-  container.innerHTML = pills.join('');
+  c.innerHTML=pills.join('');
 }
 
-function removePill(id, val) {
+function removePill(id,val){
   msState[id].delete(val);
-  const cb = document.getElementById(`ms-${id}-${val}`);
-  if (cb) cb.checked = false;
-  updateMsBtn(id);
-  applyFilters();
-  renderActivePills();
+  const cb=document.getElementById(`ms-${id}-${val}`);
+  if(cb)cb.checked=false;
+  updateMsBtn(id); applyFilters(); renderActivePills();
 }
 
-// ═══════════════════════════════════════
-//  APLICAR FILTROS
-// ═══════════════════════════════════════
-function applyFilters() {
-  const q      = document.getElementById('search').value.toLowerCase().trim();
-  const sortBy = document.getElementById('sort-f').value;
+// ── APLICAR FILTROS ──
+function applyFilters(){
+  const q     =document.getElementById('search').value.toLowerCase().trim();
+  const sortBy=document.getElementById('sort-f').value;
 
-  // Deduplicar según tipo
-  let items = [];
+  // Deduplicar
+  let items=[];
   const seenS=new Map(), seenO=new Set();
-  allItems.forEach(i => {
-    if (!activeTypes.has(i.type)) return;
-    if (i.type==='series') {
-      if (!seenS.has(i.serie_name)) { seenS.set(i.serie_name,i); items.push(i); }
-    } else {
-      if (!seenO.has(i.id)) { seenO.add(i.id); items.push(i); }
+  allItems.forEach(i=>{
+    if(!activeTypes.has(i.type))return;
+    if(i.type==='series'){
+      if(!seenS.has(i.serie_name)){seenS.set(i.serie_name,i);items.push(i);}
+    }else{
+      if(!seenO.has(i.id)){seenO.add(i.id);items.push(i);}
     }
   });
 
-  // Filtro idioma (si hay selección)
-  if (msState.lang.size>0) items=items.filter(i=>msState.lang.has(i.lang||'OTHER'));
+  // Filtro idioma (vacío = todos)
+  if(msState.lang.size>0)    items=items.filter(i=>msState.lang.has(i.lang||'OTHER'));
   // Filtro país
-  if (msState.country.size>0) items=items.filter(i=>msState.country.has(i.country||'OTHER'));
+  if(msState.country.size>0) items=items.filter(i=>msState.country.has(i.country||'OTHER'));
   // Filtro portal
-  if (msState.portal.size>0) items=items.filter(i=>msState.portal.has(i.portal_id||'?'));
+  if(msState.portal.size>0)  items=items.filter(i=>msState.portal.has(i.portal_id||'?'));
 
   // Búsqueda
-  if (q) items=items.filter(i=>[i.name,i.serie_name,i.description,i.actors,i.director,i.group,i.genres].join(' ').toLowerCase().includes(q));
+  if(q) items=items.filter(i=>[i.name,i.serie_name,i.description,i.actors,i.director,i.group,i.genres].join(' ').toLowerCase().includes(q));
 
   // Ordenar
   items=[...items].sort((a,b)=>{
@@ -1198,19 +1210,17 @@ function applyFilters() {
 let sTO;
 document.getElementById('search').addEventListener('input',()=>{clearTimeout(sTO);sTO=setTimeout(applyFilters,300);});
 
-// ═══════════════════════════════════════
-//  RENDER GRID
-// ═══════════════════════════════════════
-function renderGrid(items) {
-  const grid =document.getElementById('grid');
+// ── RENDER GRID ──
+function renderGrid(items){
+  const grid=document.getElementById('grid');
   const empty=document.getElementById('empty-st');
-  if (!items.length){grid.style.display='none';empty.style.display='block';return;}
+  if(!items.length){grid.style.display='none';empty.style.display='block';return;}
   empty.style.display='none';grid.style.display='grid';
   grid.innerHTML=items.map((item,i)=>buildCard(item,i)).join('');
 }
 
-function buildCard(item,idx) {
-  const iL=item.type==='live', iM=item.type==='movie';
+function buildCard(item,idx){
+  const iL=item.type==='live',iM=item.type==='movie';
   const name=h(item.serie_name||item.name||'Sin nombre');
   const logo=item.logo||FALLBACK;
   const bc=iL?'bl':iM?'bm':'bs';
@@ -1218,9 +1228,9 @@ function buildCard(item,idx) {
   const yr=item.year?`<span class="card-yr">${h(item.year)}</span>`:'';
   const rt=item.rating?`<span class="card-rt">⭐${h(item.rating)}</span>`:'';
   const flag=CI[item.country]?.f||'🌐';
+  const langLabel=LI[item.lang]?.f||item.lang||'?';
   const pColor=item.portal_color||'#e94560';
   const pName=item.portal_name||'';
-
   return `
     <div class="card" onclick="openDet(${idx})">
       <img class="card-img ${iL?'land':''}" src="${h(logo)}" onerror="this.src='${FALLBACK}'" alt="${name}" loading="lazy"/>
@@ -1228,7 +1238,7 @@ function buildCard(item,idx) {
         <div class="card-title">${name}</div>
         <div class="card-meta">
           <span class="badge ${bc}">${bt}</span>
-          <span class="badge b-lang">${h(item.lang||'?')}</span>
+          <span class="badge b-lang" title="${LI[item.lang]?.n||item.lang||''}">${langLabel}</span>
           <span class="badge b-country" title="${CI[item.country]?.n||item.country||''}">${flag}</span>
           ${pName?`<span class="badge b-portal" style="background:${h(pColor)}" title="${h(pName)}">●</span>`:''}
           ${yr}${rt}
@@ -1237,12 +1247,10 @@ function buildCard(item,idx) {
     </div>`;
 }
 
-// ═══════════════════════════════════════
-//  MODAL DETALLE
-// ═══════════════════════════════════════
-function openDet(idx) {
+// ── MODAL DETALLE ──
+function openDet(idx){
   const item=filteredItems[idx];
-  if (!item) return;
+  if(!item)return;
   const name=item.serie_name||item.name||'Sin nombre';
   const poster=item.logo||FALLBACK;
   const flag=CI[item.country]?.f||'🌐';
@@ -1258,16 +1266,20 @@ function openDet(idx) {
   const bt=item.type==='live'?'📡 En Vivo':item.type==='movie'?'🎬 Película':'📺 Serie';
   document.getElementById('d-badges').innerHTML=`
     <span class="badge ${bc}">${bt}</span>
-    <span class="badge b-lang">${h(item.lang||'?')}</span>
+    <span class="badge b-lang">${LI[item.lang]?.f||''} ${h(item.lang||'?')}</span>
     <span class="badge b-country">${flag} ${h(item.country||'OTHER')}</span>
     ${pName?`<span class="badge b-portal" style="background:${h(pColor)}">● ${h(pName)}</span>`:''}
     ${item.genres?`<span class="badge" style="background:#222;color:#aaa">${h(item.genres)}</span>`:''}`;
 
   const metas=[
-    ['Año',item.year],['País',item.country?`${flag} ${cname}`:''],
-    ['Portal',pName],['Rating',item.rating?`⭐ ${item.rating}`:''],
-    ['Director',item.director],['Reparto',item.actors],
-    ['Duración',item.duration],['Grupo',item.group],
+    ['Año',    item.year],
+    ['País',   item.country?`${flag} ${cname}`:''],
+    ['Portal', pName],
+    ['Rating', item.rating?`⭐ ${item.rating}`:''],
+    ['Director',item.director],
+    ['Reparto', item.actors],
+    ['Duración',item.duration],
+    ['Grupo',   item.group],
   ].filter(([,v])=>v);
   document.getElementById('d-meta').innerHTML=metas.map(([l,v])=>`
     <div class="mi"><label>${l}</label><span>${h(String(v))}</span></div>`).join('');
@@ -1302,7 +1314,7 @@ function openDet(idx) {
         </div>
       </div>`).join('');
     epSec.style.display=eps.length?'block':'none';
-  } else epSec.style.display='none';
+  }else epSec.style.display='none';
 
   document.getElementById('det-overlay').classList.add('open');
   document.body.style.overflow='hidden';
@@ -1318,20 +1330,16 @@ function closeDetModal(){document.getElementById('det-overlay').classList.remove
 function copyDetUrl(){navigator.clipboard.writeText(document.getElementById('d-url').value).then(()=>toast('📋 URL copiada','success')).catch(()=>{});}
 function copyM3u(){const v=document.getElementById('m3u-url').value;if(!v){toast('⚠️ Configura el portal primero','error');return;}navigator.clipboard.writeText(v).then(()=>toast('📋 URL M3U copiada','success')).catch(()=>toast('⚠️ No se pudo copiar','error'));}
 
-// ═══════════════════════════════════════
-//  HELPERS
-// ═══════════════════════════════════════
+// ── HELPERS ──
 function closeOvl(e,id){if(e.target.id===id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}}
-document.addEventListener('keydown',e=>{if(e.key!=='Escape'){return;}['cfg-overlay','portal-editor-overlay','run-overlay','det-overlay'].forEach(id=>{document.getElementById(id).classList.remove('open');});document.body.style.overflow='';});
+document.addEventListener('keydown',e=>{if(e.key!=='Escape'){return;}['cfg-overlay','portal-editor-overlay','run-overlay','det-overlay'].forEach(id=>{document.getElementById(id)?.classList.remove('open');});document.body.style.overflow='';});
 
 function formatMac(inp){let v=inp.value.replace(/[^0-9a-fA-F]/g,'').toUpperCase(),f='';for(let i=0;i<v.length&&i<12;i++){if(i>0&&i%2===0)f+=':';f+=v[i];}inp.value=f;updateMacPrev('pe-mac-prev',f);}
-function updateMacPrev(elId,mac){const p=mac.split(':');const el=document.getElementById(elId);el.innerHTML=(p.length===6&&p.every(x=>x.length===2))?p.map(x=>`<span class="mac-o">${x}</span>`).join(''):'';}
+function updateMacPrev(elId,mac){const p=mac.split(':');const el=document.getElementById(elId);if(!el)return;el.innerHTML=(p.length===6&&p.every(x=>x.length===2))?p.map(x=>`<span class="mac-o">${x}</span>`).join(''):'';}
 function toggleEye(id,btn){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁️':'🙈';}
-
 function toast(msg,type='info'){const el=document.createElement('div');el.className=`toast ${type}`;el.textContent=msg;document.getElementById('toast-c').appendChild(el);setTimeout(()=>el.remove(),3500);}
 function h(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 init();
-</script>
-</body>
+</script></body>
 </html>
