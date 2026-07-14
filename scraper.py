@@ -21,9 +21,18 @@ from datetime import datetime
 # ════════════════════════════════════════════════════════════════
 #  CONFIGURACIÓN DEL PORTAL (tus datos por defecto)
 # ════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════
+#  CONFIGURACIÓN DEL PORTAL
+# ════════════════════════════════════════════════════════════════
 PORTAL_URL   = os.environ.get("PORTAL_URL",   "http://mag.greatott.me:80")
 MAC_ADDRESS  = os.environ.get("MAC_ADDRESS",  "00:1A:79:74:B1:B9")
 
+# Tamaños de página a intentar (de mayor a menor)
+# El scraper probará cada uno y usará el que el portal acepte
+PAGE_SIZES_TO_TRY = [500, 250, 100, 50, 14]
+
+# Se determina automáticamente en detect_page_size()
+OPTIMAL_PAGE_SIZE = 14  # valor inicial, se sobreescribe
 # Rutas del portal Stalker Middleware (estándar Infomir)
 PORTAL_PATH  = "/portal.php"
 PORTAL_C     = "/stalker_portal/c/"
