@@ -6,5 +6,13 @@
     "mac": "00:1A:79:74:B1:B9",
     "color": "#e94560",
     "enabled": true
+  },
+  {
+    "id": "portal_1783997493806",
+    "name": "Backup",
+    "url": "http://backup.xp1.tv/c",
+    "mac": "00:1A:79:21:09:C7",
+    "color": "#e94560",
+    "enabled": true
   }
 ]
