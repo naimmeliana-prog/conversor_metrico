@@ -15,7 +15,9 @@ import os
 import hashlib
 import re
 import sys
+import math
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # ════════════════════════════════════════════════════════════════
 #  CONFIGURACIÓN
@@ -27,6 +29,7 @@ REQUEST_TIMEOUT   = 30
 MAX_RETRIES       = 3
 RETRY_DELAY       = 5
 PAGE_SIZES_TO_TRY = [500, 250, 100, 50, 14]
+PARALLEL_WORKERS  = 4   # peticiones simultáneas por portal
 
 # ════════════════════════════════════════════════════════════════
 #  DETECCIÓN DE IDIOMA
@@ -208,43 +211,66 @@ class StalkerPortal:
                 return size
         return 14
 
+    def _fetch_page_threadsafe(self, params: dict):
+        """Abre su propia sesión HTTP — seguro para uso en threads."""
+        session = requests.Session()
+        session.verify = False
+        headers = self.build_headers()
+        for attempt in range(1, MAX_RETRIES + 1):
+            try:
+                resp = session.get(
+                    self.api_url, params=params, headers=headers,
+                    timeout=REQUEST_TIMEOUT, allow_redirects=True
+                )
+                resp.raise_for_status()
+                data = resp.json()
+                return data.get("js", data)
+            except Exception:
+                if attempt < MAX_RETRIES:
+                    time.sleep(RETRY_DELAY)
+        return None
+
     def paginated_fetch(self, params_base: dict) -> list:
-        all_items   = []
-        page        = 1
-        empty_pages = 0
+        # ── Página 1: descubrir total ──────────────────────────────
+        result1 = self.safe_get({**params_base, "p": "1", "perpage": str(self.page_size)})
+        if not result1:
+            return []
+        items1 = result1.get("data", []) if isinstance(result1, dict) else result1
+        total  = int(result1.get("total_items", 0)) if isinstance(result1, dict) else len(items1)
+        if not items1:
+            return []
 
-        while True:
-            params = {**params_base, "p": str(page), "perpage": str(self.page_size)}
-            result = self.safe_get(params)
+        total_pages = math.ceil(total / self.page_size) if total > 0 else 1
+        pct = len(items1) / total * 100 if total > 0 else 100
+        print(f"      [{self.name}] 📄 Pág   1: +{len(items1):>4} │ {len(items1):>5}/{total:<6} │ {pct:.0f}% [total páginas: {total_pages}]")
+
+        if total_pages == 1:
+            return items1
+
+        # ── Páginas 2…N en paralelo ────────────────────────────────
+        pages_data: dict = {1: items1}
+
+        def fetch_one(page_num):
+            params = {**params_base, "p": str(page_num), "perpage": str(self.page_size)}
+            result = self._fetch_page_threadsafe(params)
             if not result:
-                empty_pages += 1
-                if empty_pages >= 3:
-                    break
-                time.sleep(RETRY_DELAY)
-                continue
-
+                return page_num, []
             items = result.get("data", []) if isinstance(result, dict) else result
-            total = int(result.get("total_items", 0)) if isinstance(result, dict) else 0
+            return page_num, items
 
-            if not items:
-                empty_pages += 1
-                if empty_pages >= 3:
-                    break
-                page += 1
-                continue
+        with ThreadPoolExecutor(max_workers=PARALLEL_WORKERS) as executor:
+            futures = {executor.submit(fetch_one, p): p for p in range(2, total_pages + 1)}
+            for future in as_completed(futures):
+                page_num, items = future.result()
+                pages_data[page_num] = items
+                so_far = sum(len(v) for v in pages_data.values())
+                pct2   = so_far / total * 100 if total > 0 else 0
+                print(f"      [{self.name}] 📄 Pág {page_num:>3}: +{len(items):>4} │ {so_far:>5}/{total:<6} │ {pct2:.0f}%")
 
-            empty_pages = 0
-            all_items.extend(items)
-            pct = (len(all_items) / total * 100) if total > 0 else 0
-            print(f"      [{self.name}] 📄 Pág {page:>3}: +{len(items):>4} │ {len(all_items):>5}/{total:<6} │ {pct:.0f}%")
-
-            if total > 0 and len(all_items) >= total:
-                break
-            if len(items) < self.page_size:
-                break
-            page += 1
-            time.sleep(0.15 if self.page_size >= 100 else 0.4)
-
+        # ── Combinar en orden ──────────────────────────────────────
+        all_items = []
+        for p in range(1, total_pages + 1):
+            all_items.extend(pages_data.get(p, []))
         return all_items
 
     def resolve_stream_url(self, cmd: str, content_type: str, item_id: str) -> str:

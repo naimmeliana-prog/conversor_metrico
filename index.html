@@ -298,7 +298,8 @@
 <div class="filters">
   <div class="fc">
     <div class="fr">
-      <input class="search-box" id="search" type="text" placeholder="🔍 Buscar nombre, actor, director..."/>
+      <input class="search-box" id="search" type="text" placeholder="🔍 Buscar nombre, actor, director..." autocomplete="off" autocorrect="off" spellcheck="false"/>
+
 
       <div class="type-pills">
         <div class="type-pill sel" data-t="live"   onclick="toggleType('live')">📡 En Vivo</div>
@@ -1060,8 +1061,8 @@ function applyFilters(){
   renderGrid(items);
   document.getElementById('res-count').textContent=items.length.toLocaleString()+' resultados';
 }
-let sTO;
-document.getElementById('search').addEventListener('input',()=>{clearTimeout(sTO);sTO=setTimeout(applyFilters,300);});
+document.getElementById('search').addEventListener('input', applyFilters);
+
 
 // ── RENDER GRID ──
 function renderGrid(items){
