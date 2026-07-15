@@ -536,6 +536,9 @@
 const LS_KEY  = 'iptv_cfg_v3';
 const FALLBACK= "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI3MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI3MCIgZmlsbD0iIzEyMTIxZSIvPjx0ZXh0IHg9IjkwIiB5PSIxNDUiIGZpbGw9IiMzMzMzNTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iNTAiPvCfm4Q8L3RleHQ+PC9zdmc+";
 
+// Función de escape HTML para evitar XSS en templates
+function h(s){ return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
 const CI = {
   ES:{f:'🇪🇸',n:'España'},FR:{f:'🇫🇷',n:'Francia'},GB:{f:'🇬🇧',n:'Reino Unido'},
   DE:{f:'🇩🇪',n:'Alemania'},IT:{f:'🇮🇹',n:'Italia'},PT:{f:'🇵🇹',n:'Portugal'},
