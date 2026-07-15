@@ -964,10 +964,16 @@ function onMsChange(id,val,checked){
   updateMsBtn(id); applyFilters(); renderActivePills();
 }
 function selectAllMs(id){
+  document.querySelectorAll(`#${id}-opts input[type=checkbox]`).forEach(c=>{
+    c.checked=true;
+    msState[id].add(c.value);
+  });
+  updateMsBtn(id); applyFilters(); renderActivePills();
+}
+function clearMs(id){
   document.querySelectorAll(`#${id}-opts input[type=checkbox]`).forEach(c=>{c.checked=false;});
   msState[id].clear(); updateMsBtn(id); applyFilters(); renderActivePills();
 }
-function clearMs(id){selectAllMs(id);}
 function updateMsBtn(id){
   const n=msState[id].size,el=document.getElementById(`${id}-count`);
   if(!el)return;
