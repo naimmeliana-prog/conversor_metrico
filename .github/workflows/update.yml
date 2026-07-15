@@ -2,13 +2,13 @@ name: Actualizar Playlist M3U
 
 on:
   schedule:
-    - cron: '0 */12 * * *'
+    - cron: '0 */6 * * *'
   workflow_dispatch:
 
 jobs:
   update-playlist:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 240
     permissions:
       contents: write
     steps:
