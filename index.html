@@ -889,13 +889,26 @@ async function loadMetadata(){
     document.getElementById('grid').style.display='grid';
     applyFilters();
   }catch(err){
-    document.getElementById('load-st').innerHTML=`
-      <div style="font-size:2.5rem;margin-bottom:1rem">📭</div>
-      <p style="font-weight:700;margin-bottom:.5rem">${h(err.message)}</p>
-      <div style="margin-top:1.5rem;display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
-        <button class="btn btn-prim" onclick="openRunModal()">🚀 Ejecutar ahora</button>
-        <a class="btn btn-sec" href="https://github.com/${h(cfg.ghUser||'')}/${h(cfg.ghRepo||'')}/actions" target="_blank" style="text-decoration:none">🔗 Ver en GitHub</a>
-      </div>`;
+    // Sin metadata.json — cargar datos de muestra para verificar filtros
+    allItems = [
+      {id:'t1',type:'live',  name:'TVE1 España HD',   lang:'ES',country:'ES',group:'ES| SPAIN',portal_id:'test',portal_name:'Test',url:'',logo:''},
+      {id:'t2',type:'live',  name:'BBC One UK',       lang:'EN',country:'GB',group:'GB| UK',portal_id:'test',portal_name:'Test',url:'',logo:''},
+      {id:'t3',type:'live',  name:'TF1 France HD',    lang:'FR',country:'FR',group:'FR| FRANCE',portal_id:'test',portal_name:'Test',url:'',logo:''},
+      {id:'t4',type:'movie', name:'Pelicula ES',      lang:'ES',country:'ES',group:'ES| PELICULAS',portal_id:'test',portal_name:'Test',url:'',logo:''},
+      {id:'t5',type:'movie', name:'Deutsche Film',    lang:'DE',country:'DE',group:'DE| FILMS',portal_id:'test',portal_name:'Test',url:'',logo:''},
+      {id:'t6',type:'live',  name:'Rai Uno Italia',   lang:'IT',country:'IT',group:'IT| ITALY',portal_id:'test',portal_name:'Test',url:'',logo:''},
+      {id:'t7',type:'live',  name:'RTP1 Portugal',    lang:'PT',country:'PT',group:'PT| PORTUGAL',portal_id:'test',portal_name:'Test',url:'',logo:''},
+    ];
+    document.getElementById('last-update').textContent='⚠️ MODO DEMO — Sin datos reales ('+h(err.message)+')';
+    document.getElementById('stats-row').style.display='flex';
+    document.getElementById('s-total').textContent=allItems.length;
+    document.getElementById('s-live').textContent=allItems.filter(i=>i.type==='live').length;
+    document.getElementById('s-movies').textContent=allItems.filter(i=>i.type==='movie').length;
+    document.getElementById('s-series').textContent='0';
+    buildDynamicFilters();
+    document.getElementById('load-st').style.display='none';
+    document.getElementById('grid').style.display='grid';
+    applyFilters();
   }
 }
 
