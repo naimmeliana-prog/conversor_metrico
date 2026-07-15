@@ -108,7 +108,12 @@ class StalkerPortal:
     def __init__(self, portal_cfg: dict):
         self.id          = portal_cfg.get("id", "portal_unknown")
         self.name        = portal_cfg.get("name", "Portal sin nombre")
-        self.url         = portal_cfg.get("url", "").rstrip("/")
+        raw_url          = portal_cfg.get("url", "").rstrip("/")
+        # Limpiar rutas típicas de Stalker que el usuario puede haber incluido por error
+        for _suffix in ["/stalker_portal/c", "/stalker_portal", "/c", "/portal.php"]:
+            if raw_url.endswith(_suffix):
+                raw_url = raw_url[:-len(_suffix)].rstrip("/")
+        self.url         = raw_url
         self.mac         = portal_cfg.get("mac", "")
         self.color       = portal_cfg.get("color", "#e94560")
         self.enabled     = portal_cfg.get("enabled", True)
