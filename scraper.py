@@ -314,10 +314,12 @@ class StalkerPortal:
                 "genre": genre_id, "force_ch_link_check": "",
                 "fav": "0", "sortby": "name", "JsHttpRequest": "1-xml",
             })
+            new_count = 0
             for ch in items:
                 ch_id = ch.get("id", "")
                 if ch_id in seen_ids: continue
                 seen_ids.add(ch_id)
+                new_count += 1
                 name = clean_name(ch.get("name", ch.get("title", "Canal")))
                 channels.append({
                     "type":        "live",
@@ -333,8 +335,13 @@ class StalkerPortal:
                     "portal_name": self.name,
                     "portal_color":self.color,
                 })
+            # Si el género '*' ya trajo todos los canales, no hace falta iterar el resto
+            if genre_id == "*" and new_count == len(channels) and len(channels) == len(items):
+                print(f"  ⚡ [{self.name}] Género '*' devuelve todos los canales — omitiendo géneros individuales")
+                break
         print(f"  ✅ [{self.name}] Canales en vivo: {len(channels)}")
         return channels
+
 
     def fetch_movies(self) -> list:
         print(f"\n  🎬 [{self.name}] Extrayendo Películas...")
