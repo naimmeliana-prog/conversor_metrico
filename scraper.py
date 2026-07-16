@@ -29,7 +29,7 @@ REQUEST_TIMEOUT   = 30
 MAX_RETRIES       = 3
 RETRY_DELAY       = 5
 PAGE_SIZES_TO_TRY = [500, 250, 100, 50, 14]
-PARALLEL_WORKERS  = 4   # peticiones simultáneas por portal
+PARALLEL_WORKERS  = 2   # peticiones simultáneas por portal (más evita rate-limit)
 
 # ════════════════════════════════════════════════════════════════
 #  DETECCIÓN DE IDIOMA
@@ -361,10 +361,12 @@ class StalkerPortal:
                 "category": cat_id, "sortby": "added",
                 "fav": "0", "JsHttpRequest": "1-xml",
             })
+            new_count = 0
             for movie in items:
                 mid = movie.get("id", "")
                 if mid in seen_ids: continue
                 seen_ids.add(mid)
+                new_count += 1
                 name = clean_name(movie.get("name", movie.get("o_name", "Película")))
                 movies.append({
                     "type":         "movie",
@@ -386,7 +388,12 @@ class StalkerPortal:
                     "portal_name":  self.name,
                     "portal_color": self.color,
                 })
+            # Si la categoría '*' ya trajo todas las películas, no iteramos el resto
+            if cat_id == "*" and new_count == len(movies) and len(movies) == len(items):
+                print(f"  ⚡ [{self.name}] Categoría '*' devuelve todas las películas — omitiendo categorías individuales")
+                break
         print(f"  ✅ [{self.name}] Películas: {len(movies)}")
+
         return movies
 
     def fetch_series(self) -> list:
