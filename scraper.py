@@ -497,10 +497,12 @@ class StalkerPortal:
         except Exception as e:
             print(f"  ⚠ [{self.name}] Error Películas: {e}")
 
-        try:
-            items.extend(self.fetch_series())
-        except Exception as e:
-            print(f"  ⚠ [{self.name}] Error Series: {e}")
+        # Series desactivadas — tardan demasiado (rastreo profundo por episodio)
+        # try:
+        #     items.extend(self.fetch_series())
+        # except Exception as e:
+        #     print(f"  ⚠ [{self.name}] Error Series: {e}")
+
 
         print(f"\n  ✅ [{self.name}] Total items: {len(items)}")
         return items
