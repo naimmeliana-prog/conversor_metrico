@@ -326,7 +326,7 @@ class StalkerPortal:
                     "id":          f"{self.id}_{ch_id}",
                     "name":        name,
                     "logo":        ch.get("logo", ch.get("tv_logo", "")),
-                    "url":         ch.get("cmd",""),
+                    "url":         self.resolve_stream_url(ch.get("cmd",""), "itv", ch_id),
                     "group":       genre_title,
                     "lang":        detect_language(f"{name} {genre_title}"),
                     "country":     detect_country(name, genre_title, ch.get("country","")),
