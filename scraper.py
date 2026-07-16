@@ -25,11 +25,11 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 PORTALS_FILE      = "portals.json"
 PORTAL_PATH       = "/portal.php"
 PORTAL_C          = "/stalker_portal/c/"
-REQUEST_TIMEOUT   = 30
-MAX_RETRIES       = 3
-RETRY_DELAY       = 5
+REQUEST_TIMEOUT   = 10
+MAX_RETRIES       = 2
+RETRY_DELAY       = 3
 PAGE_SIZES_TO_TRY = [500, 250, 100, 50, 14]
-PARALLEL_WORKERS  = 2   # peticiones simultáneas por portal (más evita rate-limit)
+PARALLEL_WORKERS  = 1   # 1 hilo para evitar bloqueos (Rate-Limit) de seguridad del portal
 
 # ════════════════════════════════════════════════════════════════
 #  DETECCIÓN DE IDIOMA
@@ -251,6 +251,8 @@ class StalkerPortal:
         pages_data: dict = {1: items1}
 
         def fetch_one(page_num):
+            if PARALLEL_WORKERS == 1:
+                time.sleep(0.3) # Retraso cortesía para no saturar al portal
             params = {**params_base, "p": str(page_num), "perpage": str(self.page_size)}
             result = self._fetch_page_threadsafe(params)
             if not result:
