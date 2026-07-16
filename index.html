@@ -363,6 +363,8 @@
         <option value="rating">⭐ Rating</option>
       </select>
 
+      <button class="btn-i prim" id="btn-save-filters" onclick="saveFiltersToM3u()" style="padding:0.4rem 0.8rem; font-size:0.75rem; background:#0f3460; border-color:#0f3460;">🎯 Guardar Filtros en M3U</button>
+
       <span class="res-count" id="res-count"></span>
     </div>
     <div class="active-pills" id="active-pills"></div>
@@ -818,6 +820,73 @@ function openRunModal(){
   document.getElementById('run-overlay').classList.add('open');document.body.style.overflow='hidden';
 }
 function closeRunModal(){document.getElementById('run-overlay').classList.remove('open');document.body.style.overflow='';}
+
+async function saveFiltersToM3u() {
+  if(!cfg.ghToken || !cfg.ghUser || !cfg.ghRepo){
+    toast('⚠️ Configura GitHub y Token primero','error');
+    openCfgModal();
+    return;
+  }
+  
+  // Obtener los idiomas y países que el usuario ha seleccionado (marcados) en la UI
+  const langs = Array.from(msState.lang);
+  const countries = Array.from(msState.country);
+  
+  if (langs.length === 0 && countries.length === 0) {
+    if (!confirm('No has seleccionado ningún idioma ni país. Esto desactivará los filtros y exportará TODO. ¿Deseas continuar?')) return;
+  }
+  
+  const filterData = {
+    languages: langs,
+    countries: countries
+  };
+  
+  const btn = document.getElementById('btn-save-filters');
+  const oldText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '💾 Guardando...';
+  
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(filterData, null, 2))));
+  const apiUrl = `https://api.github.com/repos/${cfg.ghUser}/${cfg.ghRepo}/contents/user_filters.json`;
+  
+  try {
+    let sha = '';
+    const ex = await fetch(apiUrl, {
+      headers: {
+        'Authorization': `Bearer ${cfg.ghToken}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    }).then(r => r.ok ? r.json() : null);
+    
+    if (ex && ex.sha) sha = ex.sha;
+    
+    await fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${cfg.ghToken}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: 'Update user_filters.json M3U preferences',
+        content,
+        ...(sha ? {sha} : {})
+      })
+    });
+    
+    toast('🎯 Filtros M3U guardados en GitHub', 'success');
+    
+    if (confirm('Filtros guardados. ¿Deseas disparar la actualización en la nube ahora para reconstruir la lista M3U filtrada para tu TV?')) {
+      openRunModal();
+    }
+  } catch(e) {
+    console.error('Error al guardar filtros:', e);
+    toast('❌ Error al guardar filtros en GitHub', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = oldText;
+  }
+}
 
 async function syncPortalsJson(){
   if(!cfg.ghToken||!cfg.portals||cfg.portals.length===0)return;

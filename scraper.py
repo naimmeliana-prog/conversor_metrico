@@ -654,6 +654,41 @@ def main():
         items  = portal.scrape_all()
         all_items.extend(items)
 
+    # ── FILTRADO BAJO DEMANDA PARA M3U ──
+    filters_file = "user_filters.json"
+    filtered_items = all_items
+    if os.path.exists(filters_file):
+        try:
+            with open(filters_file, "r", encoding="utf-8") as f:
+                filter_cfg = json.load(f)
+            
+            allowed_langs = set(filter_cfg.get("languages", []))
+            allowed_ctries = set(filter_cfg.get("countries", []))
+            
+            # Solo filtramos si hay alguna preferencia guardada
+            if allowed_langs or allowed_ctries:
+                print(f"\n📂 Aplicando filtros de exportación desde {filters_file}...")
+                if allowed_langs:
+                    print(f"   Idiomas permitidos: {', '.join(allowed_langs)}")
+                if allowed_ctries:
+                    print(f"   Países permitidos: {', '.join(allowed_ctries)}")
+                
+                filtered_items = []
+                for item in all_items:
+                    item_lang = item.get("lang", "OTHER")
+                    item_ctry = item.get("country", "OTHER")
+                    
+                    # Comprobar si coincide con alguno de los filtros activos
+                    lang_ok = not allowed_langs or item_lang in allowed_langs
+                    ctry_ok = not allowed_ctries or item_ctry in allowed_ctries
+                    
+                    if lang_ok and ctry_ok:
+                        filtered_items.append(item)
+                
+                print(f"🎯 Items filtrados para M3U: {len(filtered_items)} de {len(all_items)} originales.")
+        except Exception as filter_err:
+            print(f"⚠️ Error al aplicar filtros de usuario: {filter_err}")
+
     stats = generate_stats(all_items, portals_cfg)
     print("\n"+"="*65)
     print("  📊 RESUMEN FINAL")
@@ -663,16 +698,18 @@ def main():
     print(f"  🎬 Películas           : {stats['movies']}")
     print(f"  📺 Series únicas       : {stats['series']}")
     print(f"  📌 Episodios           : {stats['episodes']}")
-    print(f"  📁 TOTAL               : {stats['total']}")
+    print(f"  📁 TOTAL ORIGINAL      : {stats['total']}")
+    print(f"  📁 TOTAL FILTRADO M3U  : {len(filtered_items)}")
     print("="*65)
 
-    if not all_items:
-        print("⚠ No se extrajeron items.")
+    if not filtered_items:
+        print("⚠ No quedan items después de aplicar filtros.")
         sys.exit(1)
 
-    m3u = generate_m3u(all_items, portals_cfg)
+    m3u = generate_m3u(filtered_items, portals_cfg)
     with open("playlist.m3u","w",encoding="utf-8") as f: f.write(m3u)
     print(f"\n✅ playlist.m3u  ({len(m3u):,} bytes)")
+
 
     metadata = {
         "generated": datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
