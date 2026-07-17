@@ -719,7 +719,7 @@ def generate_m3u(all_items: list, portals: list) -> str:
         elif url.startswith("ffplay "):
             url = url[7:].strip()
 
-        lines.extend([extinf, item.get("name","Sin nombre"), url, ""])
+        lines.extend([f'{extinf},{item.get("name","Sin nombre")}', url, ""])
     return "\n".join(lines)
 
 def generate_stats(all_items: list, portals: list) -> dict:
