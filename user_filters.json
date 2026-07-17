@@ -1,12 +1,4 @@
 {
-  "languages": [
-    "ES",
-    "FR",
-    "AR"
-  ],
-  "countries": [
-    "FR",
-    "DZ",
-    "ES"
-  ]
+  "languages": [],
+  "countries": []
 }
