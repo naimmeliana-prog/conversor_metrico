@@ -1,67 +1,187 @@
 #EXTM3U
-# Generado: 2026-07-17 22:17 UTC
+# Generado: 2026-07-17 22:40 UTC
 # Portales: Great, Backup, USA
-# Total items: 16
+# Total items: 46
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/SPAINNEW/SPAIN.png" group-title="Live | All (ES)"
-##### 24/7 ESPAÑA #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548520&extension=ts&play_token=9877ywHO0C
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE2.png" group-title="Live | BE| BELGIUM VIP ᴿᴬᵂ (FR)"
+BE| FRANCE 2 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022554&extension=ts&play_token=MAAyk5tQO0
 
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Live | All (ES)"
-##### DAZN ESPAÑA FHD #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548430&extension=ts&play_token=UbuuVoopar
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE24.png" group-title="Live | BE| BELGIUM VIP ᴿᴬᵂ (FR)"
+BE| FRANCE 24 (IN ENGLISH) ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022553&extension=ts&play_token=XOxKoySHvq
 
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Live | All (ES)"
-##### DAZN ESPAÑA HD #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548429&extension=ts&play_token=3meFv0U6vW
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE3.png" group-title="Live | BE| BELGIUM VIP ᴿᴬᵂ (FR)"
+BE| FRANCE 3 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022552&extension=ts&play_token=l8wrOA3DX9
 
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Live | All (ES)"
-##### DAZN ESPAÑA SD #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548431&extension=ts&play_token=1zWLK5rpKP
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE4.png" group-title="Live | BE| BELGIUM VIP ᴿᴬᵂ (FR)"
+BE| FRANCE 4 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022551&extension=ts&play_token=tmljZ4I1Rr
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/813294.png" group-title="Live | All (FR)"
-##### FRANCE 4K #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=813294&extension=ts&play_token=KVrlGZiqUH
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE5.png" group-title="Live | BE| BELGIUM VIP ᴿᴬᵂ (FR)"
+BE| FRANCE 5 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022550&extension=ts&play_token=UhjJhe37yL
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/PREMIURPLAY.png" group-title="Live | All (FR)"
-##### FRANCE APPLE TV #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=825531&extension=ts&play_token=SK03CAK513
+#EXTINF:-1 tvg-id="Arte.be" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326928.png" group-title="Live | BE| WALLONIË (OTHER)"
+BE| ARTE BELGIQUE HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326928&extension=ts&play_token=gz77E5X8cH
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/815109.png" group-title="Live | All (FR)"
-##### FRANCE SPORT #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=815109&extension=ts&play_token=A0sR0cmfQq
+#EXTINF:-1 tvg-id="C8.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326932.png" group-title="Live | BE| WALLONIË (OTHER)"
+BE| C8
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326932&extension=ts&play_token=7mo50EPFq9
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/SPAIN/1926244.png" group-title="Live | All (OTHER)"
-##### MOVISTAR+ ESTRENOS #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1926244&extension=ts&play_token=7QDshun5cM
+#EXTINF:-1 tvg-id="C8.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608047.png" group-title="Live | BE| WALLONIË (OTHER)"
+BE| C8 FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608047&extension=ts&play_token=A7mgzZxo3L
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/SPAIN/1926177.png" group-title="Live | All (OTHER)"
-##### MOVISTAR+ SERIES #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1926177&extension=ts&play_token=yqhqs6nDP9
+#EXTINF:-1 tvg-id="CStar.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608065.png" group-title="Live | BE| WALLONIË (OTHER)"
+BE| CSTAR FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608065&extension=ts&play_token=3WXlWGNUK5
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/CINEPREMIUM.png" group-title="Live | All (OTHER)"
-##### OCS HIGHlTLIGHT #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=851422&extension=ts&play_token=t9Vw5VE5Pj
+#EXTINF:-1 tvg-id="France2.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812135.png" group-title="Live | BE| WALLONIË (FR)"
+BE| FRANCE 2 HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812135&extension=ts&play_token=t8HXUvSNSH
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/815054.png" group-title="Live | All (OTHER)"
-##### RMC SPORT #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=815054&extension=ts&play_token=JHb4YD5IQA
+#EXTINF:-1 tvg-id="France24.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608045.png" group-title="Live | BE| WALLONIË (FR)"
+BE| FRANCE 24 FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608045&extension=ts&play_token=q1sSyHf9j2
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/814556.png" group-title="Live | All (OTHER)"
-##### RMC SPORT FHD #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=814556&extension=ts&play_token=uFo6jaqPjp
+#EXTINF:-1 tvg-id="France3.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812134.png" group-title="Live | BE| WALLONIË (FR)"
+BE| FRANCE 3 HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812134&extension=ts&play_token=iFCsOj7DVb
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/814579.png" group-title="Live | All (OTHER)"
-##### RMC SPORT HD #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=814579&extension=ts&play_token=SgHkFlDsCK
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1897978.png" group-title="Live | BE| WALLONIË (FR)"
+BE| FRANCE 3 NOA FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1897978&extension=ts&play_token=kooBQ7QuI4
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/814943.png" group-title="Live | All (OTHER)"
-##### RMC SPORT LQ #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=814943&extension=ts&play_token=3eSQgjMTml
+#EXTINF:-1 tvg-id="France4.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608053.png" group-title="Live | BE| WALLONIË (FR)"
+BE| FRANCE 4 FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608053&extension=ts&play_token=DX2zxO7QR7
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/SPAINNEW/SPAIN.png" group-title="Live | All (ES)"
-##### TDT ESPAÑA #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548213&extension=ts&play_token=y8XkUhUhfD
+#EXTINF:-1 tvg-id="France4.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812133.png" group-title="Live | BE| WALLONIË (FR)"
+BE| FRANCE 4 HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812133&extension=ts&play_token=X8erexf6Oz
+
+#EXTINF:-1 tvg-id="France5.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812132.png" group-title="Live | BE| WALLONIË (FR)"
+BE| FRANCE 5 HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812132&extension=ts&play_token=NVAyW9VB86
+
+#EXTINF:-1 tvg-id="Gulli.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812189.png" group-title="Live | BE| WALLONIË (OTHER)"
+BE| GULLI  HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812189&extension=ts&play_token=Nj5uZIdGKV
+
+#EXTINF:-1 tvg-id="Gulli.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608061.png" group-title="Live | BE| WALLONIË (OTHER)"
+BE| GULLI FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608061&extension=ts&play_token=bHDcXrPJNb
+
+#EXTINF:-1 tvg-id="LCI.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608043.png" group-title="Live | BE| WALLONIË (OTHER)"
+BE| LCI FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608043&extension=ts&play_token=rlGWdz2NTm
+
+#EXTINF:-1 tvg-id="TF1.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812136.png" group-title="Live | BE| WALLONIË (OTHER)"
+BE| TF1 HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812136&extension=ts&play_token=Itk0WtBPuJ
+
+#EXTINF:-1 tvg-id="TFX.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326930.png" group-title="Live | BE| WALLONIË (OTHER)"
+BE| TFX
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326930&extension=ts&play_token=REyYu7Cni2
+
+#EXTINF:-1 tvg-id="TMC.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326931.png" group-title="Live | BE| WALLONIË (OTHER)"
+BE| TMC
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326931&extension=ts&play_token=2OB4pv4B3b
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1897969.png" group-title="Live | BE| WALLONIË (OTHER)"
+BE| TMC
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1897969&extension=ts&play_token=lkNUMVCdzv
+
+#EXTINF:-1 tvg-id="TMC.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608048.png" group-title="Live | BE| WALLONIË (OTHER)"
+BE| TMC FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608048&extension=ts&play_token=S44u0zRPJn
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829017.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (OTHER)"
+BE| C8 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829017&extension=ts&play_token=Q1UNDZ3Alr
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829025.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (FR)"
+BE| FRANCE 2 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829025&extension=ts&play_token=M8IpyUGP1e
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829024.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (FR)"
+BE| FRANCE 3 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829024&extension=ts&play_token=hokihcFGwB
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829023.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (FR)"
+BE| FRANCE 4 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829023&extension=ts&play_token=bFUe9N1Pmw
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829022.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (FR)"
+BE| FRANCE 5 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829022&extension=ts&play_token=6qOluWOmi4
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829026.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (FR)"
+BE| FRANCE INFO ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829026&extension=ts&play_token=8JCCcRYKAw
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829007.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (FR)"
+BE| MTV FRANCE ᴿᴬᵂ (+)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829007&extension=ts&play_token=RC5FY9cC1f
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829021.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (OTHER)"
+BE| TF1 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829021&extension=ts&play_token=MRDJoMUoU1
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/F1.png" group-title="Live | FORMULA 1 + MOTO GP (FR)"
+F1| F1 TV MAIN FRANCE
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=920204&extension=ts&play_token=YGCfOt0bOM
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="Live | 4K UHD 3840P (FR)"
+4K| FRANCE 2 FR UHD/4K
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1948631&extension=ts&play_token=HIQvxXiKPa
+
+#EXTINF:-1 tvg-id="LA1.es" tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="Live | 4K UHD 3840P (OTHER)"
+4K| LA 1 UHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1620282&extension=ts&play_token=3HnOzlt47v
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="Live | 4K UHD 3840P (OTHER)"
+4K| LA 1 UHD/4K
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1948659&extension=ts&play_token=ETzEXOJj3e
+
+#EXTINF:-1 tvg-id="TF1.fr" tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="Live | 4K UHD 3840P (OTHER)"
+4k| TF1 HDR/UHD/4K
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1640379&extension=ts&play_token=kL4VHkepwG
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/logos/WORLDCUP2026REPLAY.png" group-title="Live | WORLD CUP 2026 ᵁᴴᴰ ³⁸⁴⁰ᴾ (OTHER)"
+WC-4K| M6 ᵁᴴᴰ ³⁸⁴⁰ᴾ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2095896&extension=ts&play_token=79YUfOYQTV
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/FRANCENEW/M6.png" group-title="Live | WORLD CUP 2026 (FR)"
+FR| M6 HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2077029&extension=ts&play_token=cbT2z2wO5z
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="Live | NL| SOCCER PPV (FR)"
+End | Tour de France | Etappe 13 Mannen | all | 17-07-2026 | 12:45 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 2
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058546&extension=ts&play_token=KE1fN4SI8z
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="Live | NL| SOCCER PPV (FR)"
+End | Wielrennen: Tour De France: Etappe 13 | all | 17-07-2026 | 12:45 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 1
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058547&extension=ts&play_token=UHvpRvB0Om
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="Live | NL| SOCCER PPV (FR)"
+Next | Tour de France Etappe 14 | Mannen | Mulhouse - Le Markstein Fellering (155km) | all | 17-07-2026 | 13:00 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 59
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058489&extension=ts&play_token=mYsNb5sCgP
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="Live | NL| SOCCER PPV (FR)"
+Next | Wielrennen: Tour De France: Etappe 14 | all | 17-07-2026 | 13:00 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 43
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058505&extension=ts&play_token=HZpoQvKwTy
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/MAX-MAX.png" group-title="Live | NL| MAX PPV (FR)"
+Cycling: Tour de France @ Jul 17 12:45 PM :MAX NL  01
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2026853&extension=ts&play_token=hZjRGFmPCQ
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/MAX-MAX.png" group-title="Live | NL| MAX PPV (FR)"
+Cycling: Tour de France: Stage 13 @ Jul 17 18:00 PM :MAX NL  03
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2026851&extension=ts&play_token=rOIkG6WrxP
 
 #EXTINF:-1 tvg-id="" tvg-logo="https://image.tmdb.org/t/p/w600_and_h900_bestv2/uLW7MmC2yA1RyKNiXB7Rn88WqL6.jpg" group-title="Movies | All (ES)" tvg-year="2026-04-17" tvg-director="José Luis López-Linares" tvg-rating="8"
 ES - We the Hispanos: España - raíz de Estados Unidos (2026)
