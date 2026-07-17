@@ -320,17 +320,22 @@ class StalkerPortal:
         genres = []
         if isinstance(genres_result, list): genres = genres_result
         elif isinstance(genres_result, dict): genres = genres_result.get("data", [])
-        if not any(g.get("id") == "*" for g in genres):
-            genres.insert(0, {"id": "*", "title": "All"})
+
+        # Filtramos el género '*' (All) — siempre iteramos géneros individuales
+        # para que cada canal herede el genre_title con el prefijo de idioma (ES|, FR|, etc.)
+        individual_genres = [g for g in genres if g.get("id") != "*"]
+        if not individual_genres:
+            # Si no hay géneros individuales, usamos el '*' como fallback
+            individual_genres = [{"id": "*", "title": "All"}]
 
         channels  = []
         seen_ids  = set()
-        max_channels = 1000 # Límite estricto de 1000 canales para evitar atascos
-        
-        for genre in genres:
+        max_channels = 2000  # Límite para evitar atascos
+
+        for genre in individual_genres:
             if len(channels) >= max_channels:
                 break
-                
+
             genre_id    = genre.get("id", "*")
             genre_title = genre.get("title", "General")
             items = self.paginated_fetch({
@@ -338,14 +343,12 @@ class StalkerPortal:
                 "genre": genre_id, "force_ch_link_check": "",
                 "fav": "0", "sortby": "name", "JsHttpRequest": "1-xml",
             }, max_items=max_channels)
-            new_count = 0
             for ch in items:
                 if len(channels) >= max_channels:
                     break
                 ch_id = ch.get("id", "")
                 if ch_id in seen_ids: continue
                 seen_ids.add(ch_id)
-                new_count += 1
                 name = clean_name(ch.get("name", ch.get("title", "Canal")))
                 channels.append({
                     "type":        "live",
@@ -361,12 +364,9 @@ class StalkerPortal:
                     "portal_name": self.name,
                     "portal_color":self.color,
                 })
-            # Si el género '*' ya trajo todos los canales, no hace falta iterar el resto
-            if genre_id == "*" and new_count == len(channels) and len(channels) == len(items):
-                print(f"  ⚡ [{self.name}] Género '*' devuelve todos los canales — omitiendo géneros individuales")
-                break
         print(f"  ✅ [{self.name}] Canales en vivo: {len(channels)}")
         return channels
+
 
 
     def fetch_movies(self) -> list:
@@ -430,6 +430,7 @@ class StalkerPortal:
         return movies
 
     def fetch_series(self) -> list:
+        import base64
         print(f"\n  📺 [{self.name}] Extrayendo Series (rastreo profundo)...")
         cats_result = self.safe_get({"action":"get_categories","type":"series","JsHttpRequest":"1-xml"})
         cats = []
@@ -440,52 +441,91 @@ class StalkerPortal:
         episodes_list = []
         for cat in cats:
             cat_id    = cat.get("id", "*")
+            if cat_id == "*": continue
             cat_title = cat.get("title", cat.get("name", "Series"))
+
             series_items = self.paginated_fetch({
                 "action": "get_ordered_list", "type": "series",
-                "category": cat_id, "sortby": "added",
+                "genre": cat_id, "sortby": "added",
                 "fav": "0", "JsHttpRequest": "1-xml",
             })
             for serie in series_items:
-                serie_id   = serie.get("id", "")
+                raw_id   = serie.get("id", "")
+                # Algunos portales devuelven "id:extra" — tomamos solo la parte numérica
+                serie_id = str(raw_id).split(":")[0] if raw_id else ""
+                if not serie_id: continue
+
                 serie_name = clean_name(serie.get("name", serie.get("title", "Serie")))
                 serie_logo = serie.get("screenshot_uri", serie.get("logo", serie.get("poster","")))
                 lang       = detect_language(f"{serie_name} {cat_title}")
                 country    = detect_country(serie_name, cat_title, serie.get("country",""))
 
+                # Obtener temporadas usando el mismo método del código de referencia
                 seasons_result = self.safe_get({
-                    "action": "get_seasons", "type": "series",
-                    "series_id": serie_id, "JsHttpRequest": "1-xml",
+                    "action": "get_ordered_list", "type": "series",
+                    "movie_id": serie_id, "JsHttpRequest": "1-xml",
                 })
                 seasons = []
                 if isinstance(seasons_result, list): seasons = seasons_result
                 elif isinstance(seasons_result, dict):
-                    seasons = seasons_result.get("data", seasons_result.get("seasons", []))
-                if not seasons: seasons = [{"id": "0", "name": "Temporada 1"}]
+                    seasons = seasons_result.get("data", [])
+                if not seasons: continue
 
                 for season in seasons:
-                    season_id   = season.get("id", "0")
-                    season_name = season.get("name", season.get("title", f"Temporada {season_id}"))
-                    season_num  = season.get("number", season_id)
+                    season_name = season.get("name", season.get("title", "Temporada 1"))
+                    # Extraer número de temporada del nombre
+                    season_num = 1
+                    sn_match = re.search(r'\d+', season_name)
+                    if sn_match:
+                        season_num = int(sn_match.group())
 
-                    episodes = self.paginated_fetch({
-                        "action": "get_ordered_list", "type": "series",
-                        "series_id": serie_id, "season_id": season_id,
-                        "episode_id": "0", "fav": "0",
-                        "sortby": "added", "JsHttpRequest": "1-xml",
-                    })
-                    for ep in episodes:
-                        ep_id   = ep.get("id", "")
-                        ep_name = ep.get("name", ep.get("title", f"Episodio {ep_id}"))
-                        ep_num  = ep.get("episode_num", ep.get("number", ""))
+                    # Lista de números de episodio en esta temporada
+                    episode_nums = season.get("series", [])
+                    if not episode_nums:
+                        episode_nums = [1]
+
+                    for ep_num in episode_nums:
+                        ep_name = f"{serie_name} - S{season_num:02d}E{ep_num:02d}"
+
+                        # Crear el cmd base64 exactamente como en el código de referencia
+                        cmd_data = {
+                            "series_id": int(serie_id),
+                            "season_num": season_num,
+                            "episode_num": ep_num,
+                            "type": "series"
+                        }
+                        cmd_str = base64.b64encode(
+                            json.dumps(cmd_data).encode("utf-8")
+                        ).decode("utf-8")
+
+                        # Resolver URL del episodio via create_link
+                        link_result = self.safe_get({
+                            "action": "create_link", "type": "vod",
+                            "cmd": cmd_str, "series": "",
+                            "forced_storage": "0", "disable_ad": "0",
+                            "JsHttpRequest": "1-xml",
+                        })
+                        ep_url = ""
+                        if isinstance(link_result, dict):
+                            raw_url = link_result.get("cmd", link_result.get("url", ""))
+                            if raw_url:
+                                m = re.search(r'(https?://\S+)', raw_url)
+                                ep_url = m.group(1).strip() if m else raw_url.strip()
+                                # Añadir parámetros de serie al URL
+                                sep = "&" if "?" in ep_url else "?"
+                                if "dummy=" not in ep_url:
+                                    ep_url += f"{sep}dummy=/series/&type=movie"
+                        if not ep_url:
+                            continue
+
                         episodes_list.append({
                             "type":         "series",
-                            "id":           f"{self.id}_{ep_id}",
+                            "id":           f"{self.id}_{serie_id}_s{season_num}e{ep_num}",
                             "serie_id":     f"{self.id}_{serie_id}",
                             "serie_name":   serie_name,
-                            "name":         f"{serie_name} · {season_name} · E{ep_num} - {ep_name}",
+                            "name":         ep_name,
                             "logo":         serie_logo,
-                            "url":          self.resolve_stream_url(ep.get("cmd",""), "series", ep_id),
+                            "url":          ep_url,
                             "group":        f"SERIES · {cat_title}",
                             "lang":         lang,
                             "country":      country,
@@ -503,11 +543,11 @@ class StalkerPortal:
                             "portal_name":  self.name,
                             "portal_color": self.color,
                         })
-                    time.sleep(0.2)
                 time.sleep(0.3)
 
         print(f"  ✅ [{self.name}] Episodios: {len(episodes_list)}")
         return episodes_list
+
 
     def scrape_all(self, include_tv: bool = True, include_movies: bool = True, include_series: bool = False) -> list:
         if not self.enabled:
