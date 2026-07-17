@@ -35,7 +35,7 @@ PARALLEL_WORKERS  = 1   # 1 hilo para evitar bloqueos (Rate-Limit) de seguridad 
 #  DETECCIÓN DE IDIOMA
 # ════════════════════════════════════════════════════════════════
 LANGUAGE_KEYWORDS = {
-    "ES": ["ES","ESP","ESPAÑOL","SPANISH","SPAIN","ESPANA","CASTELLANO","LATINO","LAT","SPA"],
+    "ES": ["ES","ESP","ESPAÑOL","SPANISH","SPAIN","ESPANA","ESPAÑA","CASTELLANO","LATINO","LAT","SPA","DAZN"],
     "FR": ["FR","FRE","FRENCH","FRANCE","FRANÇAIS","FRANCAIS","FRA"],
     "EN": ["EN","ENG","ENGLISH","UK","US","USA","GB","GBR","UHD UK","UNITED KINGDOM"],
     "DE": ["DE","DEU","GERMAN","GERMANY","DEUTSCH","GER"],
@@ -352,7 +352,7 @@ class StalkerPortal:
                     "id":          f"{self.id}_{ch_id}",
                     "name":        name,
                     "logo":        ch.get("logo", ch.get("tv_logo", "")),
-                    "url":         self.resolve_stream_url(ch.get("cmd",""), "itv", ch_id),
+                    "url":         extract_cmd_url(ch.get("cmd","")),
                     "group":       genre_title,
                     "lang":        detect_language(f"{name} {genre_title}"),
                     "country":     detect_country(name, genre_title, ch.get("country","")),
@@ -406,7 +406,7 @@ class StalkerPortal:
                     "id":           f"{self.id}_{mid}",
                     "name":         name,
                     "logo":         movie.get("screenshot_uri", movie.get("logo", movie.get("poster",""))),
-                    "url":          self.resolve_stream_url(movie.get("cmd",""), "vod", mid),
+                    "url":          extract_cmd_url(movie.get("cmd","")),
                     "group":        cat_title,
                     "lang":         detect_language(f"{name} {cat_title}"),
                     "country":      detect_country(name, cat_title, movie.get("country","")),
@@ -558,8 +558,36 @@ def clean_name(name: str) -> str:
     if not name: return "Sin nombre"
     return name.strip().replace(",", " -").replace('"', "'")
 
+def extract_cmd_url(cmd: str) -> str:
+    """Extrae la URL directamente del campo cmd del portal Stalker.
+    Los portales Stalker devuelven el cmd en formatos como:
+      - 'ffmpeg http://host/play/live.php?...'
+      - 'ffplay http://host/play/movie.php?...'
+      - 'http://host/play/live.php?...' (ya resuelto)
+    Esta funcion limpia cualquier prefijo y devuelve la URL limpia.
+    """
+    if not cmd:
+        return ""
+    cmd = cmd.strip()
+    # Si ya es una URL directa
+    if cmd.startswith("http://") or cmd.startswith("https://"):
+        return cmd
+    # Extraer URL de comandos ffmpeg/ffplay/vlc
+    m = re.search(r'(https?://\S+)', cmd)
+    if m:
+        return m.group(1).strip()
+    return ""
+
 def detect_language(text: str) -> str:
     upper = text.upper()
+    # Primero: detectar el prefijo que el portal ya incluye en el nombre
+    # Formato comun: 'FR| Canal Name', 'ES| Canal Name', 'SP - Pelicula'
+    prefix_match = re.match(r'^([A-Z]{2,3})[|\-\s]', upper)
+    if prefix_match:
+        prefix = prefix_match.group(1)
+        if prefix in LANGUAGE_KEYWORDS:
+            return prefix
+    # Segundo: busqueda por keywords
     for lang, keywords in LANGUAGE_KEYWORDS.items():
         for kw in keywords:
             pattern = r'(?:^|[\s|\-_\[\]():,])' + re.escape(kw) + r'(?:$|[\s|\-_\[\]():,])'
