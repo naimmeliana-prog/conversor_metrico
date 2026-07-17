@@ -1,7 +1,7 @@
 {
-  "languages": [],
-  "countries": [
+  "languages": [
     "ES",
     "FR"
-  ]
+  ],
+  "countries": []
 }
