@@ -393,7 +393,7 @@ class StalkerPortal:
                     "id":           f"{self.id}_{mid}",
                     "name":         name,
                     "logo":         movie.get("screenshot_uri", movie.get("logo", movie.get("poster",""))),
-                    "url":          movie.get("cmd",""),
+                    "url":          self.resolve_stream_url(movie.get("cmd",""), "vod", mid),
                     "group":        cat_title,
                     "lang":         detect_language(f"{name} {cat_title}"),
                     "country":      detect_country(name, cat_title, movie.get("country","")),
