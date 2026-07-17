@@ -4,16 +4,16 @@
   "series": 0,
   "episodes": 0,
   "languages": {
-    "OTHER": 937,
-    "DE": 543,
-    "NL": 111,
+    "OTHER": 917,
+    "DE": 542,
+    "ES": 123,
+    "NL": 110,
     "FR": 96,
-    "IT": 8,
+    "IT": 6,
     "PL": 37,
-    "PT": 43,
+    "PT": 42,
     "TR": 9,
-    "EN": 118,
-    "ES": 98
+    "EN": 118
   },
   "countries": {
     "OTHER": 1753,
@@ -65,5 +65,5 @@
     }
   ],
   "total": 2000,
-  "generated": "2026-07-17 22:02 UTC"
+  "generated": "2026-07-17 22:17 UTC"
 }
