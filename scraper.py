@@ -295,7 +295,8 @@ class StalkerPortal:
         if isinstance(result, dict):
             resolved = result.get("cmd", result.get("url", ""))
             if resolved:
-                url_match = re.search(r'(https?://\S+)', resolved)
+                # Buscar un patrón HTTP/S que pueda estar dentro de comillas o seguido de espacios
+                url_match = re.search(r'(https?://[^\s\'"\n]+)', resolved)
                 if url_match:
                     return url_match.group(1).strip()
                 return resolved.strip()
