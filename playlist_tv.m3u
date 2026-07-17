@@ -1,16 +1,16 @@
 #EXTM3U
-# Generado: 2026-07-17 19:03 UTC
+# Generado: 2026-07-17 19:23 UTC
 # Portales: Great, Backup, USA
 # Total items: 3
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/813294.png" group-title="Live | All (FR)"
 ##### FRANCE 4K #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=qDdaU7hajm
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=Tsi6MhX1XH
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/PREMIURPLAY.png" group-title="Live | All (FR)"
 ##### FRANCE APPLE TV #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=QnUuWVYxVf
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=qARpAriZEq
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/815109.png" group-title="Live | All (FR)"
 ##### FRANCE SPORT #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=V6RQfjdar8
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=kAvATfRm4W
