@@ -1,7 +1,12 @@
 {
   "languages": [
     "ES",
-    "FR"
+    "FR",
+    "AR"
   ],
-  "countries": []
+  "countries": [
+    "FR",
+    "DZ",
+    "ES"
+  ]
 }
