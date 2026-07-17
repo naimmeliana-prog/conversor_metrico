@@ -313,7 +313,7 @@ class StalkerPortal:
 
         channels  = []
         seen_ids  = set()
-        max_channels = 150 # Límite estricto para evitar atascos si el portal es muy lento
+        max_channels = 1000 # Límite estricto de 1000 canales para evitar atascos
         
         for genre in genres:
             if len(channels) >= max_channels:
@@ -367,7 +367,7 @@ class StalkerPortal:
 
         movies   = []
         seen_ids = set()
-        max_movies = 100 # Límite estricto para evitar atascos de miles de películas
+        max_movies = 1000 # Límite estricto para evitar atascos de películas
         
         for cat in cats:
             if len(movies) >= max_movies:
@@ -613,11 +613,11 @@ def generate_m3u(all_items: list, portals: list) -> str:
         portal_name = item.get("portal_name", "")
 
         if itype == "live":
-            group = f"TV · {item.get('group','General')} · {lang} · {country} · {portal_name}"
+            group = f"Live | {item.get('group','General')} ({lang})"
         elif itype == "movie":
-            group = f"PELICULAS · {item.get('group','Películas')} · {lang} · {country} · {portal_name}"
+            group = f"Movies | {item.get('group','Películas')} ({lang})"
         else:
-            group = f"SERIES · {item.get('group','Series')} · {lang} · {country} · {portal_name}"
+            group = f"Series | {item.get('group','Series')} ({lang})"
 
         extinf = (
             f'#EXTINF:-1 tvg-id="{item.get("epg_id","")}" '
