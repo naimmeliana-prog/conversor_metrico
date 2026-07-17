@@ -673,24 +673,35 @@ def main():
     print("="*65)
 
     # ── PARSEO DE ARGUMENTOS ──
-    # Por defecto raspamos TV y Películas, NO series (las series van en su workflow semanal)
     include_tv = True
     include_movies = True
-    include_series = False
+    include_series = True
 
-    if "--only-series" in sys.argv:
+    mode = "all"
+    if "--only-tv" in sys.argv:
+        include_tv = True
+        include_movies = False
+        include_series = False
+        mode = "tv"
+        print("🔍 Modo: ESCUTAR ÚNICAMENTE CANALES DE TV (Rápido)")
+    elif "--only-movies" in sys.argv:
+        include_tv = False
+        include_movies = True
+        include_series = False
+        mode = "movies"
+        print("🔍 Modo: ESCUTAR ÚNICAMENTE PELÍCULAS (Rápido)")
+    elif "--only-series" in sys.argv:
         include_tv = False
         include_movies = False
         include_series = True
-        print("🔍 Modo: ESCUTAR ÚNICAMENTE SERIES (Workflow semanal)")
+        mode = "series"
+        print("🔍 Modo: ESCUTAR ÚNICAMENTE SERIES (Workflow lento)")
     elif "--no-series" in sys.argv:
         include_tv = True
         include_movies = True
         include_series = False
-        print("🔍 Modo: ESCUTAR TV Y PELÍCULAS (Workflow diario)")
-    else:
-        # Por defecto si no se pasa nada, raspamos todo lo configurado
-        print("🔍 Modo por defecto: Raspando TV, Películas y Series desactivadas")
+        mode = "no-series"
+        print("🔍 Modo: ESCUTAR TV Y PELÍCULAS (Sin series)")
 
     portals_cfg = load_portals()
     enabled     = [p for p in portals_cfg if p.get("enabled", True)]
@@ -705,19 +716,34 @@ def main():
         items  = portal.scrape_all(include_tv, include_movies, include_series)
         all_items.extend(items)
 
-    # Si estamos corriendo el modo "solo series", y el archivo de metadata actual existe,
-    # mezclamos los nuevos items de series con los viejos de TV/Películas para no perder el dashboard.
+    # Si estamos corriendo un modo específico (parcial), leemos la metadata actual
+    # para conservar los elementos de las otras categorías y no borrarlos.
     metadata_file = "metadata.json"
     existing_items = []
-    if include_series and os.path.exists(metadata_file):
+    if mode != "all" and os.path.exists(metadata_file):
         try:
             with open(metadata_file, "r", encoding="utf-8") as f:
                 old_meta = json.load(f)
-            # Conservamos todo lo que no sea de tipo series de la ejecución anterior
-            existing_items = [i for i in old_meta.get("items", []) if i.get("type") != "series"]
-            print(f"📦 Combinando {len(existing_items)} elementos de TV/Películas anteriores con las series nuevas.")
+            
+            old_items = old_meta.get("items", [])
+            
+            # Qué elementos conservamos de la versión anterior
+            if mode == "tv":
+                # Conservamos películas y series anteriores
+                existing_items = [i for i in old_items if i.get("type") in ("movie", "series")]
+            elif mode == "movies":
+                # Conservamos TV y series anteriores
+                existing_items = [i for i in old_items if i.get("type") in ("live", "series")]
+            elif mode == "series":
+                # Conservamos TV y películas anteriores
+                existing_items = [i for i in old_items if i.get("type") in ("live", "movie")]
+            elif mode == "no-series":
+                # Conservamos series anteriores
+                existing_items = [i for i in old_items if i.get("type") == "series"]
+                
+            print(f"📦 Combinando {len(existing_items)} elementos anteriores con los nuevos de esta ejecución.")
         except Exception as meta_err:
-            print(f"⚠️ Error al leer metadata anterior: {meta_err}")
+            print(f"⚠️ Error al mezclar la metadata anterior: {meta_err}")
 
     # Lista total unificada para el metadata del dashboard
     unified_items = all_items + existing_items

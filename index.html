@@ -827,13 +827,17 @@ function openRunModal(){
     document.getElementById('run-overlay').classList.add('open');document.body.style.overflow='hidden';return;
   }
   const en=(cfg.portals||[]).filter(p=>p.enabled);
-  box.innerHTML=`<div class="run-icon">🚀</div><div class="run-title">¿Ejecutar actualización?</div>
-    <div class="run-desc">Se procesarán <strong>${en.length} portal${en.length!==1?'es':''}</strong>. Tardará <strong>5-90 min</strong>.</div>
-    <div class="run-info">
-      ${en.map(p=>`<div class="run-row"><span class="lbl"><span style="color:${h(p.color)};font-weight:700">●</span> ${h(p.name)}</span><span class="val">${h(p.mac)}</span></div>`).join('')}
+  box.innerHTML=`<div class="run-icon">🚀</div><div class="run-title">Actualizar Listas</div>
+    <div class="run-desc">Selecciona qué lista quieres actualizar en la nube. Se procesarán <strong>${en.length} portal${en.length!==1?'es':''}</strong>.</div>
+    <div class="run-info" style="margin-top: 1rem;">
+      <button class="btn-i prim" id="btn-trigger-tv" onclick="triggerWf('update_tv.yml', 'btn-trigger-tv')" style="width:100%; justify-content:center; margin-bottom:0.5rem; background:#0f3460; border-color:#0f3460;">📺 Actualizar TV en Vivo</button>
+      <button class="btn-i prim" id="btn-trigger-movies" onclick="triggerWf('update_movies.yml', 'btn-trigger-movies')" style="width:100%; justify-content:center; margin-bottom:0.5rem; background:#533483; border-color:#533483;">🎬 Actualizar Películas</button>
+      <button class="btn-i prim" id="btn-trigger-series" onclick="triggerWf('update_series.yml', 'btn-trigger-series')" style="width:100%; justify-content:center; background:#4ecca3; border-color:#4ecca3;">📺 Actualizar Series</button>
+    </div>
+    <div class="run-info" style="margin-top:0.8rem; font-size:0.75rem;">
       <div class="run-row"><span class="lbl">📦 Repo</span><span class="val">${h(cfg.ghUser)}/${h(cfg.ghRepo)}</span></div>
     </div>`;
-  footer.innerHTML=`<button class="btn btn-sec" onclick="closeRunModal()">Cancelar</button><button class="btn btn-prim" id="btn-trigger" onclick="triggerWf()">🚀 Disparar Workflow</button>`;
+  footer.innerHTML=`<button class="btn btn-sec" style="width:100%;" onclick="closeRunModal()">Cerrar</button>`;
   document.getElementById('run-overlay').classList.add('open');document.body.style.overflow='hidden';
 }
 function closeRunModal(){document.getElementById('run-overlay').classList.remove('open');document.body.style.overflow='';}
@@ -919,21 +923,22 @@ async function syncPortalsJson(){
   }catch(e){console.warn('sync error:',e);}
 }
 
-async function triggerWf(){
-  const btn=document.getElementById('btn-trigger');
+async function triggerWf(workflowFile, btnId){
+  const btn=document.getElementById(btnId);
   if(!btn)return;
-  btn.disabled=true;btn.textContent='⏳ Disparando...';
+  const oldText = btn.textContent;
+  btn.disabled=true; btn.textContent='⏳ Disparando...';
   const box=document.getElementById('run-box');
   await syncPortalsJson();
-  const api=`https://api.github.com/repos/${cfg.ghUser}/${cfg.ghRepo}/actions/workflows/update.yml/dispatches`;
+  const api=`https://api.github.com/repos/${cfg.ghUser}/${cfg.ghRepo}/actions/workflows/${workflowFile}/dispatches`;
   try{
     const resp=await fetch(api,{method:'POST',headers:{'Authorization':`Bearer ${cfg.ghToken}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({ref:'main'})});
     if(resp.status===204){
       box.innerHTML=`<div class="run-icon">✅</div><div class="run-title">¡Workflow disparado!</div>
-        <div class="run-desc">Procesando <strong>${(cfg.portals||[]).filter(p=>p.enabled).length} portal(es)</strong>. Tardará <strong>5-90 min</strong>.</div>
+        <div class="run-desc">Se ha iniciado la actualización de <strong>${workflowFile === 'update_tv.yml' ? 'TV en Vivo' : workflowFile === 'update_movies.yml' ? 'Películas' : 'Series'}</strong> en la nube.</div>
         <div class="pb-wrap"><div class="pb" id="prog-bar"></div></div>
-        <a class="alink" href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions" target="_blank">🔗 Ver progreso</a>`;
-      document.getElementById('run-footer').innerHTML=`<button class="btn btn-sec" onclick="closeRunModal()">Cerrar</button>`;
+        <a class="alink" href="https://github.com/${h(cfg.ghUser)}/${h(cfg.ghRepo)}/actions" target="_blank">🔗 Ver progreso en GitHub</a>`;
+      document.getElementById('run-footer').innerHTML=`<button class="btn btn-sec" style="width:100%;" onclick="closeRunModal()">Cerrar</button>`;
       let pct=0;const iv=setInterval(()=>{pct=Math.min(pct+Math.random()*2,85);const b=document.getElementById('prog-bar');if(b)b.style.width=pct+'%';else clearInterval(iv);},900);
       toast('🚀 Workflow iniciado','success');
     }else{const d=await resp.json().catch(()=>({}));throw new Error(d.message||`HTTP ${resp.status}`);}
@@ -941,6 +946,9 @@ async function triggerWf(){
     box.innerHTML=`<div class="run-icon">❌</div><div class="run-title">Error</div><div class="run-desc" style="color:var(--accent)">${h(err.message)}</div>`;
     document.getElementById('run-footer').innerHTML=`<button class="btn btn-sec" onclick="closeRunModal()">Cerrar</button><button class="btn btn-prim" onclick="closeRunModal();openCfgModal()">⚙️ Revisar token</button>`;
     toast('❌ '+err.message,'error');
+  } finally {
+    btn.disabled=false;
+    btn.textContent=oldText;
   }
 }
 
