@@ -4,20 +4,21 @@
   "series": 0,
   "episodes": 0,
   "languages": {
-    "EN": 116,
+    "EN": 121,
+    "FR": 96,
+    "ES": 98,
     "NL": 111,
     "DE": 740,
-    "OTHER": 1640,
+    "OTHER": 1632,
     "PL": 37,
-    "FR": 94,
-    "ES": 97,
     "IT": 8,
     "PT": 93,
     "TR": 9,
     "AR": 55
   },
   "countries": {
-    "OTHER": 2566,
+    "OTHER": 2565,
+    "DE": 197,
     "BE": 21,
     "EG": 4,
     "MX": 2,
@@ -27,7 +28,6 @@
     "CN": 1,
     "GB": 43,
     "IN": 3,
-    "DE": 196,
     "QA": 23,
     "HR": 1,
     "INTL": 19,
@@ -74,5 +74,5 @@
     }
   ],
   "total": 3000,
-  "generated": "2026-07-17 17:32 UTC"
+  "generated": "2026-07-17 17:56 UTC"
 }
