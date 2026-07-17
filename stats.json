@@ -1,57 +1,48 @@
 {
-  "live_channels": 2000,
+  "live_channels": 1000,
   "movies": 1000,
   "series": 0,
   "episodes": 0,
   "languages": {
-    "EN": 121,
-    "FR": 96,
-    "ES": 98,
+    "OTHER": 937,
+    "DE": 543,
     "NL": 111,
-    "DE": 740,
-    "OTHER": 1632,
-    "PL": 37,
+    "FR": 96,
     "IT": 8,
-    "PT": 93,
+    "PL": 37,
+    "PT": 43,
     "TR": 9,
-    "AR": 55
+    "EN": 118,
+    "ES": 98
   },
   "countries": {
-    "OTHER": 2565,
-    "DE": 197,
-    "BE": 21,
-    "EG": 4,
-    "MX": 2,
-    "ES": 10,
-    "US": 30,
-    "IT": 12,
-    "CN": 1,
-    "GB": 43,
-    "IN": 3,
-    "QA": 23,
+    "OTHER": 1753,
+    "DE": 157,
+    "ES": 8,
+    "QA": 4,
     "HR": 1,
-    "INTL": 19,
+    "INTL": 2,
     "FI": 1,
-    "FR": 12,
+    "FR": 8,
+    "US": 10,
+    "IT": 11,
     "PL": 1,
-    "TR": 16,
-    "CH": 6,
+    "TR": 1,
+    "GB": 25,
+    "CH": 1,
     "DK": 1,
     "RS": 1,
     "NO": 1,
-    "CZ": 2,
-    "PT": 3,
-    "NG": 3,
-    "LB": 1,
-    "CA": 2,
-    "RU": 3,
-    "ZA": 1,
-    "BR": 11,
-    "CO": 4
+    "CZ": 1,
+    "PT": 1,
+    "BE": 4,
+    "EG": 4,
+    "MX": 2,
+    "CN": 1,
+    "IN": 1
   },
   "by_portal": {
-    "Great": 2000,
-    "Backup": 1000
+    "Great": 2000
   },
   "portals": [
     {
@@ -73,6 +64,6 @@
       "enabled": false
     }
   ],
-  "total": 3000,
-  "generated": "2026-07-17 18:22 UTC"
+  "total": 2000,
+  "generated": "2026-07-17 19:03 UTC"
 }
