@@ -696,14 +696,17 @@ def generate_m3u(all_items: list, portals: list) -> str:
         portal_name = item.get("portal_name", "")
 
         if itype == "live":
-            group = f"Live | {item.get('group','General')} ({lang})"
+            group = item.get('group', 'General')
         elif itype == "movie":
-            group = f"Movies | {item.get('group','Películas')} ({lang})"
+            group = item.get('group', 'Películas')
         else:
-            group = f"Series | {item.get('group','Series')} ({lang})"
+            group = item.get('group', 'Series')
 
-        extinf = (
-            f'#EXTINF:-1 tvg-id="{item.get("epg_id","")}" '
+        epg_id = item.get("epg_id", "")
+        extinf = f'#EXTINF:-1 '
+        if epg_id:
+            extinf += f'tvg-id="{epg_id}" '
+        extinf += (
             f'tvg-logo="{item.get("logo","")}" '
             f'group-title="{group}"'
         )
