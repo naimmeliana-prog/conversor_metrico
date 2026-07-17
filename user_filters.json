@@ -1,4 +1,10 @@
 {
-  "languages": [],
-  "countries": []
+  "languages": [
+    "ES",
+    "FR"
+  ],
+  "countries": [
+    "ES",
+    "FR"
+  ]
 }
