@@ -385,22 +385,23 @@ class StalkerPortal:
             if len(movies) >= max_movies:
                 break
             cat_id    = cat.get("id", "*")
-            if cat_id == "*": continue  # iteramos categorías individuales para tener title correcto
             cat_title = cat.get("title", cat.get("name", "Películas"))
             items = self.paginated_fetch({
                 "action": "get_ordered_list", "type": "vod",
-                "genre": cat_id, "sortby": "added",
+                "category": cat_id, "sortby": "added",
                 "fav": "0", "JsHttpRequest": "1-xml",
             }, max_items=max_movies)
+            new_count = 0
             for movie in items:
                 if len(movies) >= max_movies:
                     break
                 mid = movie.get("id", "")
                 if mid in seen_ids: continue
                 seen_ids.add(mid)
+                new_count += 1
                 name = clean_name(movie.get("name", movie.get("o_name", "Película")))
 
-                # Resolver URL via create_link (igual que el código de referencia)
+                # Resolver URL via create_link (como el código de referencia)
                 cmd = movie.get("cmd", "")
                 movie_url = ""
                 if cmd:
@@ -420,7 +421,7 @@ class StalkerPortal:
                                 movie_url += f"{sep}type=movie"
 
                 if not movie_url:
-                    continue  # Saltar películas sin URL resoluble
+                    continue  # saltar películas sin URL resoluble
 
                 movies.append({
                     "type":         "movie",
@@ -442,9 +443,14 @@ class StalkerPortal:
                     "portal_name":  self.name,
                     "portal_color": self.color,
                 })
+            # Si la categoría '*' ya trajo todas las películas, no iteramos el resto
+            if cat_id == "*" and new_count == len(movies) and len(movies) == len(items):
+                print(f"  ⚡ [{self.name}] Categoría '*' devuelve todas las películas — omitiendo categorías individuales")
+                break
 
         print(f"  ✅ [{self.name}] Películas: {len(movies)}")
         return movies
+
 
 
     def fetch_series(self) -> list:
