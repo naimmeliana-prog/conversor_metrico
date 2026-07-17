@@ -1,64 +1,64 @@
 #EXTM3U
-# Generado: 2026-07-17 21:48 UTC
+# Generado: 2026-07-17 22:02 UTC
 # Portales: Great, Backup, USA
 # Total items: 15
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/SPAINNEW/SPAIN.png" group-title="Live | All (OTHER)"
 ##### 24/7 ESPAÑA #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548520&extension=ts&play_token=RdxGzDRIF1
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548520&extension=ts&play_token=de84tuOkO1
 
 #EXTINF:-1 tvg-id="" tvg-logo="" group-title="Live | All (OTHER)"
 ##### DAZN ESPAÑA FHD #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548430&extension=ts&play_token=TMIHO69jcP
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548430&extension=ts&play_token=fzriz5wdOu
 
 #EXTINF:-1 tvg-id="" tvg-logo="" group-title="Live | All (OTHER)"
 ##### DAZN ESPAÑA HD #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548429&extension=ts&play_token=jpsTSLkEQ4
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548429&extension=ts&play_token=k4ViYhWJsQ
 
 #EXTINF:-1 tvg-id="" tvg-logo="" group-title="Live | All (OTHER)"
 ##### DAZN ESPAÑA SD #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548431&extension=ts&play_token=vohacFXp6Z
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548431&extension=ts&play_token=346vYzQmUj
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/813294.png" group-title="Live | All (FR)"
 ##### FRANCE 4K #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=813294&extension=ts&play_token=YFjEwiufhy
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=813294&extension=ts&play_token=SN3SMDkEL1
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/PREMIURPLAY.png" group-title="Live | All (FR)"
 ##### FRANCE APPLE TV #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=825531&extension=ts&play_token=QtyMJgs6xG
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=825531&extension=ts&play_token=yHs4gHTj2x
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/815109.png" group-title="Live | All (FR)"
 ##### FRANCE SPORT #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=815109&extension=ts&play_token=sWv3Lw6LJa
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=815109&extension=ts&play_token=GC28CDJqyz
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/SPAIN/1926244.png" group-title="Live | All (OTHER)"
 ##### MOVISTAR+ ESTRENOS #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1926244&extension=ts&play_token=x8v5zRgk7n
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1926244&extension=ts&play_token=4yOzcuVQPU
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/SPAIN/1926177.png" group-title="Live | All (OTHER)"
 ##### MOVISTAR+ SERIES #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1926177&extension=ts&play_token=FhyoW3GcNE
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1926177&extension=ts&play_token=kRVPeUBQwl
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/CINEPREMIUM.png" group-title="Live | All (OTHER)"
 ##### OCS HIGHlTLIGHT #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=851422&extension=ts&play_token=mnPbcEkad3
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=851422&extension=ts&play_token=SdEAA3E6iC
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/815054.png" group-title="Live | All (OTHER)"
 ##### RMC SPORT #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=815054&extension=ts&play_token=CUEEdQUSPa
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=815054&extension=ts&play_token=KcyOXKhOZj
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/814556.png" group-title="Live | All (OTHER)"
 ##### RMC SPORT FHD #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=814556&extension=ts&play_token=fklMWIl8rS
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=814556&extension=ts&play_token=GIZcpKI1oe
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/814579.png" group-title="Live | All (OTHER)"
 ##### RMC SPORT HD #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=814579&extension=ts&play_token=Eqm9YhlGzk
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=814579&extension=ts&play_token=f4u1cBfNWs
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/814943.png" group-title="Live | All (OTHER)"
 ##### RMC SPORT LQ #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=814943&extension=ts&play_token=NLGAzB1rAP
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=814943&extension=ts&play_token=CV6vIWyzXf
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/SPAINNEW/SPAIN.png" group-title="Live | All (OTHER)"
 ##### TDT ESPAÑA #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548213&extension=ts&play_token=bTGW4VjYLY
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1548213&extension=ts&play_token=zMjXJ1StcH
