@@ -497,7 +497,7 @@ class StalkerPortal:
         print(f"  ✅ [{self.name}] Episodios: {len(episodes_list)}")
         return episodes_list
 
-    def scrape_all(self) -> list:
+    def scrape_all(self, include_tv: bool = True, include_movies: bool = True, include_series: bool = False) -> list:
         if not self.enabled:
             print(f"\n⏭  [{self.name}] Portal desactivado, omitiendo.")
             return []
@@ -515,25 +515,28 @@ class StalkerPortal:
         self.page_size = self.detect_page_size()
         items = []
 
-        try:
-            items.extend(self.fetch_live_tv())
-        except Exception as e:
-            print(f"  ⚠ [{self.name}] Error TV en Vivo: {e}")
+        if include_tv:
+            try:
+                items.extend(self.fetch_live_tv())
+            except Exception as e:
+                print(f"  ⚠ [{self.name}] Error TV en Vivo: {e}")
 
-        try:
-            items.extend(self.fetch_movies())
-        except Exception as e:
-            print(f"  ⚠ [{self.name}] Error Películas: {e}")
+        if include_movies:
+            try:
+                items.extend(self.fetch_movies())
+            except Exception as e:
+                print(f"  ⚠ [{self.name}] Error Películas: {e}")
 
-        # Series desactivadas — tardan demasiado (rastreo profundo por episodio)
-        # try:
-        #     items.extend(self.fetch_series())
-        # except Exception as e:
-        #     print(f"  ⚠ [{self.name}] Error Series: {e}")
-
+        if include_series:
+            try:
+                print(f"\n  📺 [{self.name}] Iniciando rastreo profundo de Series...")
+                items.extend(self.fetch_series())
+            except Exception as e:
+                print(f"  ⚠ [{self.name}] Error Series: {e}")
 
         print(f"\n  ✅ [{self.name}] Total items: {len(items)}")
         return items
+
 
 
 # ════════════════════════════════════════════════════════════════
@@ -669,6 +672,26 @@ def main():
     print(f"  📅 {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}")
     print("="*65)
 
+    # ── PARSEO DE ARGUMENTOS ──
+    # Por defecto raspamos TV y Películas, NO series (las series van en su workflow semanal)
+    include_tv = True
+    include_movies = True
+    include_series = False
+
+    if "--only-series" in sys.argv:
+        include_tv = False
+        include_movies = False
+        include_series = True
+        print("🔍 Modo: ESCUTAR ÚNICAMENTE SERIES (Workflow semanal)")
+    elif "--no-series" in sys.argv:
+        include_tv = True
+        include_movies = True
+        include_series = False
+        print("🔍 Modo: ESCUTAR TV Y PELÍCULAS (Workflow diario)")
+    else:
+        # Por defecto si no se pasa nada, raspamos todo lo configurado
+        print("🔍 Modo por defecto: Raspando TV, Películas y Series desactivadas")
+
     portals_cfg = load_portals()
     enabled     = [p for p in portals_cfg if p.get("enabled", True)]
 
@@ -679,12 +702,29 @@ def main():
     all_items = []
     for portal_cfg in enabled:
         portal = StalkerPortal(portal_cfg)
-        items  = portal.scrape_all()
+        items  = portal.scrape_all(include_tv, include_movies, include_series)
         all_items.extend(items)
+
+    # Si estamos corriendo el modo "solo series", y el archivo de metadata actual existe,
+    # mezclamos los nuevos items de series con los viejos de TV/Películas para no perder el dashboard.
+    metadata_file = "metadata.json"
+    existing_items = []
+    if include_series and os.path.exists(metadata_file):
+        try:
+            with open(metadata_file, "r", encoding="utf-8") as f:
+                old_meta = json.load(f)
+            # Conservamos todo lo que no sea de tipo series de la ejecución anterior
+            existing_items = [i for i in old_meta.get("items", []) if i.get("type") != "series"]
+            print(f"📦 Combinando {len(existing_items)} elementos de TV/Películas anteriores con las series nuevas.")
+        except Exception as meta_err:
+            print(f"⚠️ Error al leer metadata anterior: {meta_err}")
+
+    # Lista total unificada para el metadata del dashboard
+    unified_items = all_items + existing_items
 
     # ── FILTRADO BAJO DEMANDA PARA M3U ──
     filters_file = "user_filters.json"
-    filtered_items = all_items
+    filtered_items = unified_items
     if os.path.exists(filters_file):
         try:
             with open(filters_file, "r", encoding="utf-8") as f:
@@ -693,57 +733,64 @@ def main():
             allowed_langs = set(filter_cfg.get("languages", []))
             allowed_ctries = set(filter_cfg.get("countries", []))
             
-            # Solo filtramos si hay alguna preferencia guardada
             if allowed_langs or allowed_ctries:
                 print(f"\n📂 Aplicando filtros de exportación desde {filters_file}...")
-                if allowed_langs:
-                    print(f"   Idiomas permitidos: {', '.join(allowed_langs)}")
-                if allowed_ctries:
-                    print(f"   Países permitidos: {', '.join(allowed_ctries)}")
                 
                 filtered_items = []
-                for item in all_items:
+                for item in unified_items:
                     item_lang = item.get("lang", "OTHER")
                     item_ctry = item.get("country", "OTHER")
                     
-                    # Comprobar si coincide con alguno de los filtros activos
                     lang_ok = not allowed_langs or item_lang in allowed_langs
                     ctry_ok = not allowed_ctries or item_ctry in allowed_ctries
                     
                     if lang_ok and ctry_ok:
                         filtered_items.append(item)
                 
-                print(f"🎯 Items filtrados para M3U: {len(filtered_items)} de {len(all_items)} originales.")
+                print(f"🎯 Items filtrados para M3U: {len(filtered_items)} de {len(unified_items)} totales.")
         except Exception as filter_err:
             print(f"⚠️ Error al aplicar filtros de usuario: {filter_err}")
 
-    stats = generate_stats(all_items, portals_cfg)
+    # Separar en las tres playlists independientes
+    tv_items    = [i for i in filtered_items if i.get("type") == "live"]
+    movie_items = [i for i in filtered_items if i.get("type") == "movie"]
+    series_items = [i for i in filtered_items if i.get("type") == "series"]
+
+    stats = generate_stats(unified_items, portals_cfg)
     print("\n"+"="*65)
     print("  📊 RESUMEN FINAL")
     print("="*65)
     print(f"  📡 Portales procesados : {len(enabled)}")
-    print(f"  📺 Canales en vivo     : {stats['live_channels']}")
-    print(f"  🎬 Películas           : {stats['movies']}")
-    print(f"  📺 Series únicas       : {stats['series']}")
-    print(f"  📌 Episodios           : {stats['episodes']}")
-    print(f"  📁 TOTAL ORIGINAL      : {stats['total']}")
+    print(f"  📺 Canales en vivo     : {len(tv_items)}")
+    print(f"  🎬 Películas           : {len(movie_items)}")
+    print(f"  📺 Series              : {len(series_items)}")
     print(f"  📁 TOTAL FILTRADO M3U  : {len(filtered_items)}")
     print("="*65)
 
-    if not filtered_items:
-        print("⚠ No quedan items después de aplicar filtros.")
-        sys.exit(1)
+    # 1. playlist_tv.m3u
+    m3u_tv = generate_m3u(tv_items, portals_cfg)
+    with open("playlist_tv.m3u", "w", encoding="utf-8") as f: f.write(m3u_tv)
+    print(f"✅ playlist_tv.m3u ({len(tv_items)} items)")
 
-    m3u = generate_m3u(filtered_items, portals_cfg)
-    with open("playlist.m3u","w",encoding="utf-8") as f: f.write(m3u)
-    print(f"\n✅ playlist.m3u  ({len(m3u):,} bytes)")
+    # 2. playlist_movies.m3u
+    m3u_movies = generate_m3u(movie_items, portals_cfg)
+    with open("playlist_movies.m3u", "w", encoding="utf-8") as f: f.write(m3u_movies)
+    print(f"✅ playlist_movies.m3u ({len(movie_items)} items)")
 
+    # 3. playlist_series.m3u
+    m3u_series = generate_m3u(series_items, portals_cfg)
+    with open("playlist_series.m3u", "w", encoding="utf-8") as f: f.write(m3u_series)
+    print(f"✅ playlist_series.m3u ({len(series_items)} items)")
+
+    # Guardar también el playlist.m3u global heredado
+    m3u_global = generate_m3u(filtered_items, portals_cfg)
+    with open("playlist.m3u", "w", encoding="utf-8") as f: f.write(m3u_global)
 
     metadata = {
         "generated": datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
         "portals":   [p["name"] for p in enabled],
-        "total":     len(all_items),
-        "items":     all_items
+        "total":     len(unified_items),
+        "items":     unified_items
     }
     with open("metadata.json","w",encoding="utf-8") as f:
         json.dump(metadata, f, ensure_ascii=False, indent=2)
@@ -752,6 +799,7 @@ def main():
     stats["generated"] = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
     with open("stats.json","w",encoding="utf-8") as f:
         json.dump(stats, f, ensure_ascii=False, indent=2)
+
     print("✅ stats.json")
     print("\n🎉 ¡Proceso completado!")
 

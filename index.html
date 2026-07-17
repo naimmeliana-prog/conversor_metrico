@@ -275,10 +275,22 @@
         <div class="sub" id="last-update">Sin datos todavía</div>
       </div>
     </div>
-    <div class="m3u-box">
-      <label>M3U</label>
-      <input id="m3u-url" type="text" readonly onclick="this.select()" placeholder="Configura el portal primero"/>
-      <button class="btn-i prim" style="padding:.35rem .7rem;font-size:.75rem" onclick="copyM3u()">📋</button>
+    <div class="m3u-box" style="max-width: 600px; display: flex; flex-direction: column; gap: 0.25rem; background: none; border: none; padding: 0;">
+      <div style="display:flex; width:100%; gap:0.4rem; align-items:center; background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--rs); padding:.2rem .5rem;">
+        <label style="font-size:0.6rem; width:55px;">📺 TV</label>
+        <input id="m3u-url-tv" type="text" readonly onclick="this.select()" placeholder="Cargando link..." style="font-size:0.7rem;"/>
+        <button class="btn-i prim" style="padding:.2rem .4rem;font-size:.65rem" onclick="copyM3uText('m3u-url-tv')">📋</button>
+      </div>
+      <div style="display:flex; width:100%; gap:0.4rem; align-items:center; background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--rs); padding:.2rem .5rem;">
+        <label style="font-size:0.6rem; width:55px;">🎬 Pelis</label>
+        <input id="m3u-url-movies" type="text" readonly onclick="this.select()" placeholder="Cargando link..." style="font-size:0.7rem;"/>
+        <button class="btn-i prim" style="padding:.2rem .4rem;font-size:.65rem" onclick="copyM3uText('m3u-url-movies')">📋</button>
+      </div>
+      <div style="display:flex; width:100%; gap:0.4rem; align-items:center; background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--rs); padding:.2rem .5rem;">
+        <label style="font-size:0.6rem; width:55px;">📺 Series</label>
+        <input id="m3u-url-series" type="text" readonly onclick="this.select()" placeholder="Cargando link..." style="font-size:0.7rem;"/>
+        <button class="btn-i prim" style="padding:.2rem .4rem;font-size:.65rem" onclick="copyM3uText('m3u-url-series')">📋</button>
+      </div>
     </div>
     <div class="stats-row" id="stats-row" style="display:none">
       <div class="stat-item"><div class="stat-num" id="s-total">—</div><div class="stat-lbl">Total</div></div>
@@ -712,17 +724,22 @@ function updatePrev() {
 function updateHeader() {
   const badge=document.getElementById('cfg-badge');
   const txt=document.getElementById('cfg-txt');
-  const m3u=document.getElementById('m3u-url');
+  const m3uTv=document.getElementById('m3u-url-tv');
+  const m3uMovies=document.getElementById('m3u-url-movies');
+  const m3uSeries=document.getElementById('m3u-url-series');
   const n=(cfg.portals||[]).filter(p=>p.enabled).length;
   if (cfg.ghUser&&cfg.ghRepo) {
     badge.className='cfg-badge ok';
     badge.querySelector('.dot').classList.remove('pulse');
     txt.textContent=`${n} portal${n!==1?'es':''} activo${n!==1?'s':''}`;
-    m3u.value=`https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/playlist.m3u`;
+    m3uTv.value=`https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/playlist_tv.m3u`;
+    m3uMovies.value=`https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/playlist_movies.m3u`;
+    m3uSeries.value=`https://raw.githubusercontent.com/${cfg.ghUser}/${cfg.ghRepo}/main/playlist_series.m3u`;
   } else {
     badge.className='cfg-badge no';
     badge.querySelector('.dot').classList.add('pulse');
-    txt.textContent='Sin configurar'; m3u.value='';
+    txt.textContent='Sin configurar'; 
+    m3uTv.value=''; m3uMovies.value=''; m3uSeries.value='';
   }
 }
 
@@ -1242,7 +1259,7 @@ function openDet(idx){
 function selEp(url,e){e.stopPropagation();document.getElementById('d-url').value=url;document.getElementById('d-vlc').href=url?`vlc://${url}`:'#';navigator.clipboard.writeText(url).then(()=>toast('📋 URL copiada','success')).catch(()=>{});}
 function closeDetModal(){document.getElementById('det-overlay').classList.remove('open');document.body.style.overflow='';}
 function copyDetUrl(){navigator.clipboard.writeText(document.getElementById('d-url').value).then(()=>toast('📋 URL copiada','success')).catch(()=>{});}
-function copyM3u(){const v=document.getElementById('m3u-url').value;if(!v){toast('⚠️ Configura el portal primero','error');return;}navigator.clipboard.writeText(v).then(()=>toast('📋 URL M3U copiada','success')).catch(()=>toast('⚠️ No se pudo copiar','error'));}
+function copyM3uText(id){const v=document.getElementById(id).value;if(!v){toast('⚠️ Configura el portal primero','error');return;}navigator.clipboard.writeText(v).then(()=>toast('📋 URL copiada','success')).catch(()=>toast('⚠️ No se pudo copiar','error'));}
 
 // ── HELPERS ──
 function closeOvl(e,id){if(e.target.id===id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}}

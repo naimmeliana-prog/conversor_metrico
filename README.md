@@ -3,8 +3,12 @@
 Convierte tu portal MAC Stalker en una playlist M3U auto-actualizable
 con dashboard web, filtros por idioma, posters y sinopsis.
 
-## 🎯 Tu URL M3U
-https://raw.githubusercontent.com/naimmeliana-prog/conversor_metrico/main/playlist.m3u
+## 🎯 Tus URLs M3U para la TV
+
+* **📺 TV en Vivo:** `https://raw.githubusercontent.com/naimmeliana-prog/conversor_metrico/main/playlist_tv.m3u`
+* **🎬 Películas:** `https://raw.githubusercontent.com/naimmeliana-prog/conversor_metrico/main/playlist_movies.m3u`
+* **📺 Series:** `https://raw.githubusercontent.com/naimmeliana-prog/conversor_metrico/main/playlist_series.m3u`
+* **🌐 M3U Global:** `https://raw.githubusercontent.com/naimmeliana-prog/conversor_metrico/main/playlist.m3u`
 
 ## 🌐 Dashboard Web
 https://naimmeliana-prog.github.io/conversor_metrico/

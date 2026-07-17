@@ -1,12 +1,12 @@
-name: Actualizar Playlist M3U
+name: Actualizar Series Semanal
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '0 4 * * 0' # Cada domingo a las 04:00 AM UTC
   workflow_dispatch:
 
 jobs:
-  update-playlist:
+  update-series:
     runs-on: ubuntu-latest
     timeout-minutes: 240
     permissions:
@@ -25,13 +25,12 @@ jobs:
       - name: Instalar dependencias
         run: pip install -r requirements.txt
 
-      - name: Ejecutar Scraper Multi-Portal
-        run: python scraper.py --no-series
+      - name: Ejecutar Scraper de Series
+        run: python scraper.py --only-series
 
       - name: Verificar archivos
         run: |
-          ls -lah playlist_tv.m3u playlist_movies.m3u playlist_series.m3u metadata.json stats.json 2>/dev/null || true
-          head -10 playlist_tv.m3u 2>/dev/null || true
+          ls -lah playlist_series.m3u metadata.json stats.json 2>/dev/null || true
 
       - name: Commit y Push
         run: |
@@ -40,9 +39,7 @@ jobs:
           git fetch origin main
           git reset --mixed origin/main
           git add -f playlist.m3u playlist_tv.m3u playlist_movies.m3u playlist_series.m3u metadata.json stats.json user_filters.json 2>/dev/null || true
-          git diff --staged --quiet || git commit -m "Auto-update $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git diff --staged --quiet || git commit -m "Auto-update Series $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
