@@ -282,8 +282,19 @@ class StalkerPortal:
     def resolve_stream_url(self, cmd: str, content_type: str, item_id: str) -> str:
         if not cmd:
             return ""
+        # Si el comando ya es una URL directa, devolverla limpia
         if cmd.startswith("http://") or cmd.startswith("https://"):
             return cmd.strip()
+        # Si el comando contiene una URL precedida de "ffmpeg " o "ffplay "
+        # (formato habitual de los portales Stalker para TV en vivo)
+        # extraemos la URL directamente sin llamar a la API
+        if cmd.startswith("ffmpeg ") or cmd.startswith("ffplay "):
+            url_match = re.search(r'(https?://\S+)', cmd)
+            if url_match:
+                extracted = url_match.group(1).strip()
+                # Verificamos que el stream no sea vacío antes de devolver la URL directa
+                if "stream=" in extracted and not extracted.endswith("stream="):
+                    return extracted
         result = self.safe_get({
             "action": "create_link", "type": content_type,
             "cmd": cmd, "series": "0",
@@ -301,6 +312,7 @@ class StalkerPortal:
                     return url_match.group(1).strip()
                 return resolved.strip()
         return ""
+
 
     def fetch_live_tv(self) -> list:
         print(f"\n  📺 [{self.name}] Extrayendo TV en Vivo...")
@@ -340,7 +352,7 @@ class StalkerPortal:
                     "id":          f"{self.id}_{ch_id}",
                     "name":        name,
                     "logo":        ch.get("logo", ch.get("tv_logo", "")),
-                    "url":         ch.get("cmd",""),
+                    "url":         self.resolve_stream_url(ch.get("cmd",""), "itv", ch_id),
                     "group":       genre_title,
                     "lang":        detect_language(f"{name} {genre_title}"),
                     "country":     detect_country(name, genre_title, ch.get("country","")),
