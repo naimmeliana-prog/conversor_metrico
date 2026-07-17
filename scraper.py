@@ -308,7 +308,12 @@ class StalkerPortal:
 
         channels  = []
         seen_ids  = set()
+        max_channels = 150 # Límite estricto para evitar atascos si el portal es muy lento
+        
         for genre in genres:
+            if len(channels) >= max_channels:
+                break
+                
             genre_id    = genre.get("id", "*")
             genre_title = genre.get("title", "General")
             items = self.paginated_fetch({
@@ -318,6 +323,8 @@ class StalkerPortal:
             })
             new_count = 0
             for ch in items:
+                if len(channels) >= max_channels:
+                    break
                 ch_id = ch.get("id", "")
                 if ch_id in seen_ids: continue
                 seen_ids.add(ch_id)
@@ -355,7 +362,12 @@ class StalkerPortal:
 
         movies   = []
         seen_ids = set()
+        max_movies = 100 # Límite estricto para evitar atascos de miles de películas
+        
         for cat in cats:
+            if len(movies) >= max_movies:
+                break
+                
             cat_id    = cat.get("id", "*")
             cat_title = cat.get("title", cat.get("name", "Películas"))
             items = self.paginated_fetch({
@@ -365,6 +377,8 @@ class StalkerPortal:
             })
             new_count = 0
             for movie in items:
+                if len(movies) >= max_movies:
+                    break
                 mid = movie.get("id", "")
                 if mid in seen_ids: continue
                 seen_ids.add(mid)
@@ -610,7 +624,14 @@ def generate_m3u(all_items: list, portals: list) -> str:
             if item.get("director"): extinf += f' tvg-director="{item["director"]}"'
             if item.get("rating"):   extinf += f' tvg-rating="{item["rating"]}"'
 
-        lines.extend([extinf, item.get("name","Sin nombre"), item["url"], ""])
+        # Limpiar prefijo ffmpeg o ffplay si estuviera en la URL
+        url = item["url"].strip()
+        if url.startswith("ffmpeg "):
+            url = url[7:].strip()
+        elif url.startswith("ffplay "):
+            url = url[7:].strip()
+
+        lines.extend([extinf, item.get("name","Sin nombre"), url, ""])
     return "\n".join(lines)
 
 def generate_stats(all_items: list, portals: list) -> dict:
