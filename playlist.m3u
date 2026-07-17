@@ -1,7 +1,23 @@
 #EXTM3U
-# Generado: 2026-07-17 21:08 UTC
+# Generado: 2026-07-17 21:21 UTC
 # Portales: Great, Backup, USA
 # Total items: 194
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/813294.png" group-title="Live | All (FR)"
+##### FRANCE 4K #####
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=nGPHi0S3Pm
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/PREMIURPLAY.png" group-title="Live | All (FR)"
+##### FRANCE APPLE TV #####
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=Qx1twfIAGG
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/815109.png" group-title="Live | All (FR)"
+##### FRANCE SPORT #####
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=bOTcjEEDlG
+
+#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="Live | All (ES)"
+####### DAZN PPV ES #######
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=vQdayAqokY
 
 #EXTINF:-1 tvg-id="" tvg-logo="https://image.tmdb.org/t/p/original/i223yJnaoI4eLsnhcEYfmCaEmQz.jpg" group-title="Movies | All (FR)" tvg-year="1987-03-18" tvg-director="Édouard Niermans" tvg-rating="6.583"
 EN - Poussiere Dange (1987) (FRENCH ENG-SUB)
@@ -762,19 +778,3 @@ http://mag.greatott.me:80/play/movie.php?mac=00:1A:79:74:B1:B9&stream=2102523.mk
 #EXTINF:-1 tvg-id="" tvg-logo="https://image.tmdb.org/t/p/w600_and_h900_bestv2/nPPIufTBnzEg0d7NoR5RLL1oPra.jpg" group-title="Movies | All (FR)" tvg-year="2026-06-12" tvg-director="Julian Schnabel" tvg-rating="3.7"
 FR - In the Hand of Dante (2026)
 http://mag.greatott.me:80/play/movie.php?mac=00:1A:79:74:B1:B9&stream=2102522.mkv&play_token=azXkOIJR1D&type=movie
-
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/813294.png" group-title="Live | All (FR)"
-##### FRANCE 4K #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=Tsi6MhX1XH
-
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/PREMIURPLAY.png" group-title="Live | All (FR)"
-##### FRANCE APPLE TV #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=qARpAriZEq
-
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/815109.png" group-title="Live | All (FR)"
-##### FRANCE SPORT #####
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=kAvATfRm4W
-
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="Live | All (ES)"
-####### DAZN PPV ES #######
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=n21RRZ3tfJ
