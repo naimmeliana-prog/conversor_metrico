@@ -1,139 +1,139 @@
 #EXTM3U
-# Generado: 2026-07-17 22:52 UTC
+# Generado: 2026-07-17 23:08 UTC
 # Portales: Great, Backup, USA
 # Total items: 45
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE2.png" group-title="Live | BE| BELGIUM VIP ᴿᴬᵂ (FR)",BE| FRANCE 2 ᴿᴬᵂ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022554&extension=ts&play_token=1rl1MRqLck
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE2.png" group-title="BE| BELGIUM VIP ᴿᴬᵂ",BE| FRANCE 2 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022554&extension=ts&play_token=kow0zlotTJ
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE24.png" group-title="Live | BE| BELGIUM VIP ᴿᴬᵂ (FR)",BE| FRANCE 24 (IN ENGLISH) ᴿᴬᵂ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022553&extension=ts&play_token=k2EUH3lTNJ
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE24.png" group-title="BE| BELGIUM VIP ᴿᴬᵂ",BE| FRANCE 24 (IN ENGLISH) ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022553&extension=ts&play_token=JmALWRW6Ht
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE3.png" group-title="Live | BE| BELGIUM VIP ᴿᴬᵂ (FR)",BE| FRANCE 3 ᴿᴬᵂ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022552&extension=ts&play_token=5gzfsdhBHW
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE3.png" group-title="BE| BELGIUM VIP ᴿᴬᵂ",BE| FRANCE 3 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022552&extension=ts&play_token=P9Cl6qTi6B
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE4.png" group-title="Live | BE| BELGIUM VIP ᴿᴬᵂ (FR)",BE| FRANCE 4 ᴿᴬᵂ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022551&extension=ts&play_token=M7CAClxlSd
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE4.png" group-title="BE| BELGIUM VIP ᴿᴬᵂ",BE| FRANCE 4 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022551&extension=ts&play_token=olOuKTRTFI
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE5.png" group-title="Live | BE| BELGIUM VIP ᴿᴬᵂ (FR)",BE| FRANCE 5 ᴿᴬᵂ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022550&extension=ts&play_token=RRjF2MFaEv
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE5.png" group-title="BE| BELGIUM VIP ᴿᴬᵂ",BE| FRANCE 5 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022550&extension=ts&play_token=ZBVkMOyhgL
 
-#EXTINF:-1 tvg-id="Arte.be" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326928.png" group-title="Live | BE| WALLONIË (OTHER)",BE| ARTE BELGIQUE HD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326928&extension=ts&play_token=Fi6U3yR3vR
+#EXTINF:-1 tvg-id="Arte.be" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326928.png" group-title="BE| WALLONIË",BE| ARTE BELGIQUE HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326928&extension=ts&play_token=t13ZctFOGu
 
-#EXTINF:-1 tvg-id="C8.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326932.png" group-title="Live | BE| WALLONIË (OTHER)",BE| C8
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326932&extension=ts&play_token=oUlBIVupPV
+#EXTINF:-1 tvg-id="C8.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326932.png" group-title="BE| WALLONIË",BE| C8
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326932&extension=ts&play_token=yjp09TzSUo
 
-#EXTINF:-1 tvg-id="C8.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608047.png" group-title="Live | BE| WALLONIË (OTHER)",BE| C8 FHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608047&extension=ts&play_token=omAAknPMNf
+#EXTINF:-1 tvg-id="C8.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608047.png" group-title="BE| WALLONIË",BE| C8 FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608047&extension=ts&play_token=1BIywtcKQ3
 
-#EXTINF:-1 tvg-id="CStar.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608065.png" group-title="Live | BE| WALLONIË (OTHER)",BE| CSTAR FHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608065&extension=ts&play_token=Ciui3Ta05r
+#EXTINF:-1 tvg-id="CStar.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608065.png" group-title="BE| WALLONIË",BE| CSTAR FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608065&extension=ts&play_token=Z4hWra8mkg
 
-#EXTINF:-1 tvg-id="France2.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812135.png" group-title="Live | BE| WALLONIË (FR)",BE| FRANCE 2 HD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812135&extension=ts&play_token=wXAQCc8RPa
+#EXTINF:-1 tvg-id="France2.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812135.png" group-title="BE| WALLONIË",BE| FRANCE 2 HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812135&extension=ts&play_token=dheEAhfV0a
 
-#EXTINF:-1 tvg-id="France24.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608045.png" group-title="Live | BE| WALLONIË (FR)",BE| FRANCE 24 FHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608045&extension=ts&play_token=lq5GIaHv5l
+#EXTINF:-1 tvg-id="France24.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608045.png" group-title="BE| WALLONIË",BE| FRANCE 24 FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608045&extension=ts&play_token=zfLopjhu8J
 
-#EXTINF:-1 tvg-id="France3.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812134.png" group-title="Live | BE| WALLONIË (FR)",BE| FRANCE 3 HD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812134&extension=ts&play_token=lSBeRrhCdt
+#EXTINF:-1 tvg-id="France3.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812134.png" group-title="BE| WALLONIË",BE| FRANCE 3 HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812134&extension=ts&play_token=0jY6nXlAIm
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1897978.png" group-title="Live | BE| WALLONIË (FR)",BE| FRANCE 3 NOA FHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1897978&extension=ts&play_token=Jg6x4FXz3R
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1897978.png" group-title="BE| WALLONIË",BE| FRANCE 3 NOA FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1897978&extension=ts&play_token=3gSr7fB9vJ
 
-#EXTINF:-1 tvg-id="France4.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608053.png" group-title="Live | BE| WALLONIË (FR)",BE| FRANCE 4 FHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608053&extension=ts&play_token=1QP7gk3ajp
+#EXTINF:-1 tvg-id="France4.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608053.png" group-title="BE| WALLONIË",BE| FRANCE 4 FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608053&extension=ts&play_token=LEc0UfPnVF
 
-#EXTINF:-1 tvg-id="France4.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812133.png" group-title="Live | BE| WALLONIË (FR)",BE| FRANCE 4 HD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812133&extension=ts&play_token=SR8om7xZaP
+#EXTINF:-1 tvg-id="France4.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812133.png" group-title="BE| WALLONIË",BE| FRANCE 4 HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812133&extension=ts&play_token=1w5p3AWx2z
 
-#EXTINF:-1 tvg-id="France5.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812132.png" group-title="Live | BE| WALLONIË (FR)",BE| FRANCE 5 HD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812132&extension=ts&play_token=dEPqZGabhk
+#EXTINF:-1 tvg-id="France5.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812132.png" group-title="BE| WALLONIË",BE| FRANCE 5 HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812132&extension=ts&play_token=QatUyE2DQP
 
-#EXTINF:-1 tvg-id="Gulli.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812189.png" group-title="Live | BE| WALLONIË (OTHER)",BE| GULLI  HD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812189&extension=ts&play_token=wRhvVvqscO
+#EXTINF:-1 tvg-id="Gulli.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812189.png" group-title="BE| WALLONIË",BE| GULLI  HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812189&extension=ts&play_token=ilWMjiOtGz
 
-#EXTINF:-1 tvg-id="Gulli.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608061.png" group-title="Live | BE| WALLONIË (OTHER)",BE| GULLI FHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608061&extension=ts&play_token=Yh3nNUsFrM
+#EXTINF:-1 tvg-id="Gulli.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608061.png" group-title="BE| WALLONIË",BE| GULLI FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608061&extension=ts&play_token=KcXRl8T2AS
 
-#EXTINF:-1 tvg-id="LCI.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608043.png" group-title="Live | BE| WALLONIË (OTHER)",BE| LCI FHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608043&extension=ts&play_token=kJpjzSIFrX
+#EXTINF:-1 tvg-id="LCI.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608043.png" group-title="BE| WALLONIË",BE| LCI FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608043&extension=ts&play_token=1eLIb2MEI3
 
-#EXTINF:-1 tvg-id="TF1.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812136.png" group-title="Live | BE| WALLONIË (OTHER)",BE| TF1 HD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812136&extension=ts&play_token=3wvcaJNaEY
+#EXTINF:-1 tvg-id="TF1.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812136.png" group-title="BE| WALLONIË",BE| TF1 HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812136&extension=ts&play_token=oKofRZ51yp
 
-#EXTINF:-1 tvg-id="TFX.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326930.png" group-title="Live | BE| WALLONIË (OTHER)",BE| TFX
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326930&extension=ts&play_token=PiTZNbruZB
+#EXTINF:-1 tvg-id="TFX.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326930.png" group-title="BE| WALLONIË",BE| TFX
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326930&extension=ts&play_token=0mawELDvhO
 
-#EXTINF:-1 tvg-id="TMC.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326931.png" group-title="Live | BE| WALLONIË (OTHER)",BE| TMC
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326931&extension=ts&play_token=g6jdeFLnc3
+#EXTINF:-1 tvg-id="TMC.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326931.png" group-title="BE| WALLONIË",BE| TMC
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326931&extension=ts&play_token=pxgtaqHh1i
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1897969.png" group-title="Live | BE| WALLONIË (OTHER)",BE| TMC
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1897969&extension=ts&play_token=GrdX1JpugO
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1897969.png" group-title="BE| WALLONIË",BE| TMC
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1897969&extension=ts&play_token=I6L2949P9d
 
-#EXTINF:-1 tvg-id="TMC.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608048.png" group-title="Live | BE| WALLONIË (OTHER)",BE| TMC FHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608048&extension=ts&play_token=qXCfiHy8tA
+#EXTINF:-1 tvg-id="TMC.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608048.png" group-title="BE| WALLONIË",BE| TMC FHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608048&extension=ts&play_token=abW44XTdtK
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829017.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (OTHER)",BE| C8 ᴿᴬᵂ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829017&extension=ts&play_token=Qtw3jyv5xU
+#EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829017.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| C8 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829017&extension=ts&play_token=AEFKknVdsH
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829025.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (FR)",BE| FRANCE 2 ᴿᴬᵂ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829025&extension=ts&play_token=sQmax9agZH
+#EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829025.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| FRANCE 2 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829025&extension=ts&play_token=Qgv3Nbf8rh
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829024.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (FR)",BE| FRANCE 3 ᴿᴬᵂ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829024&extension=ts&play_token=UNG99OYCJz
+#EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829024.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| FRANCE 3 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829024&extension=ts&play_token=P6uXPJ5neb
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829023.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (FR)",BE| FRANCE 4 ᴿᴬᵂ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829023&extension=ts&play_token=oZJq24sYUo
+#EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829023.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| FRANCE 4 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829023&extension=ts&play_token=VpTazKWZMm
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829022.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (FR)",BE| FRANCE 5 ᴿᴬᵂ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829022&extension=ts&play_token=TvYnM5YTFd
+#EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829022.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| FRANCE 5 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829022&extension=ts&play_token=ik8bjvmAxj
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829026.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (FR)",BE| FRANCE INFO ᴿᴬᵂ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829026&extension=ts&play_token=seQUebWZFL
+#EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829026.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| FRANCE INFO ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829026&extension=ts&play_token=qog6xeTM1c
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829007.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (FR)",BE| MTV FRANCE ᴿᴬᵂ (+)
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829007&extension=ts&play_token=7DQLsPqeGf
+#EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829007.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| MTV FRANCE ᴿᴬᵂ (+)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829007&extension=ts&play_token=QHc3gJAJC4
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://103.176.90.95/images/1829021.png" group-title="Live | BE| TELESAT ᴿᴬᵂ (OTHER)",BE| TF1 ᴿᴬᵂ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829021&extension=ts&play_token=0dGlSXj2gr
+#EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829021.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| TF1 ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829021&extension=ts&play_token=Y8G2aL39n5
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/F1.png" group-title="Live | FORMULA 1 + MOTO GP (FR)",F1| F1 TV MAIN FRANCE
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=920204&extension=ts&play_token=wdux9cdTer
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/F1.png" group-title="FORMULA 1 + MOTO GP",F1| F1 TV MAIN FRANCE
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=920204&extension=ts&play_token=idI7sjW6fj
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="Live | 4K UHD 3840P (FR)",4K| FRANCE 2 FR UHD/4K
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1948631&extension=ts&play_token=nkwsMrRX4T
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="4K UHD 3840P",4K| FRANCE 2 FR UHD/4K
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1948631&extension=ts&play_token=2FcpsDdh9v
 
-#EXTINF:-1 tvg-id="LA1.es" tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="Live | 4K UHD 3840P (OTHER)",4K| LA 1 UHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1620282&extension=ts&play_token=oAhFJTX01T
+#EXTINF:-1 tvg-id="LA1.es" tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="4K UHD 3840P",4K| LA 1 UHD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1620282&extension=ts&play_token=kjra6GWinF
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="Live | 4K UHD 3840P (OTHER)",4K| LA 1 UHD/4K
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1948659&extension=ts&play_token=GU5ppxFk5E
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="4K UHD 3840P",4K| LA 1 UHD/4K
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1948659&extension=ts&play_token=0FOZN98q1O
 
-#EXTINF:-1 tvg-id="TF1.fr" tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="Live | 4K UHD 3840P (OTHER)",4k| TF1 HDR/UHD/4K
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1640379&extension=ts&play_token=F8AZDWBNh9
+#EXTINF:-1 tvg-id="TF1.fr" tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="4K UHD 3840P",4k| TF1 HDR/UHD/4K
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1640379&extension=ts&play_token=tkdwWhA4An
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/logos/WORLDCUP2026REPLAY.png" group-title="Live | WORLD CUP 2026 ᵁᴴᴰ ³⁸⁴⁰ᴾ (OTHER)",WC-4K| M6 ᵁᴴᴰ ³⁸⁴⁰ᴾ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2095896&extension=ts&play_token=q8ev8lSiWn
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/logos/WORLDCUP2026REPLAY.png" group-title="WORLD CUP 2026 ᵁᴴᴰ ³⁸⁴⁰ᴾ",WC-4K| M6 ᵁᴴᴰ ³⁸⁴⁰ᴾ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2095896&extension=ts&play_token=YlmsmCRFiI
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/FRANCENEW/M6.png" group-title="Live | WORLD CUP 2026 (FR)",FR| M6 HD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2077029&extension=ts&play_token=9zL3ifylV2
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/FRANCENEW/M6.png" group-title="WORLD CUP 2026",FR| M6 HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2077029&extension=ts&play_token=gVMdYZDvtE
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="Live | NL| SOCCER PPV (FR)",End | Tour de France | Etappe 13 Mannen | all | 17-07-2026 | 12:45 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 2
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058546&extension=ts&play_token=PQMInLrTmM
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="NL| SOCCER PPV",End | Tour de France | Etappe 13 Mannen | all | 17-07-2026 | 12:45 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 2
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058546&extension=ts&play_token=i6Ptb1nNVb
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="Live | NL| SOCCER PPV (FR)",End | Wielrennen: Tour De France: Etappe 13 | all | 17-07-2026 | 12:45 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 1
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058547&extension=ts&play_token=RpBhUHdRfK
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="NL| SOCCER PPV",End | Wielrennen: Tour De France: Etappe 13 | all | 17-07-2026 | 12:45 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 1
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058547&extension=ts&play_token=TIq8jYMaLf
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="Live | NL| SOCCER PPV (FR)",Next | Tour de France Etappe 14 | Mannen | Mulhouse - Le Markstein Fellering (155km) | all | 17-07-2026 | 13:00 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 59
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058489&extension=ts&play_token=Rv7TzDziM6
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="NL| SOCCER PPV",Next | Tour de France Etappe 14 | Mannen | Mulhouse - Le Markstein Fellering (155km) | all | 17-07-2026 | 13:00 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 59
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058489&extension=ts&play_token=FVcPShYHkK
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="Live | NL| SOCCER PPV (FR)",Next | Wielrennen: Tour De France: Etappe 14 | all | 17-07-2026 | 13:00 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 43
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058505&extension=ts&play_token=aEV9WBYRCE
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="NL| SOCCER PPV",Next | Wielrennen: Tour De France: Etappe 14 | all | 17-07-2026 | 13:00 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 43
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058505&extension=ts&play_token=EBIMiXrhLC
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/MAX-MAX.png" group-title="Live | NL| MAX PPV (FR)",Cycling: Tour de France @ Jul 17 12:45 PM :MAX NL  01
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2026853&extension=ts&play_token=zOZk5SoiB7
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/MAX-MAX.png" group-title="NL| MAX PPV",Cycling: Tour de France @ Jul 17 12:45 PM :MAX NL  01
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2026853&extension=ts&play_token=jW2p3uGyVN
 
-#EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/PPV/MAX-MAX.png" group-title="Live | NL| MAX PPV (FR)",Cycling: Tour de France: Stage 13 @ Jul 17 18:00 PM :MAX NL  03
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2026851&extension=ts&play_token=KRh9vMA1ws
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/MAX-MAX.png" group-title="NL| MAX PPV",Cycling: Tour de France: Stage 13 @ Jul 17 18:00 PM :MAX NL  03
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2026851&extension=ts&play_token=aNqq8EPUeu
