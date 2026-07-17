@@ -1,11 +1,11 @@
 #EXTM3U
-# Generado: 2026-07-17 17:56 UTC
+# Generado: 2026-07-17 18:11 UTC
 # Portales: Great, Backup, USA
 # Total items: 4
 
 #EXTINF:-1 tvg-id="" tvg-logo="https://image.tmdb.org/t/p/w600_and_h900_bestv2/uLW7MmC2yA1RyKNiXB7Rn88WqL6.jpg" group-title="Movies | All (ES)" tvg-year="2026-04-17" tvg-director="José Luis López-Linares" tvg-rating="8"
 ES - We the Hispanos: España - raíz de Estados Unidos (2026)
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=&extension=ts&play_token=yKpj0RLdXX
+http://mag.greatott.me:80/play/movie.php?mac=00:1A:79:74:B1:B9&stream=2114782.mkv&play_token=6sO23OMdm1&type=movie
 
 #EXTINF:-1 tvg-id="" tvg-logo="http://51.158.145.100/picons/logos/france/813294.png" group-title="Live | All (FR)"
 ##### FRANCE 4K #####
