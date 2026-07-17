@@ -1,20 +1,8 @@
 #EXTM3U
-# Generado: 2026-07-17 15:30 UTC
+# Generado: 2026-07-17 15:41 UTC
 # Portales: Great, Backup, USA
-# Total items: 4
-
-#EXTINF:-1 tvg-id="" tvg-logo="https://image.tmdb.org/t/p/w600_and_h900_bestv2/uLW7MmC2yA1RyKNiXB7Rn88WqL6.jpg" group-title="PELICULAS · All · ES · ES · Great" tvg-year="2026-04-17" tvg-director="José Luis López-Linares" tvg-rating="8"
-ES - We the Hispanos: España - raíz de Estados Unidos (2026)
-eyJ0eXBlIjoibW92aWUiLCJzdHJlYW1faWQiOiIyMTE0NzgyIiwic3RyZWFtX3NvdXJjZSI6bnVsbCwidGFyZ2V0X2NvbnRhaW5lciI6IltcIm1rdlwiXSJ9
-
-#EXTINF:-1 tvg-id="" tvg-logo="https://image.tmdb.org/t/p/w600_and_h900_bestv2/uukOD35LRmWKUaQ43ye47EeGyGQ.jpg" group-title="PELICULAS · All · ES · ES · Backup" tvg-year="N/A" tvg-director="N/A" tvg-rating="N/A"
-France Vs Spain Live
-eyJ0eXBlIjoibW92aWUiLCJzdHJlYW1faWQiOiIyNjA2NDIiLCJzdHJlYW1fc291cmNlIjpudWxsLCJ0YXJnZXRfY29udGFpbmVyIjoiW1wibWt2XCJdIn0=
-
-#EXTINF:-1 tvg-id="" tvg-logo="https://www.themoviedb.org/t/p/w600_and_h900_face/1sFvpOMllrbeQAmdwfzWsiIqkRe.jpg" group-title="PELICULAS · All · ES · ES · Backup" tvg-year="N/A" tvg-director="N/A" tvg-rating="N/A"
-Spain Belgium
-eyJ0eXBlIjoibW92aWUiLCJzdHJlYW1faWQiOiIyNjA1MjEiLCJzdHJlYW1fc291cmNlIjpudWxsLCJ0YXJnZXRfY29udGFpbmVyIjoiW1wibWt2XCJdIn0=
+# Total items: 1
 
 #EXTINF:-1 tvg-id="" tvg-logo="https://www.themoviedb.org/t/p/w600_and_h900_face/1sFvpOMllrbeQAmdwfzWsiIqkRe.jpg" group-title="PELICULAS · All · FR · FR · Backup" tvg-year="N/A" tvg-director="N/A" tvg-rating="N/A"
 France Morokko (WK)
-eyJ0eXBlIjoibW92aWUiLCJzdHJlYW1faWQiOiIyNjA0NTAiLCJzdHJlYW1fc291cmNlIjpudWxsLCJ0YXJnZXRfY29udGFpbmVyIjoiW1wibWt2XCJdIn0=
+http://backup.xp1.tv:80/play/movie.php?mac=00:1A:79:21:09:C7&stream=260450.mkv&play_token=3ThZ1ZmrdK&type=movie
