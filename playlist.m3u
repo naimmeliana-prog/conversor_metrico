@@ -1,7 +1,7 @@
 #EXTM3U
-# Generado: 2026-07-17 23:08 UTC
+# Generado: 2026-07-17 23:15 UTC
 # Portales: Great, Backup, USA
-# Total items: 46
+# Total items: 390
 
 #EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE2.png" group-title="BE| BELGIUM VIP ᴿᴬᵂ",BE| FRANCE 2 ᴿᴬᵂ
 http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022554&extension=ts&play_token=kow0zlotTJ
@@ -18,17 +18,62 @@ http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022551&ext
 #EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/BELGIUMNEW/FRANCE5.png" group-title="BE| BELGIUM VIP ᴿᴬᵂ",BE| FRANCE 5 ᴿᴬᵂ
 http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2022550&extension=ts&play_token=ZBVkMOyhgL
 
-#EXTINF:-1 tvg-id="Arte.be" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326928.png" group-title="BE| WALLONIË",BE| ARTE BELGIQUE HD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326928&extension=ts&play_token=t13ZctFOGu
+#EXTINF:-1 tvg-logo="http://103.176.90.92/images/1796636.png" group-title="BE| TELENET",BE| DAZN 1 (NL) HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1796636&extension=ts&play_token=t2BHqpo1pk
 
-#EXTINF:-1 tvg-id="C8.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326932.png" group-title="BE| WALLONIË",BE| C8
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326932&extension=ts&play_token=yjp09TzSUo
+#EXTINF:-1 tvg-logo="http://103.176.90.92/images/1796635.png" group-title="BE| TELENET",BE| DAZN 2 (NL) HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1796635&extension=ts&play_token=aZinrMJtjc
 
-#EXTINF:-1 tvg-id="C8.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608047.png" group-title="BE| WALLONIË",BE| C8 FHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608047&extension=ts&play_token=1BIywtcKQ3
+#EXTINF:-1 tvg-logo="http://103.176.90.92/images/1796634.png" group-title="BE| TELENET",BE| DAZN 3 (NL) HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1796634&extension=ts&play_token=6VqD2JrtWM
 
-#EXTINF:-1 tvg-id="CStar.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608065.png" group-title="BE| WALLONIË",BE| CSTAR FHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608065&extension=ts&play_token=Z4hWra8mkg
+#EXTINF:-1 tvg-logo="http://103.176.90.92/images/1796633.png" group-title="BE| TELENET",BE| DAZN PRO LEAGUE 1 (FR) HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1796633&extension=ts&play_token=e4QY3dXXRN
+
+#EXTINF:-1 tvg-logo="http://103.176.90.92/images/1796632.png" group-title="BE| TELENET",BE| DAZN PRO LEAGUE 2 (NL) HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1796632&extension=ts&play_token=qLOhPTJmpW
+
+#EXTINF:-1 tvg-logo="http://103.176.90.92/images/1796631.png" group-title="BE| TELENET",BE| DAZN PRO LEAGUE 3 (NL) HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1796631&extension=ts&play_token=fMtwwdmycv
+
+#EXTINF:-1 tvg-id="ElevenProLeague3NL.be" tvg-logo="http://103.176.90.92/images/811935.png" group-title="BE| SPORTS",BE| DAZN PRO LEAGUES 1 HD (FR)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1340886&extension=ts&play_token=YJRP8XZc5U
+
+#EXTINF:-1 tvg-id="ElevenProLeague1NL.be" tvg-logo="http://103.176.90.92/images/811935.png" group-title="BE| SPORTS",BE| DAZN PRO LEAGUES 1 HD (VL)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=811935&extension=ts&play_token=f0TKmWJK2G
+
+#EXTINF:-1 tvg-id="ElevenProLeague1NL.be" tvg-logo="http://103.176.90.92/images/811934.png" group-title="BE| SPORTS",BE| DAZN PRO LEAGUES 2 HD (FR)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812020&extension=ts&play_token=Bw3bukRrIk
+
+#EXTINF:-1 tvg-id="ElevenProLeague2NL.be" tvg-logo="http://103.176.90.92/images/811934.png" group-title="BE| SPORTS",BE| DAZN PRO LEAGUES 2 HD (VL)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=811934&extension=ts&play_token=GfnNC5MEmE
+
+#EXTINF:-1 tvg-id="be.Eleven Sports 1" tvg-logo="http://103.176.90.92/images/811933.png" group-title="BE| SPORTS",BE| DAZN SPORTS 1 (VL)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=811933&extension=ts&play_token=P2mMAPMpuv
+
+#EXTINF:-1 tvg-id="be.Eleven Sports 2" tvg-logo="http://103.176.90.92/images/811932.png" group-title="BE| SPORTS",BE| DAZN SPORTS 2 (VL)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=811932&extension=ts&play_token=iPtLc8L6KU
+
+#EXTINF:-1 tvg-id="be.Eleven Sports 3" tvg-logo="http://103.176.90.92/images/811931.png" group-title="BE| SPORTS",BE| DAZN SPORTS 3 (VL)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=811931&extension=ts&play_token=DS1VVpuRP5
+
+#EXTINF:-1 tvg-id="ElevenProLeague1NL.be" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812168.png" group-title="BE| WALLONIË",BE| ELEVEN PRO LEAGUES 1 HD (FR)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812168&extension=ts&play_token=KGzuIX6eoi
+
+#EXTINF:-1 tvg-id="ElevenProLeague2NL.be" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812167.png" group-title="BE| WALLONIË",BE| ELEVEN PRO LEAGUES 2 HD (FR)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812167&extension=ts&play_token=aTwIhrUGxN
+
+#EXTINF:-1 tvg-id="ElevenProLeague3fr.be" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812166.png" group-title="BE| WALLONIË",BE| ELEVEN PRO LEAGUES 3 HD (FR)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812166&extension=ts&play_token=VXttzgKokQ
+
+#EXTINF:-1 tvg-id="ElevenSports1FR.be" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812165.png" group-title="BE| WALLONIË",BE| ELEVEN SPORTS 1 (FR)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812165&extension=ts&play_token=MUTvoHSstZ
+
+#EXTINF:-1 tvg-id="ElevenSports2FR.be" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812164.png" group-title="BE| WALLONIË",BE| ELEVEN SPORTS 2 (FR)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812164&extension=ts&play_token=x5XZ9HTqUU
+
+#EXTINF:-1 tvg-id="ElevenSports3FR.be" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812163.png" group-title="BE| WALLONIË",BE| ELEVEN SPORTS 3 (FR)
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812163&extension=ts&play_token=O9m6G6Yn16
 
 #EXTINF:-1 tvg-id="France2.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812135.png" group-title="BE| WALLONIË",BE| FRANCE 2 HD
 http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812135&extension=ts&play_token=dheEAhfV0a
@@ -51,32 +96,440 @@ http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812133&exte
 #EXTINF:-1 tvg-id="France5.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812132.png" group-title="BE| WALLONIË",BE| FRANCE 5 HD
 http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812132&extension=ts&play_token=QatUyE2DQP
 
-#EXTINF:-1 tvg-id="Gulli.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812189.png" group-title="BE| WALLONIË",BE| GULLI  HD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812189&extension=ts&play_token=ilWMjiOtGz
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 1
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032024&extension=ts&play_token=7MGb5KW8QW
 
-#EXTINF:-1 tvg-id="Gulli.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608061.png" group-title="BE| WALLONIË",BE| GULLI FHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608061&extension=ts&play_token=KcXRl8T2AS
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 10
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032015&extension=ts&play_token=MnOrES79uo
 
-#EXTINF:-1 tvg-id="LCI.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608043.png" group-title="BE| WALLONIË",BE| LCI FHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608043&extension=ts&play_token=1eLIb2MEI3
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 11
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032014&extension=ts&play_token=wVU2t9Cnx8
 
-#EXTINF:-1 tvg-id="TF1.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/812136.png" group-title="BE| WALLONIË",BE| TF1 HD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=812136&extension=ts&play_token=oKofRZ51yp
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 12
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032013&extension=ts&play_token=g6wgXVjTUr
 
-#EXTINF:-1 tvg-id="TFX.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326930.png" group-title="BE| WALLONIË",BE| TFX
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326930&extension=ts&play_token=0mawELDvhO
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 13
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032012&extension=ts&play_token=DdVnEY9NJh
 
-#EXTINF:-1 tvg-id="TMC.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1326931.png" group-title="BE| WALLONIË",BE| TMC
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1326931&extension=ts&play_token=pxgtaqHh1i
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 14
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032011&extension=ts&play_token=1LPabX41Jf
 
-#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1897969.png" group-title="BE| WALLONIË",BE| TMC
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1897969&extension=ts&play_token=I6L2949P9d
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 15
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032010&extension=ts&play_token=HsYDlNX1lk
 
-#EXTINF:-1 tvg-id="TMC.fr" tvg-logo="http://51.158.145.100/picons/logos/BELGIUM/1608048.png" group-title="BE| WALLONIË",BE| TMC FHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1608048&extension=ts&play_token=abW44XTdtK
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 2
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032023&extension=ts&play_token=KNiRECl1H7
 
-#EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829017.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| C8 ᴿᴬᵂ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829017&extension=ts&play_token=AEFKknVdsH
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 3
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032022&extension=ts&play_token=W9kgQXpV8s
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 4
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032021&extension=ts&play_token=pRWcuFZsu7
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 5
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032020&extension=ts&play_token=n4MHflUj9z
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 6
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032019&extension=ts&play_token=STx6eDSV1d
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 7
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032018&extension=ts&play_token=ufOq00Gcj0
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 8
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032017&extension=ts&play_token=I3m933HmzL
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV",BE| DAZN 9
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2032016&extension=ts&play_token=hY6ZyRM1Pq
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",####### DAZN PPV BE #######
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040630&extension=ts&play_token=Ggh9JVr4Bu
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Live | Lima - Day 4 | Women's Softball World Cup | 8K EXCLUSIVE | BE: DAZN PPV 2
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040628&extension=ts&play_token=mTOUIr3hyG
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 1
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040629&extension=ts&play_token=0PHQ9StDQM
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 10
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040620&extension=ts&play_token=AOpDbfM8Iw
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 11
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040619&extension=ts&play_token=yxDrLsVDMP
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 12
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040618&extension=ts&play_token=SfrdFZEJh1
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 13
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040617&extension=ts&play_token=DNbmF7DomM
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 14
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040616&extension=ts&play_token=L7gnH51gDI
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 15
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040615&extension=ts&play_token=5AHYbYIUMv
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 16
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040614&extension=ts&play_token=DKzQYwwk71
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 17
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040613&extension=ts&play_token=7wQhvGYIFF
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 18
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040612&extension=ts&play_token=HltnTvCYcZ
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 19
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040611&extension=ts&play_token=aZPIg7msl7
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 20
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040610&extension=ts&play_token=PFA0s4r2NC
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 21
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040609&extension=ts&play_token=LatxC8aCjj
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 23
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040607&extension=ts&play_token=CDJRzx56XT
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 24
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040606&extension=ts&play_token=qSJKAdxIPa
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 3
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040627&extension=ts&play_token=7hcrxAd411
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 4
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040626&extension=ts&play_token=uAmKRMiISz
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 5
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040625&extension=ts&play_token=rtnC6SXkx2
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 7
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040623&extension=ts&play_token=MSHHbTI77y
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 78
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040552&extension=ts&play_token=2p2BCAs4nG
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 79
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040551&extension=ts&play_token=l5UBhDbQQ1
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 8
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040622&extension=ts&play_token=Kw9sicaHyi
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 80
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040550&extension=ts&play_token=OoOJ7tjYrA
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 81
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040549&extension=ts&play_token=W91pM9swjF
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 82
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040548&extension=ts&play_token=LDLe9I6IFr
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 83
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040547&extension=ts&play_token=yV617vfr0V
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 84
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040546&extension=ts&play_token=8hEPXhanqH
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 85
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040545&extension=ts&play_token=0X7u93rUuO
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 86
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040544&extension=ts&play_token=nSMZdTiJXK
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 87
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040543&extension=ts&play_token=NjlL7aOk5u
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 88
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040542&extension=ts&play_token=M4DNjPK4A7
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 89
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040541&extension=ts&play_token=AL2QsT39Pu
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 9
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040621&extension=ts&play_token=Ah84oucf4r
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 90
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040540&extension=ts&play_token=kSipnjmCCU
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 91
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040539&extension=ts&play_token=VU3mnXEHu1
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 92
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040538&extension=ts&play_token=hbLSK8z1Hx
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 93
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040537&extension=ts&play_token=HmmlY0iXTZ
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 94
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040536&extension=ts&play_token=hlfADecR8F
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 95
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040535&extension=ts&play_token=M92UfvRqGw
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 96
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040534&extension=ts&play_token=a5uwyh5YUy
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 97
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040533&extension=ts&play_token=QaCjxXVuoQ
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 98
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040532&extension=ts&play_token=I7nsve2CGJ
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",NO EVENT STREAMING NOW - | 8K EXCLUSIVE | BE: DAZN PPV 99
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040531&extension=ts&play_token=PbyuJS5xOz
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | ART Municipal Jalapa vs. CD Walter Ferretti | Primera Division - Nicaragua | 2026-07-18 | 22:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 75
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040555&extension=ts&play_token=ZhXEt6vDk9
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Artilheiros vs. Hang Sai | Primeira Divisão - Macau | 2026-07-18 | 13:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 54
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040576&extension=ts&play_token=N3WEkW7jVi
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Auckland City FC vs. Tauranga City AFC | National League - New Zealand | 2026-07-18 | 03:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 31
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040599&extension=ts&play_token=v1id9qBaVY
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Auckland FC Reserves vs. Fencibles United AFC | National League - New Zealand | 2026-07-18 | 06:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 36
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040594&extension=ts&play_token=z7zAoLlvGw
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Auckland United FC vs. Western Springs AFC | National League - New Zealand | 2026-07-18 | 04:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 34
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040596&extension=ts&play_token=IQQiweKsoK
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | BKFC 91: Hunt vs. Pugliesi | Hunt v Pugliesi | 2026-07-18 | 17:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 70
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040560&extension=ts&play_token=QcIsIda4vF
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Bai Bureh Warriors FC vs. Diamond Stars FC | Premier League - Sierra Leone | 2026-07-18 | 16:15 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 69
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040561&extension=ts&play_token=ZAZOO2A3Xb
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Birkenhead United AFC vs. Melville United FC | National League - New Zealand | 2026-07-18 | 05:30 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 35
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040595&extension=ts&play_token=wSWp1gY2p3
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Bo Rangers FC vs. Mighty Blackpool FC | Premier League - Sierra Leone | 2026-07-18 | 16:15 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 68
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040562&extension=ts&play_token=SVBcy3Gz2q
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Bucks @ 76ers | NBA Summer League | 2026-07-18 | 21:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 73
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040557&extension=ts&play_token=tysz8klDyJ
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Cheng Fung vs. Shao Jiang | Primeira Divisão - Macau | 2026-07-18 | 11:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 42
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040588&extension=ts&play_token=ejoe31xj8M
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Chiabkard contre Narak | RWS Muay Thai | 2026-07-18 | 12:10 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 48
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040582&extension=ts&play_token=2XQUd9cJGO
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Civil Service United vs. Mighty Wanderers | FDH Bank Premiership - Malawi | 2026-07-18 | 12:30 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 49
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040581&extension=ts&play_token=Wm7P3oqJtm
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Diriangén FC vs. San Marcos FC | Primera Division - Nicaragua | 2026-07-18 | 00:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 6
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040624&extension=ts&play_token=25OgzDUQDJ
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | EWC - Dota 2 - Week 2 - Day 5 | DOTA 2 | 2026-07-18 | 11:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 41
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040589&extension=ts&play_token=6YYSRvujyO
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | EWC - Free Fire - Day 4 | Free Fire | 2026-07-18 | 12:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 47
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040583&extension=ts&play_token=94rIC6Txxz
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | EWC - League of Legends - Day 4 | League of Legends | 2026-07-18 | 11:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 43
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040587&extension=ts&play_token=HZsXPV30Vr
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | EWC - ML:BB Women - Day 5 | Mobile Legends MWI | 2026-07-18 | 09:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 39
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040591&extension=ts&play_token=zCJyMqPpg1
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | East Coast Bays AFC vs. Bay Olympic FC | National League - New Zealand | 2026-07-18 | 03:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 30
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040600&extension=ts&play_token=cpbT9VEAB5
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Eastern Suburbs AFC vs. Manukau United FC | National League - New Zealand | 2026-07-18 | 03:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 29
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040601&extension=ts&play_token=OYSCqa6yC4
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Eubank vs. Papot | MF Pro | 2026-07-18 | 18:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 71
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040559&extension=ts&play_token=3TXySI7EnJ
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Eubank vs. Papot: Prelims | MF Pro | 2026-07-18 | 14:30 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 60
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040570&extension=ts&play_token=gXwNwLovKr
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | FC Kallon vs. Abacha City FC | Premier League - Sierra Leone | 2026-07-18 | 16:15 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 67
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040563&extension=ts&play_token=yDRhSgu0CW
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | FK Minija vs. FK Jonava | 1 Lyga - Lithuania | 2026-07-18 | 15:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 61
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040569&extension=ts&play_token=2eyUJPgxbI
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Final: Britannia vs. Sporting Aruba | Division di Honor - Aruba | 2026-07-18 | 00:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 26
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040604&extension=ts&play_token=502uY26Izl
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Final: Salcedo FC U19 vs. Barça Academy U19 | National U19 Championship - Dominican Republic | 2026-07-18 | 19:30 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 72
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040558&extension=ts&play_token=vCqIMLuOjr
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Flamengo de Pefine vs. UDIB | Liga Orange - Guinea-Bissau | 2026-07-18 | 16:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 64
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040566&extension=ts&play_token=N1kr9IRkCl
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Hard Rock FC vs. Hurricanes SC | Grenada Premier League | 2026-07-18 | 23:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 76
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040554&extension=ts&play_token=Ah64ay8NKx
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Le Castellet - Course 1 (Euro4 Championship) | Formula 4 Italian Championship | 2026-07-18 | 14:30 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 59
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040571&extension=ts&play_token=aVm9epthF8
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Le Castellet - Course 1 | Formula Regional European Championship | 2026-07-18 | 10:55 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 40
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040590&extension=ts&play_token=fndNw4cc4v
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Lima - Day 5 | Women's Softball World Cup | 2026-07-18 | 15:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 62
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040568&extension=ts&play_token=La2K8IIQCt
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | MAFCO FC vs. Red Lions | FDH Bank Premiership - Malawi | 2026-07-18 | 12:30 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 50
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040580&extension=ts&play_token=WUP95EFmj5
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Monaco - Finals | E1 Series | 2026-07-18 | 13:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 53
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040577&extension=ts&play_token=7FCgPDXEqL
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Monaco - Group Stages | E1 Series | 2026-07-18 | 08:30 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 38
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040592&extension=ts&play_token=MmdW34HOjQ
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Monaco - Race Off | E1 Series | 2026-07-18 | 11:10 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 44
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040586&extension=ts&play_token=HZBRdSDRyR
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Monte Rosa WalserWaeg by UTMB - Jour 2 | UTMB Trail Running World Series | 2026-07-18 | 06:45 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 37
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040593&extension=ts&play_token=mLBP1UT5fM
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Moyale Barracks FC vs. Masters FC | FDH Bank Premiership - Malawi | 2026-07-18 | 12:30 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 51
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040579&extension=ts&play_token=BeCgxMo8Jc
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Nomads United FC vs. Dunedin City Royals FC | National League - New Zealand | 2026-07-18 | 00:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 25
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040605&extension=ts&play_token=9DUxoEc6Hy
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Old Edwardians FC vs. SLIFA FC | Premier League - Sierra Leone | 2026-07-18 | 16:15 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 65
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040565&extension=ts&play_token=3qauw6z0tp
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Pacheco vs. Aleem: Prelims | Matchroom Boxing | 2026-07-18 | 21:30 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 74
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040556&extension=ts&play_token=EQphsuxw2u
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Paul Ricard - Course 1 | Euroformula Open | 2026-07-18 | 13:15 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 56
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040574&extension=ts&play_token=zzgiTuyqTY
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Paul Ricard - Course 1 | GT Cup Europe | 2026-07-18 | 11:50 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 46
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040584&extension=ts&play_token=xyKIttuhQX
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Paul Ricard - Course 1 | International GT Open | 2026-07-18 | 15:23 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 63
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040567&extension=ts&play_token=9zWdGmAMOB
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Petone FC vs. Miramar AFC | National League - New Zealand | 2026-07-18 | 03:15 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 33
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040597&extension=ts&play_token=1UJ2MgVU0L
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Portimao - Coppa Shell - Course 1 | Ferrari Challenge Europe | 2026-07-18 | 12:40 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 52
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040578&extension=ts&play_token=nBA3oGLe1A
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Portimao - Trofeo Pirelli - Course 1 | Ferrari Challenge Europe | 2026-07-18 | 13:50 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 57
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040573&extension=ts&play_token=IhdIPuzwiM
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | QPR SC vs St. David's FC | Grenada Premier League | 2026-07-18 | 23:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 77
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040553&extension=ts&play_token=UzLa5UiwsY
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Real Estelí FC vs. UNAN Managua | Primera Division - Nicaragua | 2026-07-18 | 01:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 27
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040603&extension=ts&play_token=XRiGznUYzR
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Riesenback - GCL Round 1 | Longines Global Champions Tour | 2026-07-18 | 11:45 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 45
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040585&extension=ts&play_token=f6Oh6Qwvd6
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Riesenback - GCL Round 2 | Longines Global Champions Tour | 2026-07-18 | 14:15 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 58
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040572&extension=ts&play_token=PRm9Nhjvuz
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Selwyn United FC vs. Nelson Suburbs FC | National League - New Zealand | 2026-07-18 | 00:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 22
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040608&extension=ts&play_token=uKOKx6HwV2
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Star Sports Academy vs. Wusum Stars FC | Premier League - Sierra Leone | 2026-07-18 | 16:15 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 66
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040564&extension=ts&play_token=LhCYI4zj3m
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Upper Hutt City FC vs. Western Suburbs FC | National League - New Zealand | 2026-07-18 | 03:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 32
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040598&extension=ts&play_token=1aawyy6q6T
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | Wellington Phoenix Reserves vs. Napier City Rovers AFC | National League - New Zealand | 2026-07-18 | 01:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 28
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040602&extension=ts&play_token=iowHINPDBW
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP",Next | World Athletics Diamond League - Londres | World Athletics Diamond League | 2026-07-18 | 13:00 (GMT) | 8K EXCLUSIVE | BE: DAZN PPV 55
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2040575&extension=ts&play_token=QVJI3Ul2pX
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 1
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038845&extension=ts&play_token=V1n4ShRESr
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 10
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038836&extension=ts&play_token=IE0wDE4J8k
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 11
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038835&extension=ts&play_token=y4W1oChb6i
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 12
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038834&extension=ts&play_token=AzBf8U2mJM
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 13
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038833&extension=ts&play_token=wBet9vgQCF
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 14
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038832&extension=ts&play_token=NBsyMYI6GA
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 15
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038831&extension=ts&play_token=oXFjab0Rdf
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 16
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038830&extension=ts&play_token=oqAucrFZr0
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 17
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038829&extension=ts&play_token=gPK4OY3f1G
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 18
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038828&extension=ts&play_token=CfZfUoEqGC
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 19
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038827&extension=ts&play_token=CiD1BEEOJW
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 2
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038844&extension=ts&play_token=ZqURMQiNFX
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 20
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038826&extension=ts&play_token=ukgwO0nlXk
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 21
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038825&extension=ts&play_token=jzutzJFNQU
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 22
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038824&extension=ts&play_token=RbJcORZZNP
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 23
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038823&extension=ts&play_token=QO9RlBfvpw
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 24
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038822&extension=ts&play_token=E5P5DejTG8
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 25
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038821&extension=ts&play_token=j8WZjFHgph
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 26
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038820&extension=ts&play_token=XldqXnq9vR
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 27
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038819&extension=ts&play_token=QMnWie84wv
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 3
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038843&extension=ts&play_token=K0alhZGIH0
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 4
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038842&extension=ts&play_token=qOursKZvkh
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 5
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038841&extension=ts&play_token=gAywB1umcm
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 6
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038840&extension=ts&play_token=Tq0A4Dezx8
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 7
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038839&extension=ts&play_token=pgfAm8cgEd
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 8
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038838&extension=ts&play_token=9Dg5hDlSjp
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/DAZN.png" group-title="BE| DAZN PPV VIP BK",BE| DAZN LIVE EVENT 9
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2038837&extension=ts&play_token=pgfgwpdWZk
+
+#EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829029.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| DAZN PRO LEAGUE 1 FR ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829029&extension=ts&play_token=JLNr90s3v9
+
+#EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829028.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| DAZN PRO LEAGUE 2 FR ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829028&extension=ts&play_token=d5rRvkSI5e
+
+#EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829027.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| DAZN PRO LEAGUE 3 FR ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829027&extension=ts&play_token=x7qhD1zYpN
 
 #EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829025.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| FRANCE 2 ᴿᴬᵂ
 http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829025&extension=ts&play_token=Qgv3Nbf8rh
@@ -96,29 +549,107 @@ http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829026&ext
 #EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829007.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| MTV FRANCE ᴿᴬᵂ (+)
 http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829007&extension=ts&play_token=QHc3gJAJC4
 
-#EXTINF:-1 tvg-logo="http://103.176.90.95/images/1829021.png" group-title="BE| TELESAT ᴿᴬᵂ",BE| TF1 ᴿᴬᵂ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1829021&extension=ts&play_token=Y8G2aL39n5
-
 #EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/F1.png" group-title="FORMULA 1 + MOTO GP",F1| F1 TV MAIN FRANCE
 http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=920204&extension=ts&play_token=idI7sjW6fj
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/F1.png" group-title="FORMULA 1 + MOTO GP",F1| F1 TV SPANISH
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=920206&extension=ts&play_token=ldYjvGxAyE
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="4K UHD 3840P",4K| DECASA ES UHD/4K
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1948629&extension=ts&play_token=wOVHLnCYbM
 
 #EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="4K UHD 3840P",4K| FRANCE 2 FR UHD/4K
 http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1948631&extension=ts&play_token=2FcpsDdh9v
 
-#EXTINF:-1 tvg-id="LA1.es" tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="4K UHD 3840P",4K| LA 1 UHD
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1620282&extension=ts&play_token=kjra6GWinF
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="4K UHD 3840P",4K| ODISEA ES UHD/4K
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1948640&extension=ts&play_token=15xc0HwiRF
 
-#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="4K UHD 3840P",4K| LA 1 UHD/4K
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1948659&extension=ts&play_token=0FOZN98q1O
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="4K UHD 3840P",4K| SLOW ES UHD/4K
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1948630&extension=ts&play_token=ogm4WZ6gif
 
-#EXTINF:-1 tvg-id="TF1.fr" tvg-logo="http://51.158.145.100/picons/logos/LOGOSNEW/4K.png" group-title="4K UHD 3840P",4k| TF1 HDR/UHD/4K
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1640379&extension=ts&play_token=tkdwWhA4An
+#EXTINF:-1 tvg-id="beINSportsMax1.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX1.png" group-title="BEIN SPORTS MAX NM",BEIN MAX 1 FR ˢᴰ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2076962&extension=ts&play_token=HUo7jkrnnV
 
-#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/logos/WORLDCUP2026REPLAY.png" group-title="WORLD CUP 2026 ᵁᴴᴰ ³⁸⁴⁰ᴾ",WC-4K| M6 ᵁᴴᴰ ³⁸⁴⁰ᴾ
-http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2095896&extension=ts&play_token=YlmsmCRFiI
+#EXTINF:-1 tvg-id="beINSportsMax1.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX1.png" group-title="BEIN SPORTS MAX NM",BEIN MAX 1 FR ᴴᴰ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2076968&extension=ts&play_token=Ycv2cmJK3y
+
+#EXTINF:-1 tvg-id="beINSportsMax1.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX1.png" group-title="BEIN SPORTS MAX NM",BEIN MAX 1 FR ᶠʰᵈ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2076974&extension=ts&play_token=Q4uyPJwvoC
+
+#EXTINF:-1 tvg-id="beINSportsMax1.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX1.png" group-title="BEIN SPORTS MAX NM",BEIN MAX 1 FR ⁴ᴷ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2076980&extension=ts&play_token=oCZ8uW1OQb
+
+#EXTINF:-1 tvg-id="beINSportsMax2.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX2.png" group-title="BEIN SPORTS MAX NM",BEIN MAX 2 FR ˢᴰ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2076961&extension=ts&play_token=IsfoTPSRi3
+
+#EXTINF:-1 tvg-id="beINSportsMax2.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX2.png" group-title="BEIN SPORTS MAX NM",BEIN MAX 2 FR ᴴᴰ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2076967&extension=ts&play_token=YnxJ3QAbzQ
+
+#EXTINF:-1 tvg-id="beINSportsMax2.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX2.png" group-title="BEIN SPORTS MAX NM",BEIN MAX 2 FR ᶠʰᵈ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2076973&extension=ts&play_token=jiMuJAjiZn
+
+#EXTINF:-1 tvg-id="beINSportsMax2.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX2.png" group-title="BEIN SPORTS MAX NM",BEIN MAX 2 FR ⁴ᴷ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2076979&extension=ts&play_token=8zSgKVI3f6
+
+#EXTINF:-1 tvg-id="beINSportsMax5.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX5.png" group-title="BEIN SPORTS MAX ⁸ᴷ",BEIN SPORTS MAX 5 FR SD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2077103&extension=ts&play_token=6qMdeOQYhW
+
+#EXTINF:-1 tvg-id="beINSportsMax5.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX5.png" group-title="BEIN SPORTS MAX ⁸ᴷ",BEIN SPORTS MAX 5 FR ʰᵉᵛᶜ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2077097&extension=ts&play_token=g06sf8ygGq
+
+#EXTINF:-1 tvg-id="beINSportsMax5.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX5.png" group-title="BEIN SPORTS MAX ⁸ᴷ",BEIN SPORTS MAX 5 FR ᴴᴰ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2077109&extension=ts&play_token=1p0KezQNk0
+
+#EXTINF:-1 tvg-id="beINSportsMax5.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX5.png" group-title="BEIN SPORTS MAX ⁸ᴷ",BEIN SPORTS MAX 5 FR ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2077091&extension=ts&play_token=yLQwx1zUAS
+
+#EXTINF:-1 tvg-id="beINSportsMax6.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX6.png" group-title="BEIN SPORTS MAX ⁸ᴷ",BEIN SPORTS MAX 6 FR SD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2077102&extension=ts&play_token=611MFM5tSj
+
+#EXTINF:-1 tvg-id="beINSportsMax6.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX6.png" group-title="BEIN SPORTS MAX ⁸ᴷ",BEIN SPORTS MAX 6 FR ʰᵉᵛᶜ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2077096&extension=ts&play_token=dMfXoZq7ed
+
+#EXTINF:-1 tvg-id="beINSportsMax6.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX6.png" group-title="BEIN SPORTS MAX ⁸ᴷ",BEIN SPORTS MAX 6 FR ᴴᴰ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2077108&extension=ts&play_token=BO6ke97dPY
+
+#EXTINF:-1 tvg-id="beINSportsMax6.qa" tvg-logo="http://51.158.145.100/picons/logos/bein/BEINMAX6.png" group-title="BEIN SPORTS MAX ⁸ᴷ",BEIN SPORTS MAX 6 FR ᴿᴬᵂ
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2077090&extension=ts&play_token=0nRvk6Pnx9
 
 #EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/FRANCENEW/M6.png" group-title="WORLD CUP 2026",FR| M6 HD
 http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2077029&extension=ts&play_token=gVMdYZDvtE
+
+#EXTINF:-1 tvg-logo="http://103.176.90.118/picons/logos/TIGO-SPORTS.png" group-title="WORLD CUP 2026",LAT| TIGO SPORTS 1 BO  HD
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2077061&extension=ts&play_token=NbhFfzIWhZ
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/viaplay-logo.png" group-title="NL| VIAPLAY PPV ˢᵘᵖᵉʳ",End | Spa-Francorchamps | Formule 2 Kwalificatie 2026 | 2026-07-17 | 13:50 (GMT) | 8K EXCLUSIVE | NL: VIAPLAY PPV 8
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2068646&extension=ts&play_token=Wf3XHAkLKN
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/viaplay-logo.png" group-title="NL| VIAPLAY PPV ˢᵘᵖᵉʳ",End | Spa-Francorchamps | Formule 3 Kwalificatie 2026 | 2026-07-17 | 12:55 (GMT) | 8K EXCLUSIVE | NL: VIAPLAY PPV 7
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2068647&extension=ts&play_token=njhcv2SgqE
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/viaplay-logo.png" group-title="NL| VIAPLAY PPV VIP",ENDED | FORMULE 2 SPA-FRANCORCHAMPS | Fri 17 Jul 15:50 CEST (NL) | 8K EXCLUSIVE | NL: VIAPLAY PPV 6
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1592450&extension=ts&play_token=PcJ57jnvT1
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/viaplay-logo.png" group-title="NL| VIAPLAY PPV VIP",ENDED | FORMULE 3 SPA-FRANCORCHAMPS | Fri 17 Jul 14:55 CEST (NL) | 8K EXCLUSIVE | NL: VIAPLAY PPV 5
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1600056&extension=ts&play_token=cMklwMpwOk
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/viaplay-logo.png" group-title="NL| VIAPLAY PPV VIP",NEXT | FORMULE 2 SPA-FRANCORCHAMPS | Sat 18 Jul 14:05 CEST (NL) | 8K EXCLUSIVE | NL: VIAPLAY PPV 16
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1592460&extension=ts&play_token=lJFj2tAznf
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/viaplay-logo.png" group-title="NL| VIAPLAY PPV VIP",NEXT | FORMULE 3 SPA-FRANCORCHAMPS | Sat 18 Jul 09:50 CEST (NL) | 8K EXCLUSIVE | NL: VIAPLAY PPV 8
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1592452&extension=ts&play_token=Btnu1KsLFr
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/viaplay-logo.png" group-title="NL| VIAPLAY PPV VIP",NEXT | PORSCHE SUPERCUP SPA-FRANCORCHAMPS | Sat 18 Jul 11:15 CEST (NL) | 8K EXCLUSIVE | NL: VIAPLAY PPV 9
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=1592453&extension=ts&play_token=BMniIYmQIP
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/VIAPLAY.png" group-title="NL| VIAPLAY PPV BK",Spa Francorchamps @ Jul 17 3:50 PM :Viaplay NL  01
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2025570&extension=ts&play_token=dNU1UnmW1y
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="NL| SOCCER PPV",End | Round 8: Spa-Francorchamps - Qualifying | all | 17-07-2026 | 15:50 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 10
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058538&extension=ts&play_token=qEVuix4vtX
+
+#EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="NL| SOCCER PPV",End | Spa-Francorchamps - Qualifying | all | 17-07-2026 | 14:55 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 3
+http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058545&extension=ts&play_token=DwmlrOcz7W
 
 #EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/PPVLIVE.png" group-title="NL| SOCCER PPV",End | Tour de France | Etappe 13 Mannen | all | 17-07-2026 | 12:45 (GMT) | 8K EXCLUSIVE | NL: SOCCER PPV 2
 http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2058546&extension=ts&play_token=i6Ptb1nNVb
@@ -137,6 +668,3 @@ http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2026853&ext
 
 #EXTINF:-1 tvg-logo="http://51.158.145.100/picons/logos/PPV/MAX-MAX.png" group-title="NL| MAX PPV",Cycling: Tour de France: Stage 13 @ Jul 17 18:00 PM :MAX NL  03
 http://mag.greatott.me:80/play/live.php?mac=00:1A:79:74:B1:B9&stream=2026851&extension=ts&play_token=aNqq8EPUeu
-
-#EXTINF:-1 tvg-logo="https://image.tmdb.org/t/p/w600_and_h900_bestv2/uLW7MmC2yA1RyKNiXB7Rn88WqL6.jpg" group-title="All" tvg-year="2026-04-17" tvg-director="José Luis López-Linares" tvg-rating="8",ES - We the Hispanos: España - raíz de Estados Unidos (2026)
-http://mag.greatott.me:80/play/movie.php?mac=00:1A:79:74:B1:B9&stream=2114782.mkv&play_token=Um0N69Udhx&type=movie
