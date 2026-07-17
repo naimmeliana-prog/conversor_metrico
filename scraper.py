@@ -230,7 +230,7 @@ class StalkerPortal:
                     time.sleep(RETRY_DELAY)
         return None
 
-    def paginated_fetch(self, params_base: dict) -> list:
+    def paginated_fetch(self, params_base: dict, max_items: int = None) -> list:
         # ── Página 1: descubrir total ──────────────────────────────
         result1 = self.safe_get({**params_base, "p": "1", "perpage": str(self.page_size)})
         if not result1:
@@ -240,12 +240,16 @@ class StalkerPortal:
         if not items1:
             return []
 
+        # Si especificamos max_items, limitamos el total a procesar
+        if max_items is not None and total > max_items:
+            total = max_items
+
         total_pages = math.ceil(total / self.page_size) if total > 0 else 1
         pct = len(items1) / total * 100 if total > 0 else 100
-        print(f"      [{self.name}] 📄 Pág   1: +{len(items1):>4} │ {len(items1):>5}/{total:<6} │ {pct:.0f}% [total páginas: {total_pages}]")
+        print(f"      [{self.name}] 📄 Pág   1: +{len(items1):>4} │ {len(items1):>5}/{total:<6} │ {pct:.0f}% [total páginas requeridas: {total_pages}]")
 
         if total_pages == 1:
-            return items1
+            return items1[:total]
 
         # ── Páginas 2…N en paralelo ────────────────────────────────
         pages_data: dict = {1: items1}
@@ -273,7 +277,7 @@ class StalkerPortal:
         all_items = []
         for p in range(1, total_pages + 1):
             all_items.extend(pages_data.get(p, []))
-        return all_items
+        return all_items[:total]
 
     def resolve_stream_url(self, cmd: str, content_type: str, item_id: str) -> str:
         if not cmd:
@@ -320,7 +324,7 @@ class StalkerPortal:
                 "action": "get_ordered_list", "type": "itv",
                 "genre": genre_id, "force_ch_link_check": "",
                 "fav": "0", "sortby": "name", "JsHttpRequest": "1-xml",
-            })
+            }, max_items=max_channels)
             new_count = 0
             for ch in items:
                 if len(channels) >= max_channels:
@@ -374,7 +378,7 @@ class StalkerPortal:
                 "action": "get_ordered_list", "type": "vod",
                 "category": cat_id, "sortby": "added",
                 "fav": "0", "JsHttpRequest": "1-xml",
-            })
+            }, max_items=max_movies)
             new_count = 0
             for movie in items:
                 if len(movies) >= max_movies:
