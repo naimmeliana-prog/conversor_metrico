@@ -13,7 +13,7 @@
     "url": "http://backup.xp1.tv/c",
     "mac": "00:1A:79:21:09:C7",
     "color": "#e94560",
-    "enabled": false
+    "enabled": true
   },
   {
     "id": "portal_1784206695986",
@@ -21,6 +21,6 @@
     "url": "http://5tv.pro",
     "mac": "00:1A:79:16:19:22",
     "color": "#e94560",
-    "enabled": true
+    "enabled": false
   }
 ]
