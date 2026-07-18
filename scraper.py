@@ -375,6 +375,11 @@ class StalkerPortal:
         cats = []
         if isinstance(cats_result, list): cats = cats_result
         elif isinstance(cats_result, dict): cats = cats_result.get("data", [])
+
+        # Poner '*' al final para que las categorías individuales tengan prioridad
+        individual = [c for c in cats if c.get("id") != "*"]
+        star_cat   = [c for c in cats if c.get("id") == "*"]
+        cats = individual + star_cat
         if not cats: cats = [{"id": "*", "title": "Películas"}]
 
         movies   = []
@@ -386,11 +391,13 @@ class StalkerPortal:
                 break
             cat_id    = cat.get("id", "*")
             cat_title = cat.get("title", cat.get("name", "Películas"))
-            items = self.paginated_fetch({
-                "action": "get_ordered_list", "type": "vod",
-                "category": cat_id, "sortby": "added",
-                "fav": "0", "JsHttpRequest": "1-xml",
-            }, max_items=max_movies)
+
+            # Este portal usa 'category' para VOD (tanto * como individuales)
+            params = {"action": "get_ordered_list", "type": "vod",
+                      "category": cat_id, "sortby": "added",
+                      "fav": "0", "JsHttpRequest": "1-xml"}
+
+            items = self.paginated_fetch(params, max_items=max_movies)
             new_count = 0
             for movie in items:
                 if len(movies) >= max_movies:
@@ -400,29 +407,9 @@ class StalkerPortal:
                 seen_ids.add(mid)
                 new_count += 1
                 name = clean_name(movie.get("name", movie.get("o_name", "Película")))
-
-                # Resolver URL via create_link (como el código de referencia)
-                cmd = movie.get("cmd", "")
-                movie_url = ""
-                if cmd:
-                    link_result = self.safe_get({
-                        "action": "create_link", "type": "vod",
-                        "cmd": cmd, "series": "0",
-                        "forced_storage": "0", "disable_ad": "0",
-                        "JsHttpRequest": "1-xml",
-                    })
-                    if isinstance(link_result, dict):
-                        raw_url = link_result.get("cmd", link_result.get("url", ""))
-                        if raw_url:
-                            m = re.search(r'(https?://\S+)', raw_url)
-                            movie_url = m.group(1).strip() if m else raw_url.strip()
-                            if "type=movie" not in movie_url:
-                                sep = "&" if "?" in movie_url else "?"
-                                movie_url += f"{sep}type=movie"
-
+                movie_url = extract_cmd_url(movie.get("cmd", ""))
                 if not movie_url:
-                    continue  # saltar películas sin URL resoluble
-
+                    continue
                 movies.append({
                     "type":         "movie",
                     "id":           f"{self.id}_{mid}",
@@ -443,13 +430,14 @@ class StalkerPortal:
                     "portal_name":  self.name,
                     "portal_color": self.color,
                 })
-            # Si la categoría '*' ya trajo todas las películas, no iteramos el resto
-            if cat_id == "*" and new_count == len(movies) and len(movies) == len(items):
-                print(f"  ⚡ [{self.name}] Categoría '*' devuelve todas las películas — omitiendo categorías individuales")
+            # Si la '*' ya trajo todas las películas no vistas, paramos
+            if cat_id == "*" and new_count > 0:
+                print(f"  ⚡ [{self.name}] Categoría '*' como fallback: +{new_count} películas")
                 break
 
         print(f"  ✅ [{self.name}] Películas: {len(movies)}")
         return movies
+
 
 
 
