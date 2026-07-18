@@ -4,9 +4,9 @@
   "series": 0,
   "episodes": 0,
   "languages": {
-    "EN": 27,
+    "EN": 327,
+    "FR": 751,
     "OTHER": 795,
-    "FR": 51,
     "NL": 911,
     "ES": 173,
     "PL": 5,
@@ -18,7 +18,16 @@
     "PT": 3
   },
   "countries": {
+    "OTHER": 2379,
+    "CA": 13,
+    "RU": 1,
+    "US": 172,
+    "PE": 3,
+    "NL": 26,
+    "GB": 51,
+    "BR": 1,
     "BE": 88,
+<<<<<<< Updated upstream
     "GB": 56,
     "FR": 45,
     "IT": 8,
@@ -29,9 +38,15 @@
     "US": 168,
     "INTL": 20,
     "PE": 2,
+=======
+    "FR": 45,
+    "IT": 7,
+    "DE": 38,
+    "TR": 5,
+    "INTL": 19,
+>>>>>>> Stashed changes
     "QA": 124,
     "ES": 2,
-    "CA": 12,
     "IR": 1,
     "MA": 2,
     "NO": 2,
@@ -77,5 +92,9 @@
     }
   ],
   "total": 3000,
+<<<<<<< Updated upstream
   "generated": "2026-07-18 03:13 UTC"
+=======
+  "generated": "2026-07-18 03:23 UTC"
+>>>>>>> Stashed changes
 }
