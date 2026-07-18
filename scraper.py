@@ -651,7 +651,7 @@ class StalkerPortal:
                         # Resolver URL del episodio via create_link
                         link_result = self.safe_get({
                             "action": "create_link", "type": "vod",
-                            "cmd": cmd_str, "series": str(ep_num),
+                            "cmd": cmd_str, "series": "",
                             "forced_storage": "0", "disable_ad": "0",
                             "JsHttpRequest": "1-xml",
                         })
@@ -855,19 +855,22 @@ def generate_m3u(all_items: list, portals: list) -> str:
             group = item.get('group', 'Series')
 
         epg_id = item.get("epg_id", "")
-        duration = "-1" if itype == "live" else "0"
-        extinf = f'#EXTINF:{duration} '
+        extinf = f'#EXTINF:-1 '
         if epg_id:
             extinf += f'tvg-id="{epg_id}" '
-        extinf += (
-            f'tvg-logo="{item.get("logo","")}" '
-            f'group-title="{group}"'
-        )
-        if itype in ("movie","series"):
-            extinf += f' tvg-type="{itype}"'
-            if item.get("year"):     extinf += f' tvg-year="{item["year"]}"'
-            if item.get("director"): extinf += f' tvg-director="{item["director"]}"'
-            if item.get("rating"):   extinf += f' tvg-rating="{item["rating"]}"'
+        extinf += f'tvg-logo="{item.get("logo","")}" group-title="{group}"'
+        
+        # En el script de referencia, ponen description, year, director y actors en el EXTINF
+        desc = str(item.get("description", "")).replace('\n', ' ').replace('\r', '').replace('"', "'")
+        extinf += f' description="{desc}"'
+        if item.get("year"):
+            extinf += f' year="{item["year"]}"'
+        if item.get("director"):
+            dir_str = str(item["director"]).replace('"', "'")
+            extinf += f' director="{dir_str}"'
+        if item.get("actors"):
+            act_str = str(item["actors"]).replace('"', "'")
+            extinf += f' actors="{act_str}"'
 
         # Limpiar prefijo ffmpeg o ffplay si estuviera en la URL
         url = item["url"].strip()
@@ -876,10 +879,14 @@ def generate_m3u(all_items: list, portals: list) -> str:
         elif url.startswith("ffplay "):
             url = url[7:].strip()
 
-        # Añadir &dummy=/movie/ a películas para forzar reproductores IPTV a tratarlas como VOD
+        # En el script de referencia, para películas añaden &dummy=/movie/&type=movie
+        # Y para series añaden &dummy=/series/&type=movie (o ? si no hay interrogación)
         if itype == "movie" and "dummy=" not in url:
             sep = "&" if "?" in url else "?"
-            url += f"{sep}dummy=/movie/"
+            url += f"{sep}dummy=/movie/&type=movie"
+        elif itype == "series" and "dummy=" not in url:
+            sep = "&" if "?" in url else "?"
+            url += f"{sep}dummy=/series/&type=movie"
 
         lines.extend([f'{extinf},{item.get("name","Sin nombre")}', url, ""])
     return "\n".join(lines)
