@@ -26,7 +26,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Ejecutar Scraper de TV
-        run: python scraper.py --only-tv
+        run: python scraper.py --no-series
 
       - name: Verificar archivos
         run: |
