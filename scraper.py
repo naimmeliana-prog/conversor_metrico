@@ -637,14 +637,15 @@ class StalkerPortal:
                     for ep_num in episode_nums:
                         ep_name = f"{serie_name} - S{season_num:02d}E{ep_num:02d}"
 
-                        series_cmd = serie.get("cmd", "")
-                        if not series_cmd:
+                        season_cmd = season.get("cmd", season.get("url", ""))
+                        cmd_to_use = season_cmd or serie.get("cmd", "")
+                        if not cmd_to_use:
                             continue
 
                         # Resolver URL del episodio via create_link
                         link_result = self.safe_get({
                             "action": "create_link", "type": "series",
-                            "cmd": series_cmd, "series": str(ep_num),
+                            "cmd": cmd_to_use, "series": str(ep_num),
                             "forced_storage": "0", "disable_ad": "0",
                             "JsHttpRequest": "1-xml",
                         })
