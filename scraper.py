@@ -547,6 +547,9 @@ class StalkerPortal:
         print(f"\n  📺 [{self.name}] Extrayendo Series (rastreo profundo)...")
         cats_result = self.safe_get({"action":"get_categories","type":"series","JsHttpRequest":"1-xml"})
         cats = []
+        if isinstance(cats_result, list): cats = cats_result
+        elif isinstance(cats_result, dict): cats = cats_result.get("data", [])
+        if not cats: cats = [{"id": "*", "title": "Series"}]
         # Cargar filtros de idioma para priorizar categorías
         allowed_langs = []
         if os.path.exists("user_filters.json"):
