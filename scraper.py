@@ -353,7 +353,7 @@ class StalkerPortal:
 
         channels  = []
         seen_ids  = set()
-        max_channels = 6000  # Límite para evitar atascos
+        max_channels = 4000  # Límite para evitar atascos
 
         for genre in individual_genres:
             if len(channels) >= max_channels:
@@ -454,7 +454,7 @@ class StalkerPortal:
 
         movies   = []
         seen_ids = set()
-        max_movies  = 6000
+        max_movies  = 4000
         max_per_cat = 300  # Límite por categoría individual para no bloquear en una sola
 
         for cat in cats:
