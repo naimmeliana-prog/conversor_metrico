@@ -855,7 +855,8 @@ def generate_m3u(all_items: list, portals: list) -> str:
             group = item.get('group', 'Series')
 
         epg_id = item.get("epg_id", "")
-        extinf = f'#EXTINF:-1 '
+        duration = "-1" if itype == "live" else "0"
+        extinf = f'#EXTINF:{duration} '
         if epg_id:
             extinf += f'tvg-id="{epg_id}" '
         extinf += (
@@ -863,6 +864,7 @@ def generate_m3u(all_items: list, portals: list) -> str:
             f'group-title="{group}"'
         )
         if itype in ("movie","series"):
+            extinf += f' tvg-type="{itype}"'
             if item.get("year"):     extinf += f' tvg-year="{item["year"]}"'
             if item.get("director"): extinf += f' tvg-director="{item["director"]}"'
             if item.get("rating"):   extinf += f' tvg-rating="{item["rating"]}"'
