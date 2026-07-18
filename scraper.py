@@ -384,7 +384,8 @@ class StalkerPortal:
 
         movies   = []
         seen_ids = set()
-        max_movies = 1000
+        max_movies  = 1000
+        max_per_cat = 300  # Límite por categoría individual para no bloquear en una sola
 
         for cat in cats:
             if len(movies) >= max_movies:
@@ -393,11 +394,13 @@ class StalkerPortal:
             cat_title = cat.get("title", cat.get("name", "Películas"))
 
             # Este portal usa 'category' para VOD (tanto * como individuales)
+            # Para * (fallback) no limitamos; para individuales sí
+            limit = max_movies if cat_id == "*" else max_per_cat
             params = {"action": "get_ordered_list", "type": "vod",
                       "category": cat_id, "sortby": "added",
                       "fav": "0", "JsHttpRequest": "1-xml"}
 
-            items = self.paginated_fetch(params, max_items=max_movies)
+            items = self.paginated_fetch(params, max_items=limit)
             new_count = 0
             for movie in items:
                 if len(movies) >= max_movies:
@@ -430,7 +433,9 @@ class StalkerPortal:
                     "portal_name":  self.name,
                     "portal_color": self.color,
                 })
-            # Si la '*' ya trajo todas las películas no vistas, paramos
+            if new_count:
+                print(f"      [{self.name}] Cat '{cat_title[:40]}': +{new_count} películas")
+            # Si la '*' ya trajo películas como fallback, paramos
             if cat_id == "*" and new_count > 0:
                 print(f"  ⚡ [{self.name}] Categoría '*' como fallback: +{new_count} películas")
                 break
