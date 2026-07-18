@@ -664,7 +664,7 @@ class StalkerPortal:
                                 # Añadir parámetros de serie al URL
                                 sep = "&" if "?" in ep_url else "?"
                                 if "dummy=" not in ep_url:
-                                    ep_url += f"{sep}dummy=/series/&type=movie"
+                                    ep_url += f"{sep}dummy=/series.mkv"
                         if not ep_url:
                             continue
 
