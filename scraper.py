@@ -547,15 +547,46 @@ class StalkerPortal:
         print(f"\n  📺 [{self.name}] Extrayendo Series (rastreo profundo)...")
         cats_result = self.safe_get({"action":"get_categories","type":"series","JsHttpRequest":"1-xml"})
         cats = []
-        if isinstance(cats_result, list): cats = cats_result
-        elif isinstance(cats_result, dict): cats = cats_result.get("data", [])
-        if not cats: cats = [{"id": "*", "title": "Series"}]
+        # Cargar filtros de idioma para priorizar categorías
+        allowed_langs = []
+        if os.path.exists("user_filters.json"):
+            try:
+                with open("user_filters.json", "r", encoding="utf-8") as f:
+                    filter_cfg = json.load(f)
+                    allowed_langs = filter_cfg.get("languages", [])
+            except Exception:
+                pass
+        if not allowed_langs:
+            allowed_langs = ["ES", "FR"]
+
+        def get_cat_priority(c):
+            title = str(c.get("title", c.get("name", ""))).upper()
+            if c.get("id") == "*":
+                return 999
+            for idx, lang in enumerate(allowed_langs):
+                keywords = LANGUAGE_KEYWORDS.get(lang, [lang])
+                for kw in keywords:
+                    pattern = r'(?:^|[\s|\-_\[\]():,./+])' + re.escape(kw) + r'(?:$|[\s|\-_\[\]():,./+])'
+                    if re.search(pattern, title):
+                        return idx
+            return 500
+
+        cats = sorted(cats, key=get_cat_priority)
 
         episodes_list = []
+        max_series = 150 # Límite para evitar bloqueos/timeouts en el workflow
+        total_series = 0
+
         for cat in cats:
+            if total_series >= max_series:
+                break
             cat_id    = cat.get("id", "*")
             if cat_id == "*": continue
             cat_title = cat.get("title", cat.get("name", "Series"))
+
+            # Omitir categorías que no coinciden con los idiomas preferidos
+            if get_cat_priority(cat) == 500:
+                continue
 
             series_items = self.paginated_fetch({
                 "action": "get_ordered_list", "type": "series",
@@ -563,11 +594,14 @@ class StalkerPortal:
                 "fav": "0", "JsHttpRequest": "1-xml",
             })
             for serie in series_items:
+                if total_series >= max_series:
+                    break
                 raw_id   = serie.get("id", "")
                 # Algunos portales devuelven "id:extra" — tomamos solo la parte numérica
                 serie_id = str(raw_id).split(":")[0] if raw_id else ""
                 if not serie_id: continue
 
+                total_series += 1
                 serie_name = clean_name(serie.get("name", serie.get("title", "Serie")))
                 serie_logo = serie.get("screenshot_uri", serie.get("logo", serie.get("poster","")))
                 lang       = detect_language(f"{serie_name} {cat_title}")
