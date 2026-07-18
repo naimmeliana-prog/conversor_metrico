@@ -321,12 +321,35 @@ class StalkerPortal:
         if isinstance(genres_result, list): genres = genres_result
         elif isinstance(genres_result, dict): genres = genres_result.get("data", [])
 
-        # Filtramos el género '*' (All) — siempre iteramos géneros individuales
-        # para que cada canal herede el genre_title con el prefijo de idioma (ES|, FR|, etc.)
+        # Cargar filtros de idioma para priorizar géneros
+        allowed_langs = []
+        if os.path.exists("user_filters.json"):
+            try:
+                with open("user_filters.json", "r", encoding="utf-8") as f:
+                    filter_cfg = json.load(f)
+                    allowed_langs = filter_cfg.get("languages", [])
+            except Exception:
+                pass
+        if not allowed_langs:
+            allowed_langs = ["ES", "FR"]
+
+        def get_genre_priority(g):
+            title = str(g.get("title", g.get("name", ""))).upper()
+            if g.get("id") == "*":
+                return 2
+            for lang in allowed_langs:
+                keywords = LANGUAGE_KEYWORDS.get(lang, [lang])
+                for kw in keywords:
+                    pattern = r'(?:^|[\s|\-_\[\]():,./+])' + re.escape(kw) + r'(?:$|[\s|\-_\[\]():,./+])'
+                    if re.search(pattern, title):
+                        return 0
+            return 1
+
         individual_genres = [g for g in genres if g.get("id") != "*"]
         if not individual_genres:
-            # Si no hay géneros individuales, usamos el '*' como fallback
             individual_genres = [{"id": "*", "title": "All"}]
+        else:
+            individual_genres = sorted(individual_genres, key=get_genre_priority)
 
         channels  = []
         seen_ids  = set()
