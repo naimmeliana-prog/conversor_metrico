@@ -636,7 +636,7 @@ class StalkerPortal:
                         episode_nums = [1]
 
                     for ep_num in episode_nums:
-                        ep_name = f"{serie_name} - S{season_num:02d}E{ep_num:02d}"
+                        ep_name = f"{serie_name} S{season_num:02d}E{ep_num:02d}"
 
                         season_cmd = season.get("cmd", season.get("url", ""))
                         cmd_to_use = season_cmd or serie.get("cmd", "")
@@ -854,6 +854,8 @@ def generate_m3u(all_items: list, portals: list) -> str:
         if epg_id:
             extinf += f'tvg-id="{epg_id}" '
         extinf += f'tvg-logo="{item.get("logo","")}" group-title="{group}"'
+        if itype in ("movie", "series"):
+            extinf += f' tvg-type="{itype}"'
         
         # En el script de referencia, ponen description, year, director y actors en el EXTINF
         desc = str(item.get("description", "")).replace('\n', ' ').replace('\r', '').replace('"', "'")
