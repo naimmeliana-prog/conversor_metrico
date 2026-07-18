@@ -35,7 +35,7 @@ PARALLEL_WORKERS  = 1   # 1 hilo para evitar bloqueos (Rate-Limit) de seguridad 
 #  DETECCIÓN DE IDIOMA
 # ════════════════════════════════════════════════════════════════
 LANGUAGE_KEYWORDS = {
-    "ES": ["ES","ESP","ESPAÑOL","SPANISH","SPAIN","ESPANA","ESPAÑA","CASTELLANO","LATINO","LAT","SPA","DAZN"],
+    "ES": ["ES","ESP","ESPAÑOL","SPANISH","SPAIN","ESPANA","ESPAÑA","CASTELLANO","LATINO"],
     "FR": ["FR","FRE","FRENCH","FRANCE","FRANÇAIS","FRANCAIS","FRA"],
     "EN": ["EN","ENG","ENGLISH","UK","US","USA","GB","GBR","UHD UK","UNITED KINGDOM"],
     "DE": ["DE","DEU","GERMAN","GERMANY","DEUTSCH","GER"],
@@ -336,14 +336,14 @@ class StalkerPortal:
         def get_genre_priority(g):
             title = str(g.get("title", g.get("name", ""))).upper()
             if g.get("id") == "*":
-                return 2
-            for lang in allowed_langs:
+                return 999
+            for idx, lang in enumerate(allowed_langs):
                 keywords = LANGUAGE_KEYWORDS.get(lang, [lang])
                 for kw in keywords:
                     pattern = r'(?:^|[\s|\-_\[\]():,./+])' + re.escape(kw) + r'(?:$|[\s|\-_\[\]():,./+])'
                     if re.search(pattern, title):
-                        return 0
-            return 1
+                        return idx
+            return 500
 
         individual_genres = [g for g in genres if g.get("id") != "*"]
         if not individual_genres:
@@ -353,7 +353,7 @@ class StalkerPortal:
 
         channels  = []
         seen_ids  = set()
-        max_channels = 2000  # Límite para evitar atascos
+        max_channels = 4000  # Límite para evitar atascos
 
         for genre in individual_genres:
             if len(channels) >= max_channels:
@@ -373,6 +373,8 @@ class StalkerPortal:
                 if ch_id in seen_ids: continue
                 seen_ids.add(ch_id)
                 name = clean_name(ch.get("name", ch.get("title", "Canal")))
+                if is_separator(name):
+                    continue
                 raw_cmd = ch.get("cmd", "")
 
                 # Detectar si es una película metida en la sección de TV en Vivo
@@ -434,15 +436,15 @@ class StalkerPortal:
             title = str(c.get("title", c.get("name", ""))).upper()
             # Poner '*' al final de todo
             if c.get("id") == "*":
-                return 2
-            # Si el título coincide con alguno de los idiomas permitidos
-            for lang in allowed_langs:
+                return 999
+            # Si el título coincide con alguno de los idiomas permitidos, usar su índice como prioridad
+            for idx, lang in enumerate(allowed_langs):
                 keywords = LANGUAGE_KEYWORDS.get(lang, [lang])
                 for kw in keywords:
                     pattern = r'(?:^|[\s|\-_\[\]():,./+])' + re.escape(kw) + r'(?:$|[\s|\-_\[\]():,./+])'
                     if re.search(pattern, title):
-                        return 0 # Alta prioridad
-            return 1 # Media prioridad
+                        return idx # Prioridad basada en el orden de idiomas (ej: ES=0, FR=1)
+            return 500 # Media-baja prioridad
 
         # Filtrar o ordenar categorías según prioridad
         individual = [c for c in cats if c.get("id") != "*"]
@@ -452,7 +454,7 @@ class StalkerPortal:
 
         movies   = []
         seen_ids = set()
-        max_movies  = 1000
+        max_movies  = 4000
         max_per_cat = 300  # Límite por categoría individual para no bloquear en una sola
 
         for cat in cats:
@@ -477,6 +479,8 @@ class StalkerPortal:
                 if mid in seen_ids: continue
                 seen_ids.add(mid)
                 name = clean_name(movie.get("name", movie.get("o_name", "Película")))
+                if is_separator(name):
+                    continue
 
                 raw_cmd = movie.get("cmd", movie.get("url", movie.get("link", "")))
 
@@ -706,6 +710,12 @@ class StalkerPortal:
 def clean_name(name: str) -> str:
     if not name: return "Sin nombre"
     return name.strip().replace(",", " -").replace('"', "'")
+
+def is_separator(name: str) -> bool:
+    clean = name.strip()
+    if re.search(r'^[#=*_\- ]{3,}', clean) and re.search(r'[#=*_\- ]{3,}$', clean):
+        return True
+    return False
 
 def extract_cmd_url(cmd: str) -> str:
     """Extrae la URL directamente del campo cmd del portal Stalker.
