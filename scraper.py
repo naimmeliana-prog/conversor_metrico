@@ -401,7 +401,8 @@ class StalkerPortal:
                       "fav": "0", "JsHttpRequest": "1-xml"}
 
             items = self.paginated_fetch(params, max_items=limit)
-            new_count = 0
+            new_count  = 0
+            debug_done = 0
             for movie in items:
                 if len(movies) >= max_movies:
                     break
@@ -410,9 +411,45 @@ class StalkerPortal:
                 seen_ids.add(mid)
                 new_count += 1
                 name = clean_name(movie.get("name", movie.get("o_name", "Película")))
-                movie_url = extract_cmd_url(movie.get("cmd", ""))
+
+                # Debug: imprimir campos del objeto película
+                if debug_done < 2:
+                    print(f"    [DEBUG VOD obj] keys={list(movie.keys())}")
+                    for k in ["cmd", "url", "link", "stream_id", "stream", "path", "video_url"]:
+                        if k in movie:
+                            print(f"    [DEBUG VOD obj] {k}={repr(str(movie[k])[:120])}")
+                    debug_done += 1
+
+                raw_cmd = movie.get("cmd", movie.get("url", movie.get("link", "")))
+
+
+                # Intentar URL directa primero (algunos portales ya la incluyen en cmd)
+                movie_url = extract_cmd_url(raw_cmd)
+
+                # Si no, usar create_link para obtener play_token
+                if not movie_url and raw_cmd:
+                    link_result = self.safe_get({
+                        "action": "create_link", "type": "vod",
+                        "cmd": raw_cmd, "series": "0",
+                        "forced_storage": "0", "disable_ad": "0",
+                        "JsHttpRequest": "1-xml",
+                    })
+                    if debug_done < 3:
+                        print(f"    [DEBUG create_link] cmd={repr(raw_cmd[:80])}")
+                        print(f"    [DEBUG create_link] result={repr(str(link_result)[:200])}")
+                        debug_done += 1
+                    if isinstance(link_result, dict):
+                        raw_url = link_result.get("cmd", link_result.get("url", ""))
+                        if raw_url:
+                            m = re.search(r'(https?://\S+)', str(raw_url))
+                            movie_url = m.group(1).strip() if m else str(raw_url).strip()
+                    elif isinstance(link_result, str):
+                        m = re.search(r'(https?://\S+)', link_result)
+                        if m: movie_url = m.group(1).strip()
+
                 if not movie_url:
                     continue
+
                 movies.append({
                     "type":         "movie",
                     "id":           f"{self.id}_{mid}",
