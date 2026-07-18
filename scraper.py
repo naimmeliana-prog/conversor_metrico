@@ -645,7 +645,7 @@ class StalkerPortal:
 
                         # Resolver URL del episodio via create_link
                         link_result = self.safe_get({
-                            "action": "create_link", "type": "series",
+                            "action": "create_link", "type": "vod",
                             "cmd": cmd_to_use, "series": str(ep_num),
                             "forced_storage": "0", "disable_ad": "0",
                             "JsHttpRequest": "1-xml",
