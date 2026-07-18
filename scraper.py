@@ -376,10 +376,36 @@ class StalkerPortal:
         if isinstance(cats_result, list): cats = cats_result
         elif isinstance(cats_result, dict): cats = cats_result.get("data", [])
 
-        # Poner '*' al final para que las categorías individuales tengan prioridad
+        # Cargar filtros de idioma para priorizar categorías
+        allowed_langs = []
+        if os.path.exists("user_filters.json"):
+            try:
+                with open("user_filters.json", "r", encoding="utf-8") as f:
+                    filter_cfg = json.load(f)
+                    allowed_langs = filter_cfg.get("languages", [])
+            except Exception:
+                pass
+        if not allowed_langs:
+            allowed_langs = ["ES", "FR"]
+
+        def get_cat_priority(c):
+            title = str(c.get("title", c.get("name", ""))).upper()
+            # Poner '*' al final de todo
+            if c.get("id") == "*":
+                return 2
+            # Si el título coincide con alguno de los idiomas permitidos
+            for lang in allowed_langs:
+                keywords = LANGUAGE_KEYWORDS.get(lang, [lang])
+                for kw in keywords:
+                    pattern = r'(?:^|[\s|\-_\[\]():,./+])' + re.escape(kw) + r'(?:$|[\s|\-_\[\]():,./+])'
+                    if re.search(pattern, title):
+                        return 0 # Alta prioridad
+            return 1 # Media prioridad
+
+        # Filtrar o ordenar categorías según prioridad
         individual = [c for c in cats if c.get("id") != "*"]
         star_cat   = [c for c in cats if c.get("id") == "*"]
-        cats = individual + star_cat
+        cats = sorted(individual, key=get_cat_priority) + star_cat
         if not cats: cats = [{"id": "*", "title": "Películas"}]
 
         movies   = []
@@ -401,27 +427,16 @@ class StalkerPortal:
                       "fav": "0", "JsHttpRequest": "1-xml"}
 
             items = self.paginated_fetch(params, max_items=limit)
-            new_count  = 0
-            debug_done = 0
+            new_count = 0
             for movie in items:
                 if len(movies) >= max_movies:
                     break
                 mid = movie.get("id", "")
                 if mid in seen_ids: continue
                 seen_ids.add(mid)
-                new_count += 1
                 name = clean_name(movie.get("name", movie.get("o_name", "Película")))
 
-                # Debug: imprimir campos del objeto película
-                if debug_done < 2:
-                    print(f"    [DEBUG VOD obj] keys={list(movie.keys())}")
-                    for k in ["cmd", "url", "link", "stream_id", "stream", "path", "video_url"]:
-                        if k in movie:
-                            print(f"    [DEBUG VOD obj] {k}={repr(str(movie[k])[:120])}")
-                    debug_done += 1
-
                 raw_cmd = movie.get("cmd", movie.get("url", movie.get("link", "")))
-
 
                 # Intentar URL directa primero (algunos portales ya la incluyen en cmd)
                 movie_url = extract_cmd_url(raw_cmd)
@@ -434,10 +449,6 @@ class StalkerPortal:
                         "forced_storage": "0", "disable_ad": "0",
                         "JsHttpRequest": "1-xml",
                     })
-                    if debug_done < 3:
-                        print(f"    [DEBUG create_link] cmd={repr(raw_cmd[:80])}")
-                        print(f"    [DEBUG create_link] result={repr(str(link_result)[:200])}")
-                        debug_done += 1
                     if isinstance(link_result, dict):
                         raw_url = link_result.get("cmd", link_result.get("url", ""))
                         if raw_url:
@@ -470,6 +481,8 @@ class StalkerPortal:
                     "portal_name":  self.name,
                     "portal_color": self.color,
                 })
+                new_count += 1
+
             if new_count:
                 print(f"      [{self.name}] Cat '{cat_title[:40]}': +{new_count} películas")
             # Si la '*' ya trajo películas como fallback, paramos
@@ -477,7 +490,7 @@ class StalkerPortal:
                 print(f"  ⚡ [{self.name}] Categoría '*' como fallback: +{new_count} películas")
                 break
 
-        print(f"  ✅ [{self.name}] Películas: {len(movies)}")
+        print(f"  ✅ [{self.name}] Películas obtenidas: {len(movies)}")
         return movies
 
 
