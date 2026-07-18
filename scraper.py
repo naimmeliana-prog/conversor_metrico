@@ -354,10 +354,12 @@ class StalkerPortal:
 
                 # Detectar si es una película metida en la sección de TV en Vivo
                 is_actually_movie = False
-                group_upper = genre_title.upper()
-                if "movie.php" in raw_cmd or "type=movie" in raw_cmd or any(ext in raw_cmd.lower() for ext in [".mkv", ".mp4", ".avi"]):
+                # Regla de oro: en este portal las categorías de películas/series (VOD)
+                # empiezan estrictamente por "|" (ej: "|ES| SAGA", "|FR| FILMS"),
+                # mientras que la TV en vivo empieza sin "|" (ej: "ES| LOCALES", "FR| CARIBBEAN").
+                if genre_title.startswith("|"):
                     is_actually_movie = True
-                elif any(k in group_upper for k in ["CINE", "PELICULAS", "MOVIES", "FILMS", "SAGA", "WESTERNS", "NETFLIX", "DISNEY+", "PRIME+", "APPLE+", "MAFIA"]):
+                elif "movie.php" in raw_cmd or "type=movie" in raw_cmd or any(ext in raw_cmd.lower() for ext in [".mkv", ".mp4", ".avi"]):
                     is_actually_movie = True
 
                 item_type = "movie" if is_actually_movie else "live"
