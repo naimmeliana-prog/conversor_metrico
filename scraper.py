@@ -596,6 +596,7 @@ class StalkerPortal:
                 "genre": cat_id, "sortby": "added",
                 "fav": "0", "JsHttpRequest": "1-xml",
             })
+            time.sleep(3.0) # Pausa para respirar tras el listado paginado
             for serie in series_items:
                 if total_series >= max_series:
                     break
@@ -687,7 +688,7 @@ class StalkerPortal:
                             "portal_name":  self.name,
                             "portal_color": self.color,
                         })
-                time.sleep(0.3)
+                time.sleep(1.2)
 
         print(f"  ✅ [{self.name}] Episodios: {len(episodes_list)}")
         return episodes_list
