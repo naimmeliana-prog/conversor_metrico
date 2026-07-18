@@ -806,6 +806,11 @@ def generate_m3u(all_items: list, portals: list) -> str:
         elif url.startswith("ffplay "):
             url = url[7:].strip()
 
+        # Añadir &dummy=/movie.mkv a películas para forzar reproductores IPTV a tratarlas como VOD
+        if itype == "movie" and "dummy=" not in url:
+            sep = "&" if "?" in url else "?"
+            url += f"{sep}dummy=/movie.mkv"
+
         lines.extend([f'{extinf},{item.get("name","Sin nombre")}', url, ""])
     return "\n".join(lines)
 
