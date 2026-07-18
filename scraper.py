@@ -637,21 +637,14 @@ class StalkerPortal:
                     for ep_num in episode_nums:
                         ep_name = f"{serie_name} - S{season_num:02d}E{ep_num:02d}"
 
-                        # Crear el cmd base64 exactamente como en el código de referencia
-                        cmd_data = {
-                            "series_id": int(serie_id),
-                            "season_num": season_num,
-                            "episode_num": ep_num,
-                            "type": "series"
-                        }
-                        cmd_str = base64.b64encode(
-                            json.dumps(cmd_data).encode("utf-8")
-                        ).decode("utf-8")
+                        series_cmd = serie.get("cmd", "")
+                        if not series_cmd:
+                            continue
 
                         # Resolver URL del episodio via create_link
                         link_result = self.safe_get({
-                            "action": "create_link", "type": "vod",
-                            "cmd": cmd_str, "series": str(ep_num),
+                            "action": "create_link", "type": "series",
+                            "cmd": series_cmd, "series": str(ep_num),
                             "forced_storage": "0", "disable_ad": "0",
                             "JsHttpRequest": "1-xml",
                         })
