@@ -35,7 +35,7 @@ PARALLEL_WORKERS  = 1   # 1 hilo para evitar bloqueos (Rate-Limit) de seguridad 
 #  DETECCIÓN DE IDIOMA
 # ════════════════════════════════════════════════════════════════
 LANGUAGE_KEYWORDS = {
-    "ES": ["ES","ESP","ESPAÑOL","SPANISH","SPAIN","ESPANA","ESPAÑA","CASTELLANO","LATINO"],
+    "ES": ["ES","ESP","ESPAÑOL","SPANISH","SPAIN","ESPANA","ESPAÑA","CASTELLANO"],
     "FR": ["FR","FRE","FRENCH","FRANCE","FRANÇAIS","FRANCAIS","FRA"],
     "EN": ["EN","ENG","ENGLISH","UK","US","USA","GB","GBR","UHD UK","UNITED KINGDOM"],
     "DE": ["DE","DEU","GERMAN","GERMANY","DEUTSCH","GER"],
