@@ -664,7 +664,7 @@ class StalkerPortal:
                                 # Añadir parámetros de serie al URL
                                 sep = "&" if "?" in ep_url else "?"
                                 if "dummy=" not in ep_url:
-                                    ep_url += f"{sep}dummy=/series.mkv"
+                                    ep_url += f"{sep}dummy=/series/"
                         if not ep_url:
                             continue
 
@@ -1048,7 +1048,8 @@ def main():
     # 3. playlist_series.m3u
     m3u_series = generate_m3u(series_items, portals_cfg)
     with open("playlist_series.m3u", "w", encoding="utf-8") as f: f.write(m3u_series)
-    print(f"✅ playlist_series.m3u ({len(series_items)} items)")
+    with open("series.m3u", "w", encoding="utf-8") as f: f.write(m3u_series)
+    print(f"✅ playlist_series.m3u y series.m3u ({len(series_items)} items)")
 
     # Guardar también el playlist.m3u global heredado
     m3u_global = generate_m3u(filtered_items, portals_cfg)
