@@ -766,12 +766,8 @@ def load_portals() -> list:
     return portals
 
 def generate_m3u(all_items: list, portals: list) -> str:
-    portal_names = {p["id"]: p["name"] for p in portals}
     lines = [
         "#EXTM3U",
-        f"# Generado: {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}",
-        f"# Portales: {', '.join(portal_names.values())}",
-        f"# Total items: {len(all_items)}",
         "",
     ]
     for item in all_items:
@@ -808,10 +804,10 @@ def generate_m3u(all_items: list, portals: list) -> str:
         elif url.startswith("ffplay "):
             url = url[7:].strip()
 
-        # Añadir &dummy=/movie.mkv a películas para forzar reproductores IPTV a tratarlas como VOD
+        # Añadir &dummy=/movie/ a películas para forzar reproductores IPTV a tratarlas como VOD
         if itype == "movie" and "dummy=" not in url:
             sep = "&" if "?" in url else "?"
-            url += f"{sep}dummy=/movie.mkv"
+            url += f"{sep}dummy=/movie/"
 
         lines.extend([f'{extinf},{item.get("name","Sin nombre")}', url, ""])
     return "\n".join(lines)
