@@ -350,12 +350,29 @@ class StalkerPortal:
                 if ch_id in seen_ids: continue
                 seen_ids.add(ch_id)
                 name = clean_name(ch.get("name", ch.get("title", "Canal")))
+                raw_cmd = ch.get("cmd", "")
+
+                # Detectar si es una película metida en la sección de TV en Vivo
+                is_actually_movie = False
+                group_upper = genre_title.upper()
+                if "movie.php" in raw_cmd or "type=movie" in raw_cmd or any(ext in raw_cmd.lower() for ext in [".mkv", ".mp4", ".avi"]):
+                    is_actually_movie = True
+                elif any(k in group_upper for k in ["CINE", "PELICULAS", "MOVIES", "FILMS", "SAGA", "WESTERNS", "NETFLIX", "DISNEY+", "PRIME+", "APPLE+", "MAFIA"]):
+                    is_actually_movie = True
+
+                item_type = "movie" if is_actually_movie else "live"
+
+                if is_actually_movie:
+                    url = self.resolve_stream_url(raw_cmd, "vod", ch_id)
+                else:
+                    url = extract_cmd_url(raw_cmd)
+
                 channels.append({
-                    "type":        "live",
+                    "type":        item_type,
                     "id":          f"{self.id}_{ch_id}",
                     "name":        name,
                     "logo":        ch.get("logo", ch.get("tv_logo", "")),
-                    "url":         extract_cmd_url(ch.get("cmd","")),
+                    "url":         url,
                     "group":       genre_title,
                     "lang":        detect_language(f"{name} {genre_title}"),
                     "country":     detect_country(name, genre_title, ch.get("country","")),
@@ -364,7 +381,7 @@ class StalkerPortal:
                     "portal_name": self.name,
                     "portal_color":self.color,
                 })
-        print(f"  ✅ [{self.name}] Canales en vivo: {len(channels)}")
+        print(f"  ✅ [{self.name}] Items extraídos de TV (TV + Películas camufladas): {len(channels)}")
         return channels
 
 
