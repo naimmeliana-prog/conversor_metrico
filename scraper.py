@@ -671,7 +671,7 @@ class StalkerPortal:
                             "name":         ep_name,
                             "logo":         serie_logo,
                             "url":          ep_url,
-                            "group":        f"SERIES · {serie_name}",
+                            "group":        f"SERIES · {cat_title}",
                             "lang":         lang,
                             "country":      country,
                             "description":  serie.get("description", serie.get("desc","")),
