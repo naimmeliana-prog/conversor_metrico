@@ -872,6 +872,13 @@ def generate_m3u(all_items: list, portals: list) -> str:
         extinf += f'tvg-logo="{item.get("logo","")}" group-title="{group}"'
         if itype in ("movie", "series"):
             extinf += f' tvg-type="{itype}"'
+        if itype == "series":
+            if item.get("season"):
+                extinf += f' tvg-season="{item["season"]}"'
+            if item.get("episode"):
+                extinf += f' tvg-episode="{item["episode"]}"'
+            if item.get("serie_name"):
+                extinf += f' series-name="{item["serie_name"]}"'
         
         # En el script de referencia, ponen description, year, director y actors en el EXTINF
         desc = str(item.get("description", "")).replace('\n', ' ').replace('\r', '').replace('"', "'")
