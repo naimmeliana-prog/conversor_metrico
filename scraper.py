@@ -577,7 +577,7 @@ class StalkerPortal:
         cats = sorted(cats, key=get_cat_priority)
 
         episodes_list = []
-        max_series = 150 # Límite para evitar bloqueos/timeouts en el workflow
+        max_series = 2000 # Límite para evitar bloqueos/timeouts en el workflow
         total_series = 0
 
         for cat in cats:
@@ -671,7 +671,7 @@ class StalkerPortal:
                             "name":         ep_name,
                             "logo":         serie_logo,
                             "url":          ep_url,
-                            "group":        f"SERIES · {cat_title}",
+                            "group":        f"SERIES · {serie_name}",
                             "lang":         lang,
                             "country":      country,
                             "description":  serie.get("description", serie.get("desc","")),
