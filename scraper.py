@@ -577,12 +577,23 @@ class StalkerPortal:
         cats = sorted(cats, key=get_cat_priority)
 
         episodes_list = []
-        max_series = 2000 # Límite para evitar bloqueos/timeouts en el workflow
+        url_cache = {}
+        if os.path.exists("metadata.json"):
+            try:
+                with open("metadata.json", "r", encoding="utf-8") as f:
+                    old_meta = json.load(f)
+                for item in old_meta.get("items", []):
+                    if item.get("type") == "series" and item.get("url"):
+                        key = (item.get("serie_name"), item.get("season"), item.get("episode"))
+                        url_cache[key] = item.get("url")
+                print(f"  📦 Cargadas {len(url_cache)} URLs de episodios desde la caché de metadata.json")
+            except Exception as e:
+                print(f"  ⚠️ Error al cargar caché de URLs: {e}")
+
+        max_series = 200 # Límite para evitar bloqueos/timeouts en el workflow
         total_series = 0
 
         for cat in cats:
-            if total_series >= max_series:
-                break
             cat_id    = cat.get("id", "*")
             if cat_id == "*": continue
             cat_title = cat.get("title", cat.get("name", "Series"))
@@ -638,28 +649,33 @@ class StalkerPortal:
                     for ep_num in episode_nums:
                         ep_name = f"{serie_name} S{season_num:02d}E{ep_num:02d}"
 
-                        season_cmd = season.get("cmd", season.get("url", ""))
-                        cmd_to_use = season_cmd or serie.get("cmd", "")
-                        if not cmd_to_use:
-                            continue
+                        cache_key = (serie_name, str(season_num), str(ep_num))
+                        if cache_key in url_cache:
+                            ep_url = url_cache[cache_key]
+                        else:
+                            season_cmd = season.get("cmd", season.get("url", ""))
+                            cmd_to_use = season_cmd or serie.get("cmd", "")
+                            if not cmd_to_use:
+                                continue
 
-                        # Resolver URL del episodio via create_link
-                        link_result = self.safe_get({
-                            "action": "create_link", "type": "vod",
-                            "cmd": cmd_to_use, "series": str(ep_num),
-                            "forced_storage": "0", "disable_ad": "0",
-                            "JsHttpRequest": "1-xml",
-                        })
-                        ep_url = ""
-                        if isinstance(link_result, dict):
-                            raw_url = link_result.get("cmd", link_result.get("url", ""))
-                            if raw_url:
-                                m = re.search(r'(https?://\S+)', raw_url)
-                                ep_url = m.group(1).strip() if m else raw_url.strip()
-                                # Añadir parámetros de serie al URL
-                                sep = "&" if "?" in ep_url else "?"
-                                if "dummy=" not in ep_url:
-                                    ep_url += f"{sep}dummy=/series/"
+                            # Resolver URL del episodio via create_link
+                            link_result = self.safe_get({
+                                "action": "create_link", "type": "vod",
+                                "cmd": cmd_to_use, "series": str(ep_num),
+                                "forced_storage": "0", "disable_ad": "0",
+                                "JsHttpRequest": "1-xml",
+                            })
+                            time.sleep(0.2)  # Pausa de cortesía para no saturar al portal
+                            ep_url = ""
+                            if isinstance(link_result, dict):
+                                raw_url = link_result.get("cmd", link_result.get("url", ""))
+                                if raw_url:
+                                    m = re.search(r'(https?://\S+)', raw_url)
+                                    ep_url = m.group(1).strip() if m else raw_url.strip()
+                                    # Añadir parámetros de serie al URL
+                                    sep = "&" if "?" in ep_url else "?"
+                                    if "dummy=" not in ep_url:
+                                        ep_url += f"{sep}dummy=/series/"
                         if not ep_url:
                             continue
 
