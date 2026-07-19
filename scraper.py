@@ -590,7 +590,7 @@ class StalkerPortal:
             except Exception as e:
                 print(f"  ⚠️ Error al cargar caché de URLs: {e}")
 
-        max_series = 200 # Límite para evitar bloqueos/timeouts en el workflow
+        max_series = 150 # Límite para evitar bloqueos/timeouts en el workflow
         total_series = 0
 
         for cat in cats:
@@ -665,7 +665,7 @@ class StalkerPortal:
                                 "forced_storage": "0", "disable_ad": "0",
                                 "JsHttpRequest": "1-xml",
                             })
-                            time.sleep(0.2)  # Pausa de cortesía para no saturar al portal
+                            time.sleep(0.05)  # Pausa de cortesía para no saturar al portal
                             ep_url = ""
                             if isinstance(link_result, dict):
                                 raw_url = link_result.get("cmd", link_result.get("url", ""))
