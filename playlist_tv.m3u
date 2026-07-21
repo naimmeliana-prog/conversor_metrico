@@ -716,3 +716,9 @@ http://localhost/ch/143147_
 
 #EXTINF:-1 tvg-logo="http://picons.iptvservicenijmegen.nl/satlogo/turkey2/eskisehirin_tv_tr.png" group-title="TR - Ulusal" description="",(TR) Es TV
 http://localhost/ch/63123_
+
+#EXTINF:-1 tvg-logo="http://picons.iptvservicenijmegen.nl/lyngsat/tv/ee/el_heddaf_tv_dz.png" group-title="AR - Arabic" description="",(FR) El Heddaf TV
+http://localhost/ch/13163_
+
+#EXTINF:-1 tvg-id="FRANCE 24 FRANCAIS-FR" tvg-logo="http://picons.iptvservicenijmegen.nl/lyngsat/tv/ff/france24_fr.png" group-title="AR - Arabic" description="",(FR) France 24 Arabic 4K+
+http://localhost/ch/6241_
