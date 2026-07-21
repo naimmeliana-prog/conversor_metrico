@@ -4,82 +4,48 @@
   "series": 0,
   "episodes": 0,
   "languages": {
-    "ES": 217,
-    "FR": 464,
-    "TR": 2411,
-    "EN": 257,
-    "NL": 1645,
-    "OTHER": 1394,
-    "DE": 679,
-    "PL": 177,
-    "PT": 89,
-    "IT": 114,
-    "RU": 194,
-    "AR": 359
+    "ES": 6288,
+    "FR": 1712
   },
   "countries": {
-    "ES": 66,
-    "INTL": 55,
-    "OTHER": 6331,
-    "US": 143,
-    "FR": 111,
-    "QA": 50,
-    "TR": 42,
-    "RU": 11,
-    "GB": 327,
-    "PT": 63,
-    "SA": 35,
-    "NL": 22,
-    "DE": 142,
-    "BE": 49,
-    "CH": 14,
-    "IN": 17,
-    "HR": 31,
-    "RS": 43,
-    "SE": 10,
-    "PL": 62,
-    "DK": 5,
-    "FI": 4,
-    "NO": 12,
-    "IT": 66,
-    "CA": 13,
+    "ES": 412,
+    "OTHER": 6629,
+    "US": 55,
+    "INTL": 48,
     "UA": 1,
-    "RO": 8,
-    "CZ": 6,
-    "ZA": 1,
-    "LB": 32,
-    "DZ": 6,
-    "EG": 7,
-    "IQ": 10,
-    "AR": 20,
-    "AE": 45,
-    "MA": 27,
-    "IR": 83,
-    "PK": 9,
-    "BR": 5,
-    "CO": 2,
-    "KR": 2,
-    "TN": 1,
-    "JP": 3,
-    "MX": 3,
-    "CN": 4,
-    "HU": 1
+    "QA": 17,
+    "GB": 50,
+    "FR": 763,
+    "LB": 2,
+    "EG": 4,
+    "KR": 1,
+    "NO": 3,
+    "MX": 2,
+    "BR": 1,
+    "IT": 4,
+    "CO": 1,
+    "JP": 1,
+    "SE": 1,
+    "MA": 1,
+    "DK": 2,
+    "HU": 1,
+    "NL": 1
   },
   "by_portal": {
-    "Backup": 8000
+    "Great": 8000
   },
   "portals": [
     {
       "id": "portal_1783996289480",
       "name": "Great",
       "color": "#e94560",
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "portal_1783997493806",
       "name": "Backup",
       "color": "#e94560",
-      "enabled": true
+      "enabled": false
     },
     {
       "id": "portal_1784206695986",
@@ -89,5 +55,5 @@
     }
   ],
   "total": 8000,
-  "generated": "2026-07-21 14:26 UTC"
+  "generated": "2026-07-21 18:43 UTC"
 }
