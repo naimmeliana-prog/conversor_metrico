@@ -1,14 +1,14 @@
 {
   "live_channels": 4000,
   "movies": 3751,
-  "series": 0,
-  "episodes": 0,
+  "series": 150,
+  "episodes": 1912,
   "languages": {
-    "ES": 6039,
+    "ES": 7951,
     "FR": 1712
   },
   "countries": {
-    "ES": 412,
+    "ES": 2324,
     "OTHER": 6382,
     "US": 54,
     "INTL": 48,
@@ -31,7 +31,7 @@
     "NL": 1
   },
   "by_portal": {
-    "Great": 7751
+    "Great": 9663
   },
   "portals": [
     {
@@ -53,6 +53,6 @@
       "enabled": false
     }
   ],
-  "total": 7751,
-  "generated": "2026-07-21 20:00 UTC"
+  "total": 9663,
+  "generated": "2026-07-21 20:24 UTC"
 }
