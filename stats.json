@@ -4,8 +4,8 @@
   "series": 150,
   "episodes": 1912,
   "languages": {
-    "ES": 8200,
-    "FR": 1712
+    "ES": 8209,
+    "FR": 1703
   },
   "countries": {
     "ES": 2324,
@@ -62,5 +62,5 @@
     }
   ],
   "total": 9912,
-  "generated": "2026-07-22 14:33 UTC"
+  "generated": "2026-07-22 19:18 UTC"
 }
